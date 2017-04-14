@@ -1,4 +1,4 @@
-package timeline;
+package view;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
@@ -16,7 +16,7 @@ public class TimelineManager extends Application {
 	@Override
 	public void start(Stage primaryStage) {
 
-		UserInterface ui = new UserInterface();
+		MainView ui = new MainView();
 
 		Scene scene = new Scene(ui);
 
