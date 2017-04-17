@@ -2,7 +2,7 @@ package interfaces;
 
 public interface MenuListener {
 
-	public void onAddButtonClicked();
+	public void onAddButtonClicked(); 
 	
 	public void onOpenButtonClicled();
 	
