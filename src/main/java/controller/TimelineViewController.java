@@ -1,5 +1,11 @@
 package controller;
 
+/**
+*@author Vikrant Mainali and Tomas Mendes
+* @version 0.00.00
+* @name TimelineViewController.java
+*/
+
 import interfaces.TimeLineViewListener;
 
 public class TimelineViewController implements TimeLineViewListener
