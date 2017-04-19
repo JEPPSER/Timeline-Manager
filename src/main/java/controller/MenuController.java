@@ -7,14 +7,21 @@ package controller;
 */
 
 import interfaces.MenuListener;
+import model.TimelineContainer;
 
 public class MenuController implements MenuListener
 {
-
+	private TimelineContainer timelineContainer;
+	
+	public MenuController(TimelineContainer tc) {
+		timelineContainer = tc;
+	}
+	
 	@Override
 	public void onAddButtonClicked() 
 	{
 		System.out.println("Name timeline: \nSet duration for timeline");
+		timelineContainer.addTimeline();
 	}
 
 	@Override

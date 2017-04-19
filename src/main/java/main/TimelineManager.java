@@ -1,24 +1,25 @@
 package main;
 
+import controller.MainController;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import model.TimelineContainer;
 import view.MainView;
 
 /**
  * Main class that sets up the TimelineManager to run.
  * 
- * @author Jesper Bergström and Zacky Kharboutli
+ * @author Jesper Bergstrï¿½m and Zacky Kharboutli
  * @version 0.00.00
  * @name TimelineManager.java
  */
 public class TimelineManager extends Application {
 
+	private static MainView ui;
+	
 	@Override
 	public void start(Stage primaryStage) {
-
-		MainView ui = new MainView();
-
 		Scene scene = new Scene(ui);
 
 		primaryStage.setScene(scene);
@@ -26,8 +27,12 @@ public class TimelineManager extends Application {
 	}
 
 	public static void main(String[] args) {
-
-		launch(args);
+		ui = new MainView();
+		TimelineContainer timelineContainer = new TimelineContainer();
+		MainController mainController = new MainController(ui, timelineContainer);
+		mainController.setupListeners();
+		
+		launch(args);	
 	}
 
 }

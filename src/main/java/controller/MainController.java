@@ -14,12 +14,14 @@ public class MainController implements ModelChangedListener {
 	public MainController(MainView mainView, TimelineContainer timelineContainer) {
 		this.mainView = mainView;
 		this.timelineContainer = timelineContainer;
+		menuController = new MenuController(timelineContainer);
+		timelineViewController = new TimelineViewController();
 	}
 	
 	public void setupListeners() {
 		timelineContainer.registerListener(this);
-		//mainView.getMenuView().registerListener(menuController);
-		//mainView.getTimelineView().registerListener(timelineViewController);
+		mainView.getMenuView().registerListener(menuController);
+		mainView.getTimelineView().registerListener(timelineViewController);
 	}
 
 	@Override

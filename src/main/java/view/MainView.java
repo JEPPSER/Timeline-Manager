@@ -7,7 +7,7 @@ import javafx.scene.control.SplitPane;
 /**
  * Main GUI class that holds the main components for the View.
  * 
- * @author Jesper Bergström and Zacky Kharboutli
+ * @author Jesper Bergstrï¿½m and Zacky Kharboutli
  * @version 0.00.00
  * @name MainView.java
  */
@@ -29,4 +29,11 @@ public class MainView extends SplitPane {
 		return menu.getDeleteTimelineButton();
 	}
 
+	public MenuView getMenuView() {
+		return menu;
+	}
+	
+	public TimelineView getTimelineView() {
+		return timeline;
+	}
 }
