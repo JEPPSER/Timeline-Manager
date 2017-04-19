@@ -74,4 +74,13 @@ public class MenuView extends StackPane {
 		super.setMaxHeight(60);
 		super.getChildren().addAll(bg, menu);
 	}
+
+	public Button getAddTimelineButton() {
+		return addTimeline;
+	}
+
+	public Button getDeleteTimelineButton() {
+		return deleteTimeline;
+	}
+
 }

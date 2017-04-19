@@ -1,8 +1,9 @@
-package view;
+package main;
 
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
+import view.MainView;
 
 /**
  * Main class that sets up the TimelineManager to run.

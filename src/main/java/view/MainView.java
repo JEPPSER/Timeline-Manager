@@ -1,6 +1,7 @@
 package view;
 
 import javafx.geometry.Orientation;
+import javafx.scene.control.Button;
 import javafx.scene.control.SplitPane;
 
 /**
@@ -16,8 +17,15 @@ public class MainView extends SplitPane {
 	private MenuView menu = new MenuView();
 
 	public MainView() {
-
 		super.setOrientation(Orientation.VERTICAL);
 		super.getItems().addAll(menu, timeline);
+	}
+
+	public Button getAddTimelineButton() {
+		return menu.getAddTimelineButton();
+	}
+
+	public Button getDeleteTimelineButton() {
+		return menu.getDeleteTimelineButton();
 	}
 }
