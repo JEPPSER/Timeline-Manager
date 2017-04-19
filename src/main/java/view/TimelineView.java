@@ -1,4 +1,4 @@
-package timeline;
+package view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
@@ -21,18 +21,19 @@ import javafx.scene.text.Text;
  * 
  * @author Jesper Bergström
  * @version 0.00.00
- * @name TimelinePane.java
+ * @name TimelineView.java
  */
-public class TimelinePane extends ScrollPane {
+public class TimelineView extends ScrollPane {
 
-	private Pane[] panes = new Pane[33];
+	private final int ROWS = 30;
+	private Pane[] panes = new Pane[ROWS];
 	private StackPane stack = new StackPane();
 	private HBox dates;
 
 	/**
-	 * Constructor that sets all the initial components in the TimelinePane.
+	 * Constructor that sets all the initial components in the TimelineView.
 	 */
-	public TimelinePane() {
+	public TimelineView() {
 
 		super.setPrefSize(800, 400); // Default size
 
@@ -48,7 +49,7 @@ public class TimelinePane extends ScrollPane {
 
 		dates.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
 
-		setColor(Color.WHITE);
+		drawColumns();
 
 		// Create the rows
 		for (int i = 0; i < panes.length; i++) {
@@ -68,11 +69,9 @@ public class TimelinePane extends ScrollPane {
 	}
 
 	/**
-	 * Method that sets the color for and draws the columns in the TimelinePane.
-	 * 
-	 * @param color
+	 * Method that draws the columns in the TimelinePane.
 	 */
-	public void setColor(Color color) {
+	private void drawColumns() {
 
 		dates.getChildren().clear();
 
@@ -92,7 +91,7 @@ public class TimelinePane extends ScrollPane {
 			rect.setHeight(screenSize.getHeight());
 			rect.setStroke(Color.BLACK);
 			rect.setOpacity(0.3);
-			rect.setFill(color);
+			rect.setFill(Color.WHITE);
 
 			text = new Text();
 			text.setFont(Font.font("Arial", 18));
