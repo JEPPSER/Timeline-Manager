@@ -24,6 +24,6 @@ public class MainController implements ModelChangedListener {
 
 	@Override
 	public void onModelChanged() {
-		System.out.println("");
+		System.out.println("MainController: TimelineContainer has been updated");
 	}
 }

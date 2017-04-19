@@ -8,6 +8,7 @@ public class TimelineContainer {
 	
 	public void addTimeline() {
 		// Logic for adding timeline
+		System.out.println("TimelineContainer: Request to add timeline received");
 		
 		listener.onModelChanged(); // tell listener that a timeline has been added
 	}
