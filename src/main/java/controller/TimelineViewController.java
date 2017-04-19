@@ -6,9 +6,9 @@ package controller;
 * @name TimelineViewController.java
 */
 
-import interfaces.TimeLineViewListener;
+import interfaces.TimelineViewListener;
 
-public class TimelineViewController implements TimeLineViewListener
+public class TimelineViewController implements TimelineViewListener
 {
 
 	@Override

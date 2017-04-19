@@ -3,6 +3,7 @@ package view;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 
+import interfaces.TimelineViewListener;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.layout.BorderPane;
@@ -19,7 +20,7 @@ import javafx.scene.text.Text;
  * Class drawing the graphics for how a timeline will be displayed. This class
  * can be added as a component in a user interface.
  * 
- * @author Jesper Bergström
+ * @author Jesper Bergström and Zacky Kharboutli
  * @version 0.00.00
  * @name TimelineView.java
  */
@@ -29,6 +30,7 @@ public class TimelineView extends ScrollPane {
 	private Pane[] panes = new Pane[ROWS];
 	private StackPane stack = new StackPane();
 	private HBox dates;
+	private TimelineViewListener listener;
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -66,6 +68,10 @@ public class TimelineView extends ScrollPane {
 		root.getChildren().add(stack);
 
 		super.setContent(root);
+	}
+	
+	public void registerListener(TimelineViewListener listener){
+		this.listener = listener;
 	}
 
 	/**

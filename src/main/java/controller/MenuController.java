@@ -18,19 +18,19 @@ public class MenuController implements MenuListener
 	}
 
 	@Override
-	public void onOpenButtonClicled()
+	public void onOpenButtonClicked()
 	{
 		System.out.println("Select the timeline you want to launch");
 	}
 
 	@Override
-	public void onDeleteButtonClicled() 
+	public void onDeleteButtonClicked() 
 	{
 		System.out.println("Are you sure you want to delete this timeline");
 	}
 
 	@Override
-	public void onSaveButtonClicled() 
+	public void onSaveButtonClicked() 
 	{
 		System.out.println("Browse to the location where you want to save the timeline");
 	}

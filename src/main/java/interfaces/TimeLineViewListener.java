@@ -17,7 +17,7 @@ package interfaces;
  * @version 0.00.00
  * @name ModelChangedListener.java
  */
-public interface TimeLineViewListener {
+public interface TimelineViewListener {
 
 	/**
 	 * Called whenever the user clicks on the add event button.

@@ -7,14 +7,14 @@ public interface MenuListener {
 	
 	/*This method is used by menu controller when the user press OpenTimeLine button
 	  to open a specific TimeLine */
-	public void onOpenButtonClicled();
+	public void onOpenButtonClicked();
 	
 	/*This method is used by menu controller when the user press DeleteTimeLine button*/
-	public void onDeleteButtonClicled();
+	public void onDeleteButtonClicked();
 	
 	/*This method is used by menu controller when the user press SaveTimeLine button to save 
 	 a TimeLine*/
-	public void onSaveButtonClicled();
+	public void onSaveButtonClicked();
 	
 	/*This method is used by menu controller when the user select a specific
 	  loaded TimeLine from the loaded TiimeLine list*/

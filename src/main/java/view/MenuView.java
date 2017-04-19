@@ -1,5 +1,6 @@
 package view;
 
+import interfaces.MenuListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
@@ -15,16 +16,27 @@ import javafx.scene.shape.Rectangle;
 /**
  * Class for drawing the graphics for the menu.
  * 
- * @author Jesper Bergström
+ * @author Jesper Bergström and Zacky Kharboutli
  * @version 0.00.00
  * @name MenuView.java
  */
 public class MenuView extends StackPane {
 
-	private Button deleteTimeline = new Button();
-	private Button addTimeline = new Button();
+	private Button deleteTimeline;
+	private Button addTimeline;
+	private MenuListener listener;
 
 	public MenuView() {
+		
+		deleteTimeline = new Button();
+		deleteTimeline.setOnAction(e -> {
+			listener.onDeleteButtonClicked();
+		});
+		
+		addTimeline = new Button();
+		addTimeline.setOnAction(e -> {
+			listener.onAddButtonClicked();
+		});
 
 		InnerShadow is = new InnerShadow();
 
@@ -82,5 +94,8 @@ public class MenuView extends StackPane {
 	public Button getDeleteTimelineButton() {
 		return deleteTimeline;
 	}
-
+	
+	public void registerListener(MenuListener listener){
+		this.listener = listener;
+	}
 }

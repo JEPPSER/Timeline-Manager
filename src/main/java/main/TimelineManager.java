@@ -8,7 +8,7 @@ import view.MainView;
 /**
  * Main class that sets up the TimelineManager to run.
  * 
- * @author Jesper Bergström
+ * @author Jesper Bergström and Zacky Kharboutli
  * @version 0.00.00
  * @name TimelineManager.java
  */
