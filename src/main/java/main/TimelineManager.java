@@ -26,6 +26,11 @@ public class TimelineManager extends Application {
 		primaryStage.show();
 	}
 
+	/**
+	 * Main method of the application. Creates the model, view and controller.
+	 * 
+	 * @param args - application command line arguments
+	 */
 	public static void main(String[] args) {
 		ui = new MainView();
 		TimelineContainer timelineContainer = new TimelineContainer();

@@ -13,7 +13,7 @@ package interfaces;
  * Implementing classes:
  * 				TimelineViewController
  * 
- * @author Mustafa Alsaid and Daniel Alm Grunström
+ * @author Mustafa Alsaid and Daniel Alm Grunstrom
  * @version 0.00.00
  * @name ModelChangedListener.java
  */

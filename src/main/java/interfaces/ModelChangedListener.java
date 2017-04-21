@@ -14,7 +14,7 @@ import java.util.List;
  * Implementing classes:
  * 				MainController
  * 
- * @author Mustafa Alsaid and Daniel Alm Grunström
+ * @author Mustafa Alsaid and Daniel Alm Grundstrom
  * @version 0.00.00
  * @name ModelChangedListener.java
  */
