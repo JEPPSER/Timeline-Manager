@@ -1,4 +1,4 @@
-package io;
+package ioMaualTest;
 
 import model.Event;
 import model.TimeLine;
