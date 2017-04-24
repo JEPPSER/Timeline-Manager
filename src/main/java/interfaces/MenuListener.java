@@ -1,5 +1,7 @@
 package interfaces;
 
+import java.io.File;
+
 /**
  * Interface used to listen to changes in the TimeLine Menu.
  * 
@@ -26,7 +28,7 @@ public interface MenuListener {
 	 * This method is used by menu controller when the user press OpenTimeLine button
 	   to open a specific TimeLine 
 	 */
-	public void onOpenButtonClicked();
+	public void onOpenButtonClicked(File file);
 	
 	
 	/**This method is used by menu controller when the user press DeleteTimeLine button*/
@@ -34,7 +36,7 @@ public interface MenuListener {
 	
 	/**This method is used by menu controller when the user press SaveTimeLine button to save 
 	 a TimeLine*/
-	public void onSaveButtonClicked();
+	public void onSaveButtonClicked(File file);
 	
 	/**This method is used by menu controller when the user select a specific
 	  loaded TimeLine from the loaded TiimeLine list*/

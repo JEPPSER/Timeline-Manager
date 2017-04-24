@@ -2,6 +2,8 @@ package interfaces;
 
 import java.util.List;
 
+import model.TimeLine;
+
 /**
  * Interface used to listen for changes in the model class TimelineContainer.
  * 
@@ -24,8 +26,8 @@ public interface ModelChangedListener {
 	 * Called on the registered listener whenever a timeline is added, edited or deleted in TimelineContainer. 
 	 * 
 	 * @param timelines - The updated list of timelines
+	 * @param active 	- The currently active timeline
 	 */
-	//TODO:Add TimeLine Parameter.
-	public void onModelChanged();
+	public void onModelChanged(List<TimeLine> timelines, TimeLine active);
 
 }

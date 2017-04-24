@@ -1,5 +1,7 @@
 package controller;
 
+import java.io.File;
+
 /**
 *@author Vikrant Mainali and Tomas Mendes
 * @version 0.00.00
@@ -7,27 +9,43 @@ package controller;
 */
 
 import interfaces.MenuListener;
+import io.FileHandler;
+import model.TimeLine;
 import model.TimelineContainer;
 
 public class MenuController implements MenuListener
 {
+	private FileHandler fileHandler;
 	private TimelineContainer timelineContainer;
 	
 	public MenuController(TimelineContainer tc) {
 		timelineContainer = tc;
+		fileHandler = new FileHandler();
 	}
 	
 	@Override
 	public void onAddButtonClicked() 
 	{
 		System.out.println("Name timeline: \nSet duration for timeline");
-		timelineContainer.addTimeline();
+		timelineContainer.addTimeline(new TimeLine());
 	}
 
 	@Override
-	public void onOpenButtonClicked()
+	public void onOpenButtonClicked(File file)
 	{
-		System.out.println("Select the timeline you want to launch");
+		System.out.println("Attempting to open timeline at location: " + file.getPath());
+		TimeLine openedTimeline = null;
+		
+		try { 
+			openedTimeline = fileHandler.readXML(file);
+		} catch (Exception ex) {
+			// TODO: Show error message in Alert window
+			System.err.println("Could not open timeline. Error: " + ex.getMessage());
+		}
+		
+		if (openedTimeline != null) {
+			timelineContainer.addTimeline(openedTimeline);
+		}
 	}
 
 	@Override
@@ -37,9 +55,18 @@ public class MenuController implements MenuListener
 	}
 
 	@Override
-	public void onSaveButtonClicked() 
+	public void onSaveButtonClicked(File file) 
 	{
-		System.out.println("Browse to the location where you want to save the timeline");
+		System.out.println("Saving timeline to location: " + file.getPath());
+		
+		TimeLine active = timelineContainer.getActiveTimeline(); // fetch the timeline to be saved
+		
+		try {
+			fileHandler.writeXML(active, file);
+		} catch (Exception ex) {
+			// TODO: Show error message in Alert window
+			System.err.println("Could not save timeline. Error: " + ex.getMessage());
+		}
 	}
 
 	@Override
