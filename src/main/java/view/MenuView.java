@@ -16,7 +16,7 @@ import javafx.scene.shape.Rectangle;
 /**
  * Class for drawing the graphics for the menu.
  * 
- * @author Jesper Bergstr�m and Zacky Kharboutli
+ * @author Jesper Bergstrom and Zacky Kharboutli
  * @version 0.00.00
  * @name MenuView.java
  */
@@ -24,11 +24,15 @@ public class MenuView extends StackPane {
 
 	private Button deleteTimeline;
 	private Button addTimeline;
+	private Button saveTimeline;
+	private Button openTimeline;
 
 	public MenuView() {
-		deleteTimeline = new Button();
 		
+		deleteTimeline = new Button();
 		addTimeline = new Button();
+		saveTimeline = new Button();
+		openTimeline = new Button();
 
 		InnerShadow is = new InnerShadow();
 
@@ -67,11 +71,15 @@ public class MenuView extends StackPane {
 		addTimeline.setText("+");
 		deleteTimeline.setPrefSize(30, 30);
 		deleteTimeline.setText("-");
+		saveTimeline.setPrefSize(30, 30);
+		saveTimeline.setText("S");
+		openTimeline.setPrefSize(30, 30);
+		openTimeline.setText("L");
 
 		menu.setMaxHeight(60);
 		menu.setMinHeight(60);
 		timelineButtons.setSpacing(5);
-		timelineButtons.getChildren().addAll(filler1, mb, addTimeline, deleteTimeline);
+		timelineButtons.getChildren().addAll(filler1, mb, addTimeline, deleteTimeline, saveTimeline, openTimeline);
 		timelineButtons.setAlignment(Pos.CENTER);
 		menu.setLeft(timelineButtons);
 

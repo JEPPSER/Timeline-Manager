@@ -12,6 +12,7 @@ import interfaces.MenuListener;
 import io.FileHandler;
 import model.TimeLine;
 import model.TimelineContainer;
+import view.TimelinePopup;
 
 public class MenuController implements MenuListener
 {
@@ -27,6 +28,7 @@ public class MenuController implements MenuListener
 	public void onAddButtonClicked() 
 	{
 		System.out.println("Name timeline: \nSet duration for timeline");
+		TimelinePopup popup = new TimelinePopup();
 		timelineContainer.addTimeline(new TimeLine());
 	}
 

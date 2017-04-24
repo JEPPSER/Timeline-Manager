@@ -15,8 +15,8 @@ public class Main {
 				timeLine.add(new Event());
 			}
 			
-			xml.writeXML(timeLine);
-			System.out.println(xml.readXML().toString());
+//			xml.writeXML(timeLine);
+//			System.out.println(xml.readXML().toString());
 		}
 		}
 
