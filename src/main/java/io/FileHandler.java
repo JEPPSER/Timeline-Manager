@@ -16,12 +16,12 @@ import model.TimeLine;
 
 public class FileHandler {
 	
-	private File file = new File("XML.xml"); //path of XML file.
+	//private File file = new File("XML.xml"); //path of XML file.
 
 	/**
 	 * Read the contents of TimeLine XML file.
 	 */
-	public TimeLine readXML() throws Exception {
+	public TimeLine readXML(File file) throws Exception {
 		JAXBContext context = JAXBContext.newInstance(TimeLine.class);
 		Unmarshaller un = context.createUnmarshaller();
 		return (TimeLine) un.unmarshal(file);
@@ -30,7 +30,7 @@ public class FileHandler {
 	/**
 	 * Create a TimeLine XML file.
 	 */
-	public void writeXML(TimeLine timeLine) throws Exception {
+	public void writeXML(TimeLine timeLine, File file) throws Exception {
 		JAXBContext context = JAXBContext.newInstance(TimeLine.class);
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
