@@ -23,7 +23,7 @@ import javax.xml.bind.annotation.XmlRootElement;
 
 public class TimeLine {
 
-	private static final AtomicInteger count = new AtomicInteger(0); //static field necessary to create auto generated id
+	private static final AtomicInteger count = new AtomicInteger(1); //static field necessary to create auto generated id
 	private int timeLineId;
 	private String timeLineName;
 	private Date startDate;
