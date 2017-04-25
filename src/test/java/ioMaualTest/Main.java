@@ -9,23 +9,18 @@ import model.TimeLine;
 public class Main {
 
 	public static void main(String[] args) throws Exception {
-		
-			TimeLine timeLine = new TimeLine("a");
-			FileHandler xml = new FileHandler();
-			
-			for(int i = 1; i <= 5; i++) {
-				timeLine.add(new Event());
-			}
-			
 
-			File file1 = new File("C:\\Users\\steven\\Documents\\GitHub\\Timeline-Manager\\src\\main\\java\\io\\XML.out.xml"); 
-			File file2 = new File("C:\\Users\\steven\\Documents\\GitHub\\Timeline-Manager\\src\\main\\java\\io\\XML.out.out.xml"); 
-			xml.writeXML(timeLine,file1);
-			System.out.println(xml.readXML(file2));
+		TimeLine timeLine = new TimeLine("a");
+		FileHandler xml = new FileHandler();
 
-		}
+		for (int i = 1; i <= 5; i++) {
+			timeLine.add(new Event());
 		}
 
-	
+		File file1 = new File(".\\src\\test\\resources\\XML.out.xml");
+		File file2 = new File(".\\src\\test\\resources\\XML.out.out.xml");
+		xml.writeXML(timeLine, file1);
+		System.out.println(xml.readXML(file2));
 
-
+	}
+}
