@@ -103,5 +103,13 @@ public class MenuView extends StackPane {
 		deleteTimeline.setOnAction(e -> {
 			listener.onDeleteButtonClicked();
 		});
+		
+		saveTimeline.setOnAction(e -> {
+			//listener.onSaveButtonClicked(file);
+		});
+		
+		openTimeline.setOnAction(e -> {
+			//listener.onOpenButtonClicked(file);
+		});
 	}
 }
