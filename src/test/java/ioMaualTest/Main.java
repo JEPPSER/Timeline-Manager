@@ -10,7 +10,7 @@ public class Main {
 
 	public static void main(String[] args) throws Exception {
 		
-			TimeLine timeLine = new TimeLine("a");
+			TimeLine timeLine = new TimeLine("a",1.1.20);
 			FileHandler xml = new FileHandler();
 			
 			for(int i = 1; i <= 5; i++) {

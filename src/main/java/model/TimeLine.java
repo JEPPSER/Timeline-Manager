@@ -40,11 +40,9 @@ public class TimeLine {
 	/**
 	 * Constructor takes timeLine Name as a parameter.
 	 */
-	public TimeLine(String name, Date startDate, Date endDate) {
+	public TimeLine(String name) {
 		timeLineId = count.getAndIncrement(); //auto increment TimeLine Id//
 		this.timeLineName = name;   
-		this.startDate=startDate;
-		this.endDate=endDate;
 		eventList=new ArrayList<Event>();
 
 	}
