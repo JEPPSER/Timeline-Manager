@@ -18,10 +18,10 @@ public class Main {
 			}
 			
 
-			File file1 = new File("XML.out.xml"); 
-			File file2 = new File("XML.out.out.xml"); 
-			xml.writeXML(timeLine,file1 );
-			System.out.println(xml.readXML(file2).toString());
+			File file1 = new File("C:\\Users\\steven\\Documents\\GitHub\\Timeline-Manager\\src\\main\\java\\io\\XML.out.xml"); 
+			File file2 = new File("C:\\Users\\steven\\Documents\\GitHub\\Timeline-Manager\\src\\main\\java\\io\\XML.out.out.xml"); 
+			xml.writeXML(timeLine,file1);
+			System.out.println(xml.readXML(file2));
 
 		}
 		}
