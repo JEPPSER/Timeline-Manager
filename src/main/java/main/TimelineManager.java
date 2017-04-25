@@ -20,6 +20,10 @@ public class TimelineManager extends Application {
 	
 	@Override
 	public void start(Stage primaryStage) {
+		ui = new MainView();
+		TimelineContainer timelineContainer = new TimelineContainer();
+		MainController mainController = new MainController(ui, timelineContainer);
+		mainController.setupListeners();
 		Scene scene = new Scene(ui);
 
 		primaryStage.setScene(scene);
@@ -32,10 +36,7 @@ public class TimelineManager extends Application {
 	 * @param args - application command line arguments
 	 */
 	public static void main(String[] args) {
-		ui = new MainView();
-		TimelineContainer timelineContainer = new TimelineContainer();
-		MainController mainController = new MainController(ui, timelineContainer);
-		mainController.setupListeners();
+		
 		
 		launch(args);	
 	}

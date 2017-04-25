@@ -1,5 +1,7 @@
 package ioMaualTest;
 
+import java.io.File;
+
 import io.FileHandler;
 import model.Event;
 import model.TimeLine;
@@ -15,8 +17,10 @@ public class Main {
 				timeLine.add(new Event());
 			}
 			
-			xml.writeXML(timeLine);
-			System.out.println(xml.readXML().toString());
+			File file1 = new File("XML.out.xml"); 
+			File file2 = new File("XML.out.out.xml"); 
+			xml.writeXML(timeLine,file1 );
+			System.out.println(xml.readXML(file2).toString());
 		}
 		}
 

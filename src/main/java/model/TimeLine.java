@@ -1,6 +1,7 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
@@ -25,6 +26,8 @@ public class TimeLine {
 	private static final AtomicInteger count = new AtomicInteger(0); //static field necessary to create auto generated id
 	private int timeLineId;
 	private String timeLineName;
+	private Date startDate;
+	private Date endDate;
 	@XmlElement(name = "Event")
 	private ArrayList<Event> eventList;
 	
@@ -37,9 +40,11 @@ public class TimeLine {
 	/**
 	 * Constructor takes timeLine Name as a parameter.
 	 */
-	public TimeLine(String name) {
-		this.timeLineName = name;     
+	public TimeLine(String name, Date startDate, Date endDate) {
 		timeLineId = count.getAndIncrement(); //auto increment TimeLine Id//
+		this.timeLineName = name;   
+		this.startDate=startDate;
+		this.endDate=endDate;
 		eventList=new ArrayList<Event>();
 
 	}
@@ -49,7 +54,14 @@ public class TimeLine {
 	 */
 	@Override
 	public String toString() {
-		return "TimeLine [Id:" + timeLineId + " , Name:" + timeLineName + "]";
+		return "TimeLine [Id:" + timeLineId + " , Name:" + timeLineName + " , StartDate:" +startDate + " , EndDate:" + endDate+"]";
+	}
+	
+	/**
+	 * Return the Id of a TimeLine.
+	 */
+	public int getId() {
+		return timeLineId;
 	}
     
 	/**
@@ -63,14 +75,36 @@ public class TimeLine {
 	 * Set the name of a TimeLine.
 	 */
 	public void setName(String name) {
-		this.timeLineName = name;
+		timeLineName = name;
 	}
 
+	
 	/**
-	 * Return the Id of a TimeLine.
+	 * Return the startDate of a TimeLine.
 	 */
-	public int getId() {
-		return timeLineId;
+	public Date getStartDate() {
+		return startDate;
+	}
+	
+	/**
+	 * Set the startDate of a TimeLine.
+	 */
+	public void setStartDate(Date startDate) {
+		this.startDate=startDate;
+	}
+	
+	/**
+	 * Return the endDate of a TimeLine.
+	 */
+	public Date getEndDate() {
+		return endDate;
+	}
+	
+	/**
+	 * Set the endDate of a TimeLine.
+	 */
+	public void setEndDate(Date endDate) {
+		this.endDate=endDate;
 	}
 	
 	/**
