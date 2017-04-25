@@ -12,6 +12,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 /**
  * Class for drawing the graphics for the menu.
@@ -27,6 +28,9 @@ public class MenuView extends StackPane {
 	private Button saveTimeline;
 	private Button openTimeline;
 
+	/**
+	 * Constructor setting all the components.
+	 */
 	public MenuView() {
 		
 		deleteTimeline = new Button();
@@ -87,15 +91,30 @@ public class MenuView extends StackPane {
 		super.getChildren().addAll(bg, menu);
 	}
 
+	/**
+	 * Method for getting the addTimeline Button
+	 * @return addTimeline Button
+	 */
 	public Button getAddTimelineButton() {
 		return addTimeline;
 	}
-
+	
+	/**
+	 * Method for getting the deleteTimeline Button
+	 * @return deleteTimeline Button
+	 */
 	public Button getDeleteTimelineButton() {
 		return deleteTimeline;
 	}
 	
+	/**
+	 * Method for registering the listener for the MenuView 
+	 * @param MenuListener
+	 */
 	public void registerListener(MenuListener listener){
+		
+		Stage stage = (Stage)getScene().getWindow(); 
+		
 		addTimeline.setOnAction(e -> {
 			listener.onAddButtonClicked();
 		});
@@ -105,11 +124,11 @@ public class MenuView extends StackPane {
 		});
 		
 		saveTimeline.setOnAction(e -> {
-			//listener.onSaveButtonClicked(file);
+			//listener.onSaveButtonClicked();
 		});
 		
 		openTimeline.setOnAction(e -> {
-			//listener.onOpenButtonClicked(file);
+			listener.onOpenButtonClicked(stage);
 		});
 	}
 }

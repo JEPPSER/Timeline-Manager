@@ -2,6 +2,8 @@ package interfaces;
 
 import java.io.File;
 
+import javafx.stage.Stage;
+
 /**
  * Interface used to listen to changes in the TimeLine Menu.
  * 
@@ -28,8 +30,7 @@ public interface MenuListener {
 	 * This method is used by menu controller when the user press OpenTimeLine button
 	   to open a specific TimeLine 
 	 */
-	public void onOpenButtonClicked(File file);
-	
+	public void onOpenButtonClicked(Stage stage);
 	
 	/**This method is used by menu controller when the user press DeleteTimeLine button*/
 	public void onDeleteButtonClicked();

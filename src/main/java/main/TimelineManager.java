@@ -10,7 +10,7 @@ import view.MainView;
 /**
  * Main class that sets up the TimelineManager to run.
  * 
- * @author Jesper Bergstr�m and Zacky Kharboutli
+ * @author Jesper Bergstrom and Zacky Kharboutli
  * @version 0.00.00
  * @name TimelineManager.java
  */
@@ -18,24 +18,30 @@ public class TimelineManager extends Application {
 
 	private static MainView ui;
 	
+	/**
+	 * Start method that set up the ui, TimelineContainer and Controllers.
+	 */
 	@Override
 	public void start(Stage primaryStage) {
+		
+		ui = new MainView();
+		TimelineContainer timelineContainer = new TimelineContainer();
+		MainController mainController = new MainController(ui, timelineContainer);
+				
 		Scene scene = new Scene(ui);
 
 		primaryStage.setScene(scene);
 		primaryStage.show();
+
+		mainController.setupListeners();
 	}
 
 	/**
-	 * Main method of the application. Creates the model, view and controller.
+	 * Main method that initiates the program.
 	 * 
 	 * @param args - application command line arguments
 	 */
 	public static void main(String[] args) {
-		ui = new MainView();
-		TimelineContainer timelineContainer = new TimelineContainer();
-		MainController mainController = new MainController(ui, timelineContainer);
-		mainController.setupListeners();
 		
 		launch(args);	
 	}

@@ -1,7 +1,6 @@
 package view;
 
-import java.time.LocalDate;
-
+import interfaces.TimelinePopupListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -24,23 +23,19 @@ import javafx.stage.Stage;
 public class TimelinePopup {
 
 	private TextField titleField;
-	private LocalDate startDate;
-	private LocalDate endDate;
 	private DatePicker startPicker;
 	private DatePicker endPicker;
 	private Button saveButton;
 	private Button cancelButton;
+	private Stage stage;
 
 	/**
 	 * Constructor that sets all the graphical components of the popup.
 	 */
 	public TimelinePopup() {
-
+		
 		startPicker = new DatePicker();
-		startDate = startPicker.getValue();
-
 		endPicker = new DatePicker();
-		endDate = endPicker.getValue();
 
 		titleField = new TextField();
 		titleField.setPrefWidth(100);
@@ -67,7 +62,7 @@ public class TimelinePopup {
 		Group root = new Group();
 		root.getChildren().addAll(hbox);
 
-		Stage stage = new Stage();
+		stage = new Stage();
 		stage.setScene(new Scene(root, 200, 220));
 		stage.show();
 
@@ -77,35 +72,13 @@ public class TimelinePopup {
 	}
 
 	/**
-	 * Method for getting the start date input from the user.
-	 * 
-	 * @return Start Date
+	 * Method for registering the listener for the TimelinePopup
+	 * @param TimelinePopupListener
 	 */
-	public LocalDate getStartDate() {
-		return startDate;
-	}
-
-	/**
-	 * Method for getting the end date input from the user.
-	 * 
-	 * @return End Date
-	 */
-	public LocalDate getEndDate() {
-		return endDate;
-	}
-
-	/**
-	 * Method for getting the title input from the user.
-	 * 
-	 * @return Title of the timeline
-	 */
-	public String getTitle() {
-		return titleField.getText();
-	}
-
-	public void registerListener() {
+	public void registerListener(TimelinePopupListener listener) {
 		saveButton.setOnAction(e -> {
-			
+			listener.onSaveButtonClicked(titleField.getText(), startPicker.getValue(), endPicker.getValue());
+			stage.close();
 		});
 	}
 }
