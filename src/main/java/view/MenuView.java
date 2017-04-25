@@ -12,11 +12,12 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
+import javafx.stage.Stage;
 
 /**
  * Class for drawing the graphics for the menu.
  * 
- * @author Jesper Bergstr�m and Zacky Kharboutli
+ * @author Jesper Bergstrom and Zacky Kharboutli
  * @version 0.00.00
  * @name MenuView.java
  */
@@ -24,11 +25,18 @@ public class MenuView extends StackPane {
 
 	private Button deleteTimeline;
 	private Button addTimeline;
+	private Button saveTimeline;
+	private Button openTimeline;
 
+	/**
+	 * Constructor setting all the components.
+	 */
 	public MenuView() {
-		deleteTimeline = new Button();
 		
+		deleteTimeline = new Button();
 		addTimeline = new Button();
+		saveTimeline = new Button();
+		openTimeline = new Button();
 
 		InnerShadow is = new InnerShadow();
 
@@ -67,11 +75,15 @@ public class MenuView extends StackPane {
 		addTimeline.setText("+");
 		deleteTimeline.setPrefSize(30, 30);
 		deleteTimeline.setText("-");
+		saveTimeline.setPrefSize(30, 30);
+		saveTimeline.setText("S");
+		openTimeline.setPrefSize(30, 30);
+		openTimeline.setText("L");
 
 		menu.setMaxHeight(60);
 		menu.setMinHeight(60);
 		timelineButtons.setSpacing(5);
-		timelineButtons.getChildren().addAll(filler1, mb, addTimeline, deleteTimeline);
+		timelineButtons.getChildren().addAll(filler1, mb, addTimeline, deleteTimeline, saveTimeline, openTimeline);
 		timelineButtons.setAlignment(Pos.CENTER);
 		menu.setLeft(timelineButtons);
 
@@ -79,21 +91,44 @@ public class MenuView extends StackPane {
 		super.getChildren().addAll(bg, menu);
 	}
 
+	/**
+	 * Method for getting the addTimeline Button
+	 * @return addTimeline Button
+	 */
 	public Button getAddTimelineButton() {
 		return addTimeline;
 	}
-
+	
+	/**
+	 * Method for getting the deleteTimeline Button
+	 * @return deleteTimeline Button
+	 */
 	public Button getDeleteTimelineButton() {
 		return deleteTimeline;
 	}
 	
+	/**
+	 * Method for registering the listener for the MenuView 
+	 * @param MenuListener
+	 */
 	public void registerListener(MenuListener listener){
+		
+		Stage stage = (Stage)getScene().getWindow(); 
+		
 		addTimeline.setOnAction(e -> {
 			listener.onAddButtonClicked();
 		});
 		
 		deleteTimeline.setOnAction(e -> {
 			listener.onDeleteButtonClicked();
+		});
+		
+		saveTimeline.setOnAction(e -> {
+			//listener.onSaveButtonClicked();
+		});
+		
+		openTimeline.setOnAction(e -> {
+			listener.onOpenButtonClicked(stage);
 		});
 	}
 }
