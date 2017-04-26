@@ -17,7 +17,7 @@ public class Main {
 			timeLine.add(new Event());
 		}
 
-		File file1 = new File(".\\src\\test\\resources\\XML.out.xml");
+		File file1 = new File(".\\.gitignore");
 		File file2 = new File(".\\src\\test\\resources\\XML.out.out.xml");
 		xml.writeXML(timeLine, file1);
 		System.out.println(xml.readXML(file2));
