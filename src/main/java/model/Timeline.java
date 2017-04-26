@@ -8,7 +8,7 @@ import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 
-@XmlRootElement(name = "TimeLine")
+@XmlRootElement(name = "Timeline")
 @XmlAccessorType(XmlAccessType.FIELD)
 
 /**
@@ -18,7 +18,7 @@ import javax.xml.bind.annotation.XmlRootElement;
  * 
  * @author Mustafa Alsaid
  * @version 0.00.00
- * @name TimeLine.java
+ * @name Timeline.java
  */
 
 public class Timeline {
