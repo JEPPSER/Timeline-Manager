@@ -33,7 +33,7 @@ public class TimelinePopup {
 	 * Constructor that sets all the graphical components of the popup.
 	 */
 	public TimelinePopup() {
-		
+
 		startPicker = new DatePicker();
 		endPicker = new DatePicker();
 
@@ -73,12 +73,12 @@ public class TimelinePopup {
 
 	/**
 	 * Method for registering the listener for the TimelinePopup
+	 * 
 	 * @param TimelinePopupListener
 	 */
 	public void registerListener(TimelinePopupListener listener) {
 		saveButton.setOnAction(e -> {
-			listener.onSaveButtonClicked(titleField.getText(), startPicker.getValue(), endPicker.getValue());
-			stage.close();
+			listener.onSaveButtonClicked(titleField.getText(), startPicker.getValue(), endPicker.getValue(), stage);
 		});
 	}
 }

@@ -3,7 +3,7 @@ package controller;
 import java.util.List;
 
 import interfaces.ModelChangedListener;
-import model.TimeLine;
+import model.Timeline;
 import model.TimelineContainer;
 import view.MainView;
 
@@ -49,7 +49,7 @@ public class MainController implements ModelChangedListener {
 	}
 
 	@Override
-	public void onModelChanged(List<TimeLine> timelines, TimeLine active) {
+	public void onModelChanged(List<Timeline> timelines, Timeline active) {
 		System.out.println("MainController: TimelineContainer has been updated");
 		
 		// TODO: Tell the view to update
