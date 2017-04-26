@@ -44,8 +44,15 @@ public class TimelinePopupController implements TimelinePopupListener {
 			timeline.setStartDate(startDate);
 			timeline.setName(title);
 
+			File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\Timeline Manager\\Timelines");
+			
+			// Create initial directory if it does not exist
+			if (!initialDirectory.exists()) {
+				initialDirectory.mkdirs();
+			}
+			
 			chooser = new DirectoryChooser();
-			chooser.setInitialDirectory(new File(".\\timelines"));
+			chooser.setInitialDirectory(initialDirectory);
 
 			try {
 				File file = chooser.showDialog(stage);
