@@ -63,7 +63,7 @@ public class TimelinePopup {
 		root.getChildren().addAll(hbox);
 
 		stage = new Stage();
-		stage.setScene(new Scene(root, 200, 220));
+		stage.setScene(new Scene(root, 220, 220));
 		stage.show();
 
 		cancelButton.setOnAction(e -> {
