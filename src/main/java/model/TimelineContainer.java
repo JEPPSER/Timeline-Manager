@@ -20,17 +20,17 @@ import interfaces.ModelChangedListener;
 public class TimelineContainer {
 
 	private ModelChangedListener listener;
-	private ArrayList<TimeLine> timelines;
-	private TimeLine activeTimeline;
+	private ArrayList<Timeline> timelines;
+	private Timeline activeTimeline;
 	
 	public TimelineContainer() {
-		timelines = new ArrayList<TimeLine>();
+		timelines = new ArrayList<Timeline>();
 	}
 	
 	/**
 	 * Adds a timeline to this TimelineContainer.
 	 */
-	public void addTimeline(TimeLine timeline) {
+	public void addTimeline(Timeline timeline) {
 		System.out.println("TimelineContainer: Request to add timeline received");
 		
 		timelines.add(timeline);
@@ -45,7 +45,7 @@ public class TimelineContainer {
 	 *  
 	 * @return the active timeline
 	 */
-	public TimeLine getActiveTimeline() {
+	public Timeline getActiveTimeline() {
 		return activeTimeline;
 	}
 	

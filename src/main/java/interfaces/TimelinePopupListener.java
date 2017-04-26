@@ -2,6 +2,8 @@ package interfaces;
 
 import java.time.LocalDate;
 
+import javafx.stage.Stage;
+
 /**
  * Listener for the TimelinePopup. This listener will handle all actions
  * performed by the user in the TimelinePopup.
@@ -19,5 +21,5 @@ public interface TimelinePopupListener {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate);
+	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate, Stage stage);
 }

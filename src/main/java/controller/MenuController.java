@@ -12,7 +12,7 @@ import interfaces.MenuListener;
 import io.FileHandler;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import model.TimeLine;
+import model.Timeline;
 import model.TimelineContainer;
 import view.TimelinePopup;
 
@@ -32,7 +32,7 @@ public class MenuController implements MenuListener {
 		TimelinePopup popup = new TimelinePopup();
 		timelinePopupController = new TimelinePopupController();
 		popup.registerListener(timelinePopupController);
-		timelineContainer.addTimeline(new TimeLine());
+		timelineContainer.addTimeline(new Timeline());
 	}
 
 	@Override
@@ -41,7 +41,7 @@ public class MenuController implements MenuListener {
 		File file = chooser.showOpenDialog(stage);
 		if (file != null)
 			System.out.println("Attempting to open timeline at location: " + file.getPath());
-		TimeLine openedTimeline = null;
+		Timeline openedTimeline = null;
 
 		try {
 			openedTimeline = fileHandler.readXML(file);
@@ -64,7 +64,7 @@ public class MenuController implements MenuListener {
 	public void onSaveButtonClicked(File file) {
 		System.out.println("Saving timeline to location: " + file.getPath());
 
-		TimeLine active = timelineContainer.getActiveTimeline(); // fetch the
+		Timeline active = timelineContainer.getActiveTimeline(); // fetch the
 																	// timeline
 																	// to be
 																	// saved

@@ -100,6 +100,22 @@ public class MenuView extends StackPane {
 	}
 	
 	/**
+	 * Method for getting the openTimeline Button
+	 * @return openTimeline Button
+	 */
+	public Button getOpenTimelineButton() {
+		return openTimeline;
+	}
+	
+	/**
+	 * Method for getting the saveTimeline Button
+	 * @return saveTimeline Button
+	 */
+	public Button getSaveTimelineButton() {
+		return saveTimeline;
+	}
+	
+	/**
 	 * Method for getting the deleteTimeline Button
 	 * @return deleteTimeline Button
 	 */
