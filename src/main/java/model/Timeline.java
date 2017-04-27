@@ -5,8 +5,10 @@ import java.util.ArrayList;
 import java.util.concurrent.atomic.AtomicInteger;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 @XmlRootElement(name = "Timeline")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -31,9 +33,13 @@ public class Timeline {
 																		// auto
 																		// generated
 																		// id
-	private int timeLineId;
-	private String timeLineName;
+	@XmlAttribute(name="id") 
+	private int timelineId;
+	@XmlElement(name="name")
+	private String timelineName;
+	@XmlJavaTypeAdapter(value = io.LocalDateAdapter.class)
 	private LocalDate startDate;
+	@XmlJavaTypeAdapter(value = io.LocalDateAdapter.class)
 	private LocalDate endDate;
 	@XmlElement(name = "Event")
 	private ArrayList<Event> eventList;
@@ -49,8 +55,8 @@ public class Timeline {
 	 * Constructor takes timeLine Name as a parameter.
 	 */
 	public Timeline(String name) {
-		timeLineId = count.getAndIncrement(); // auto increment TimeLine Id//
-		this.timeLineName = name;
+		timelineId = count.getAndIncrement(); // auto increment TimeLine Id//
+		this.timelineName = name;
 		eventList = new ArrayList<Event>();
 
 	}
@@ -60,7 +66,7 @@ public class Timeline {
 	 */
 	@Override
 	public String toString() {
-		return "TimeLine [Id:" + timeLineId + " , Name:" + timeLineName + " , StartDate:" + startDate + " , EndDate:"
+		return "TimeLine [Id:" + timelineId + " , Name:" + timelineName + " , StartDate:" + startDate + " , EndDate:"
 				+ endDate + "]";
 	}
 
@@ -68,21 +74,21 @@ public class Timeline {
 	 * Return the Id of a TimeLine.
 	 */
 	public int getId() {
-		return timeLineId;
+		return timelineId;
 	}
 
 	/**
 	 * Return the name of a TimeLine.
 	 */
 	public String getName() {
-		return timeLineName;
+		return timelineName;
 	}
 
 	/**
 	 * Set the name of a TimeLine.
 	 */
 	public void setName(String name) {
-		timeLineName = name;
+		timelineName = name;
 	}
 
 	/**
