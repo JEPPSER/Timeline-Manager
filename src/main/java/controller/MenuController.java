@@ -10,6 +10,7 @@ import java.io.File;
 
 import interfaces.MenuListener;
 import io.FileHandler;
+import javafx.scene.control.MenuItem;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
@@ -19,14 +20,22 @@ import view.MenuView;
 import view.TimelinePopup;
 
 public class MenuController implements MenuListener {
+	private MenuView menuView;
 	private FileHandler fileHandler;
 	private TimelineContainer timelineContainer;
 	private TimelinePopupController timelinePopupController;
 	private DirectoryChooser chooser;
 
-	public MenuController(TimelineContainer tc) {
+	/**
+	 * Constructor. Initializes file handler and stores references to timeline container and menu view.
+	 * 
+	 * @param tc - reference to timeline container
+	 * @param mv - reference to menu view
+	 */
+	public MenuController(TimelineContainer tc, MenuView mv) {
 		timelineContainer = tc;
 		fileHandler = new FileHandler();
+		menuView = mv;
 	}
 
 	@Override
@@ -54,6 +63,10 @@ public class MenuController implements MenuListener {
 
 		if (openedTimeline != null) {
 			timelineContainer.addTimeline(openedTimeline);
+			MenuItem item = new MenuItem();
+			item.setText(openedTimeline.getName());
+			menuView.getLoadedTimelines().getItems().add(item);
+			menuView.getLoadedTimelines().setText(openedTimeline.getName());
 		}
 	}
 
