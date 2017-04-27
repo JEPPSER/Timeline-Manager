@@ -10,16 +10,19 @@ import java.io.File;
 
 import interfaces.MenuListener;
 import io.FileHandler;
+import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Timeline;
 import model.TimelineContainer;
+import view.MenuView;
 import view.TimelinePopup;
 
 public class MenuController implements MenuListener {
 	private FileHandler fileHandler;
 	private TimelineContainer timelineContainer;
 	private TimelinePopupController timelinePopupController;
+	private DirectoryChooser chooser;
 
 	public MenuController(TimelineContainer tc) {
 		timelineContainer = tc;
@@ -27,12 +30,11 @@ public class MenuController implements MenuListener {
 	}
 
 	@Override
-	public void onAddButtonClicked() {
+	public void onAddButtonClicked(MenuView menu) {
 		System.out.println("Name timeline: \nSet duration for timeline");
-		TimelinePopup popup = new TimelinePopup();
+		TimelinePopup popup = new TimelinePopup(this, menu);
 		timelinePopupController = new TimelinePopupController();
 		popup.registerListener(timelinePopupController);
-		timelineContainer.addTimeline(new Timeline());
 	}
 
 	@Override
@@ -61,13 +63,22 @@ public class MenuController implements MenuListener {
 	}
 
 	@Override
-	public void onSaveButtonClicked(File file) {
+	public void onSaveButtonClicked(Stage stage) {
+		
+		Timeline active = timelineContainer.getActiveTimeline(); 
+		
+		File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\Timeline Manager\\Timelines");
+		
+		// Create initial directory if it does not exist
+		if (!initialDirectory.exists()) {
+			initialDirectory.mkdirs();
+		}		
+		
+		chooser = new DirectoryChooser();
+		chooser.setInitialDirectory(initialDirectory);
+		File file = chooser.showDialog(stage);
+		
 		System.out.println("Saving timeline to location: " + file.getPath());
-
-		Timeline active = timelineContainer.getActiveTimeline(); // fetch the
-																	// timeline
-																	// to be
-																	// saved
 
 		try {
 			fileHandler.writeXML(active, file);
@@ -82,5 +93,8 @@ public class MenuController implements MenuListener {
 		// TODO Auto-generated method stub
 
 	}
-
+	
+	public TimelineContainer getTimelineContainer(){
+		return timelineContainer;
+	}
 }

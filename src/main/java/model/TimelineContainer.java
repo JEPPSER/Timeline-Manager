@@ -50,6 +50,13 @@ public class TimelineContainer {
 	}
 	
 	/**
+	 * Sets the active timeline.
+	 */
+	public void setActiveTimeline(Timeline activeTimeline) {
+		this.activeTimeline = activeTimeline;
+	}
+	
+	/**
 	 * Registers an object as a listener to this TimelineContainer. It will then be notified
 	 * whenever a change occurs to the timelines.
 	 * 
