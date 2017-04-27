@@ -65,4 +65,11 @@ public class TimelineContainer {
 	public void registerListener(ModelChangedListener listener) {
 		this.listener = listener;
 	}
+	
+	/**
+	 * Method for getting a list of the timelines.
+	 */
+	public ArrayList<Timeline> getTimelines(){
+		return timelines;
+	}
 }

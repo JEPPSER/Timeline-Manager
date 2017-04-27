@@ -44,6 +44,8 @@ public class TimelinePopupController implements TimelinePopupListener {
 			item = new MenuItem();
 			item.setText(title);
 			menu.getLoadedTimelines().getItems().add(item);
+			menu.getLoadedTimelines().setText(title);
+			controller.getTimelineContainer().setActiveTimeline(timeline);
 			stage.close();
 			
 			item.setOnAction(e -> {

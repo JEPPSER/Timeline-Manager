@@ -25,14 +25,7 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 public class Timeline {
 
-	private static final AtomicInteger count = new AtomicInteger(1); // static
-																		// field
-																		// necessary
-																		// to
-																		// create
-																		// auto
-																		// generated
-																		// id
+	private static final AtomicInteger count = new AtomicInteger(1); 
 	@XmlAttribute(name="id") 
 	private int timelineId;
 	@XmlElement(name="name")
@@ -43,6 +36,7 @@ public class Timeline {
 	private LocalDate endDate;
 	@XmlElement(name = "Event")
 	private ArrayList<Event> eventList;
+	private String path = "";
 
 	/**
 	 * Empty constructor.
@@ -139,5 +133,20 @@ public class Timeline {
 	public void setList(ArrayList<Event> eventList) {
 		this.eventList = eventList;
 	}
-
+	
+	/**
+	 * Get path of the timeline file. The timeline will only have a path when
+	 * it has been saved.
+	 */
+	public String getPath(){
+		return path;
+	}
+	
+	/**
+	 * Set the path of the file to this timeline.
+	 * @param path
+	 */
+	public void setPath(String path){
+		this.path = path;
+	}
 }
