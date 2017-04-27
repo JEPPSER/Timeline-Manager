@@ -24,7 +24,7 @@ public class DateWarning {
 		BorderPane root = new BorderPane();
 		VBox vbox = new VBox();
 		vbox.setSpacing(5);
-		Text text = new Text("End date can not be set\n before Start date.");
+		Text text = new Text("End date can not be\n before Start date.");
 		okBtn.setText("OK");
 		vbox.getChildren().addAll(text, okBtn);
 		root.setCenter(vbox);

@@ -48,7 +48,9 @@ public class MenuController implements MenuListener {
 
 	@Override
 	public void onOpenButtonClicked(Stage stage) {
+		File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\Timeline Manager\\Timelines");
 		FileChooser chooser = new FileChooser();
+		chooser.setInitialDirectory(initialDirectory);
 		File file = chooser.showOpenDialog(stage);
 		if (file != null)
 			System.out.println("Attempting to open timeline at location: " + file.getPath());
@@ -63,10 +65,15 @@ public class MenuController implements MenuListener {
 
 		if (openedTimeline != null) {
 			timelineContainer.addTimeline(openedTimeline);
+			final Timeline selectedTimeline = openedTimeline;
 			MenuItem item = new MenuItem();
 			item.setText(openedTimeline.getName());
 			menuView.getLoadedTimelines().getItems().add(item);
 			menuView.getLoadedTimelines().setText(openedTimeline.getName());
+			item.setOnAction(e -> {
+				menuView.getLoadedTimelines().setText(item.getText());
+				timelineContainer.setActiveTimeline(selectedTimeline);
+			});
 		}
 	}
 
