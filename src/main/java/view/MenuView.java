@@ -4,7 +4,6 @@ import interfaces.MenuListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.MenuButton;
-import javafx.scene.control.MenuItem;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -27,6 +26,7 @@ public class MenuView extends StackPane {
 	private Button addTimeline;
 	private Button saveTimeline;
 	private Button openTimeline;
+	private MenuButton loadedTimelines;
 
 	/**
 	 * Constructor setting all the components.
@@ -62,14 +62,9 @@ public class MenuView extends StackPane {
 
 		// MenuButton. From this, the user will be able to select which
 		// timelines will be displayed.
-		MenuButton mb = new MenuButton();
-		mb.setPrefSize(100, 30);
-		mb.setText("Timelines");
-
-		// Temporary MenuItem.
-		MenuItem m1 = new MenuItem();
-		m1.setText("My Project");
-		mb.getItems().add(m1);
+		loadedTimelines = new MenuButton();
+		loadedTimelines.setPrefSize(100, 30);
+		loadedTimelines.setText("Timelines");
 
 		addTimeline.setPrefSize(30, 30);
 		addTimeline.setText("+");
@@ -83,7 +78,7 @@ public class MenuView extends StackPane {
 		menu.setMaxHeight(60);
 		menu.setMinHeight(60);
 		timelineButtons.setSpacing(5);
-		timelineButtons.getChildren().addAll(filler1, mb, addTimeline, deleteTimeline, saveTimeline, openTimeline);
+		timelineButtons.getChildren().addAll(filler1, loadedTimelines, addTimeline, deleteTimeline, saveTimeline, openTimeline);
 		timelineButtons.setAlignment(Pos.CENTER);
 		menu.setLeft(timelineButtons);
 
@@ -124,6 +119,15 @@ public class MenuView extends StackPane {
 	}
 	
 	/**
+	 * Method for getting the MenuButton containing
+	 * the loaded timelines.
+	 * @return Loaded timelines MenuButton
+	 */
+	public MenuButton getLoadedTimelines(){
+		return loadedTimelines;
+	}
+	
+	/**
 	 * Method for registering the listener for the MenuView 
 	 * @param MenuListener
 	 */
@@ -132,7 +136,7 @@ public class MenuView extends StackPane {
 		Stage stage = (Stage)getScene().getWindow(); 
 		
 		addTimeline.setOnAction(e -> {
-			listener.onAddButtonClicked();
+			listener.onAddButtonClicked(this);
 		});
 		
 		deleteTimeline.setOnAction(e -> {
@@ -140,7 +144,7 @@ public class MenuView extends StackPane {
 		});
 		
 		saveTimeline.setOnAction(e -> {
-			//listener.onSaveButtonClicked();
+			listener.onSaveButtonClicked(stage);
 		});
 		
 		openTimeline.setOnAction(e -> {

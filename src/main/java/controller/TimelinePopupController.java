@@ -1,15 +1,14 @@
 package controller;
 
-import java.io.File;
 import java.time.LocalDate;
 
 import interfaces.TimelinePopupListener;
-import io.FileHandler;
-import javafx.stage.DirectoryChooser;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import model.Timeline;
 import view.DateNullWarning;
 import view.DateWarning;
+import view.MenuView;
 import view.TitleWarning;
 
 /**
@@ -21,13 +20,11 @@ import view.TitleWarning;
  * @name TimelinePopupController.java
  */
 public class TimelinePopupController implements TimelinePopupListener {
-
-	FileHandler handler;
-	DirectoryChooser chooser;
-
+	
+	MenuItem item;
+	
 	@Override
-	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate, Stage stage) {
-		handler = new FileHandler();
+	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate, Stage stage, MenuController controller, MenuView menu) {
 
 		if (title.equals("")) {
 			TitleWarning warning = new TitleWarning();
@@ -43,25 +40,16 @@ public class TimelinePopupController implements TimelinePopupListener {
 			timeline.setEndDate(endDate);
 			timeline.setStartDate(startDate);
 			timeline.setName(title);
-
-			File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\Timeline Manager\\Timelines");
-			
-			// Create initial directory if it does not exist
-			if (!initialDirectory.exists()) {
-				initialDirectory.mkdirs();
-			}
-			
-			chooser = new DirectoryChooser();
-			chooser.setInitialDirectory(initialDirectory);
-
-			try {
-				File file = chooser.showDialog(stage);
-				if (file != null)
-					handler.writeXML(timeline, file);
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
+			controller.getTimelineContainer().addTimeline(timeline);
+			item = new MenuItem();
+			item.setText(title);
+			menu.getLoadedTimelines().getItems().add(item);
 			stage.close();
+			
+			item.setOnAction(e -> {
+				controller.getTimelineContainer().setActiveTimeline(timeline);
+				menu.getLoadedTimelines().setText(title);
+			});
 		}
 	}
 }
