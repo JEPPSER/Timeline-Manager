@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
-<Timeline id="1">
-    <name>a</name>
-    <startDate>2017-04-28</startDate>
-    <endDate>2017-04-29</endDate>
+<Timeline id="2">
+    <name>b</name>
+    <startDate>2017-04-01</startDate>
+    <endDate>2017-04-30</endDate>
     <Event/>
     <Event/>
     <Event/>
