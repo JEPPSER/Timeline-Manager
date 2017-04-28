@@ -55,7 +55,7 @@ public class MenuController implements MenuListener {
 
 	@Override
 	public void onOpenButtonClicked(Stage stage) {
-		File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\Timeline Manager\\Timelines");
+		File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
 		FileChooser chooser = new FileChooser();
 		chooser.setInitialDirectory(initialDirectory);
 		File file = chooser.showOpenDialog(stage);
@@ -123,7 +123,7 @@ public class MenuController implements MenuListener {
 
 		Timeline active = timelineContainer.getActiveTimeline();
 
-		File initialDirectory = new File(System.getProperty("user.home") + "\\Documents\\Timeline Manager\\Timelines");
+		File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
 
 		// Create initial directory if it does not exist
 		if (!initialDirectory.exists()) {
@@ -135,7 +135,7 @@ public class MenuController implements MenuListener {
 		File file = chooser.showDialog(stage);
 
 		String fileName = active.getName().toLowerCase() + ".xml";
-		String path = file.getAbsolutePath() + "\\" + fileName;
+		String path = file.getAbsolutePath() + "/" + fileName;
 		active.setPath(path);
 
 		System.out.println("Saving timeline to location: " + file.getPath());
