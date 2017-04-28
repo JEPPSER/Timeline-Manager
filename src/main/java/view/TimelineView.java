@@ -104,6 +104,7 @@ public class TimelineView extends ScrollPane {
 			text.setText(String.valueOf((i % 30) + 1));
 
 			BorderPane txtContainer = new BorderPane();
+			txtContainer.setPrefHeight(20);
 			txtContainer.setCenter(text);
 
 			column.setTop(txtContainer);
