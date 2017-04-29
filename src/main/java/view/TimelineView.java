@@ -2,6 +2,7 @@ package view;
 
 import java.awt.Dimension;
 import java.awt.Toolkit;
+import java.time.LocalDate;
 
 import interfaces.TimelineViewListener;
 import javafx.scene.Group;
@@ -15,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import model.Timeline;
 
 /**
  * Class drawing the graphics for how a timeline will be displayed. This class
@@ -31,6 +33,7 @@ public class TimelineView extends ScrollPane {
 	private StackPane stack = new StackPane();
 	private HBox dates;
 	private TimelineViewListener listener;
+	private Timeline currentTimeline;
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -46,19 +49,11 @@ public class TimelineView extends ScrollPane {
 
 		dates = new HBox();
 
-		// Get screen resolution
-		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-
-		dates.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
-
-		drawColumns();
-
 		// Create the rows
 		for (int i = 0; i < panes.length; i++) {
 
 			panes[i] = new Pane();
 			panes[i].setPrefHeight(30);
-			panes[i].setPrefWidth(screenSize.getWidth());
 		}
 
 		vbox.getChildren().addAll(panes);
@@ -70,6 +65,22 @@ public class TimelineView extends ScrollPane {
 		super.setContent(root);
 	}
 	
+	/**
+	 * Method that sets a timeline to be displayed in the timeline view.
+	 * @param Timeline
+	 */
+	public void setTimeline(Timeline timeline){
+		
+		currentTimeline = timeline;
+		drawColumns();
+		// 1. Convert list of events in timeline to a list of EventShapes.
+		// 2. Use algorithm to place the EventShapes in the timeline view.
+	}
+	
+	/**
+	 * Method that registers the listeners for the timeline view.
+	 * @param listener
+	 */
 	public void registerListener(TimelineViewListener listener){
 		this.listener = listener;
 	}
@@ -85,9 +96,20 @@ public class TimelineView extends ScrollPane {
 		Text text;
 		Rectangle rect;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		int days = 0;
 
+		// Get the duration of the timeline.
+		if(currentTimeline != null){
+			LocalDate temp = currentTimeline.getStartDate();
+			for(int i=0; !temp.equals(currentTimeline.getEndDate()); i++){
+				temp = temp.plusDays(1);
+				days = i;
+			}
+			days++;
+		}	
+		
 		// Draw the columns
-		for (int i = 0; i < 38; i++) {
+		for (int i = 0; i <= days; i++) {
 
 			column = new BorderPane();
 			column.setPrefWidth(50);
@@ -99,16 +121,17 @@ public class TimelineView extends ScrollPane {
 			rect.setOpacity(0.3);
 			rect.setFill(Color.WHITE);
 
+			String day = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfMonth());
 			text = new Text();
 			text.setFont(Font.font("Arial", 18));
-			text.setText(String.valueOf((i % 30) + 1));
+			text.setText(day);
 
 			BorderPane txtContainer = new BorderPane();
-			txtContainer.setPrefHeight(20);
 			txtContainer.setCenter(text);
+			txtContainer.setPrefHeight(20);
 
 			column.setTop(txtContainer);
-			column.setCenter(rect);
+			column.setBottom(rect);
 			dates.getChildren().add(column);
 		}
 	}
