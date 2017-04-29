@@ -3,13 +3,13 @@ package controller;
 import java.time.LocalDate;
 
 import interfaces.TimelinePopupListener;
+import javafx.scene.control.Alert;
+import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import model.Timeline;
-import view.DateNullWarning;
-import view.DateWarning;
 import view.MenuView;
-import view.TitleWarning;
 
 /**
  * Controller that handles all actions made by the user in the TimelinePopup.
@@ -27,14 +27,23 @@ public class TimelinePopupController implements TimelinePopupListener {
 	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate, Stage stage, MenuController controller, MenuView menu) {
 
 		if (title.equals("")) {
-			TitleWarning warning = new TitleWarning();
-			warning.close();
+			Alert alert = new Alert(AlertType.ERROR, "Title must not be empty", ButtonType.OK);
+			alert.showAndWait();
+			if(alert.getResult() == ButtonType.OK){
+				alert.close();
+			}
 		} else if(startDate == null || endDate == null){
-			DateNullWarning warning = new DateNullWarning();
-			warning.close();
+			Alert alert = new Alert(AlertType.ERROR, "Dates have not been set", ButtonType.OK);
+			alert.showAndWait();
+			if(alert.getResult() == ButtonType.OK){
+				alert.close();
+			}
 		} else if (startDate.isAfter(endDate)) {
-			DateWarning warning = new DateWarning();
-			warning.close();
+			Alert alert = new Alert(AlertType.ERROR, "End Date can not be before Start Date", ButtonType.OK);
+			alert.showAndWait();
+			if(alert.getResult() == ButtonType.OK){
+				alert.close();
+			}
 		} else {
 			Timeline timeline = new Timeline();
 			timeline.setEndDate(endDate);

@@ -63,8 +63,8 @@ public class MenuView extends StackPane {
 		// MenuButton. From this, the user will be able to select which
 		// timelines will be displayed.
 		loadedTimelines = new MenuButton();
-		loadedTimelines.setPrefSize(100, 30);
 		loadedTimelines.setText("Timelines");
+		loadedTimelines.setPrefSize(100, 30);
 
 		addTimeline.setPrefSize(30, 30);
 		addTimeline.setText("+");

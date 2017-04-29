@@ -13,13 +13,15 @@ import java.nio.file.Paths;
 
 import interfaces.MenuListener;
 import io.FileHandler;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
 import model.Timeline;
 import model.TimelineContainer;
-import view.DeleteTimelineWarning;
 import view.MenuView;
 import view.TimelinePopup;
 
@@ -87,10 +89,10 @@ public class MenuController implements MenuListener {
 	@Override
 	public void onDeleteButtonClicked() {
 		System.out.println("Are you sure you want to delete this timeline");
-		DeleteTimelineWarning warning = new DeleteTimelineWarning();
-
-		warning.getYesButton().setOnAction(e -> { // Yes button was pressed.
-
+		
+		Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this timeline?", ButtonType.YES, ButtonType.NO);
+		alert.showAndWait();
+		if(alert.getResult() == ButtonType.YES){
 			Timeline timeline = timelineContainer.getActiveTimeline();
 			String path = timeline.getPath();
 			try {
@@ -110,12 +112,10 @@ public class MenuController implements MenuListener {
 			menuView.getLoadedTimelines().setText("Timelines");
 			timelineContainer.getTimelines().remove(timelineContainer.getActiveTimeline());
 			timelineContainer.setActiveTimeline(null);
-			warning.getStage().close();
-		});
-
-		warning.getNoButton().setOnAction(e -> { // No button was pressed.
-			warning.getStage().close();
-		});
+			alert.close();
+		} else if(alert.getResult() == ButtonType.NO){
+			alert.close();
+		}
 	}
 
 	@Override

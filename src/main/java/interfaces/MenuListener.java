@@ -20,7 +20,7 @@ import view.MenuView;
  */
 
 public interface MenuListener {
-
+	
 	/**
 	 * This method is used by menu controller when the user press AddTimeLine
 	 * button.
