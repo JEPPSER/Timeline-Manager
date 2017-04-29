@@ -29,6 +29,7 @@ import model.Timeline;
 public class TimelineView extends ScrollPane {
 
 	private final int ROWS = 30;
+	private int width = 50; // For time perspective
 	private Pane[] panes = new Pane[ROWS];
 	private StackPane stack = new StackPane();
 	private HBox dates;
@@ -64,24 +65,28 @@ public class TimelineView extends ScrollPane {
 
 		super.setContent(root);
 	}
-	
+
 	/**
 	 * Method that sets a timeline to be displayed in the timeline view.
+	 * 
 	 * @param Timeline
 	 */
-	public void setTimeline(Timeline timeline){
-		
+	public void setTimeline(Timeline timeline) {
+
 		currentTimeline = timeline;
 		drawColumns();
 		// 1. Convert list of events in timeline to a list of EventShapes.
 		// 2. Use algorithm to place the EventShapes in the timeline view.
+		// The width of the EventShapes should be a multiple of the width
+		// variable.
 	}
-	
+
 	/**
 	 * Method that registers the listeners for the timeline view.
+	 * 
 	 * @param listener
 	 */
-	public void registerListener(TimelineViewListener listener){
+	public void registerListener(TimelineViewListener listener) {
 		this.listener = listener;
 	}
 
@@ -99,23 +104,23 @@ public class TimelineView extends ScrollPane {
 		int days = 0;
 
 		// Get the duration of the timeline.
-		if(currentTimeline != null){
+		if (currentTimeline != null) {
 			LocalDate temp = currentTimeline.getStartDate();
-			for(int i=0; !temp.equals(currentTimeline.getEndDate()); i++){
+			for (int i = 0; !temp.equals(currentTimeline.getEndDate()); i++) {
 				temp = temp.plusDays(1);
 				days = i;
 			}
 			days++;
-		}	
-		
+		}
+
 		// Draw the columns
 		for (int i = 0; i <= days; i++) {
 
 			column = new BorderPane();
-			column.setPrefWidth(50);
+			column.setPrefWidth(width);
 
 			rect = new Rectangle();
-			rect.setWidth(50);
+			rect.setWidth(width);
 			rect.setHeight(screenSize.getHeight());
 			rect.setStroke(Color.BLACK);
 			rect.setOpacity(0.3);
