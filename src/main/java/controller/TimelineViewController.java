@@ -7,13 +7,18 @@ package controller;
 */
 
 import interfaces.TimelineViewListener;
+import view.EventPopup;
 
 public class TimelineViewController implements TimelineViewListener
 {
-
+	private EventPopupController eventPopupController;
+	
 	@Override
 	public void onAddEventClicked() 
 	{
+		EventPopup eventPopup = new EventPopup();
+		eventPopupController = new EventPopupController();
+		eventPopup.registerListener(eventPopupController);
 		System.out.println("Enter event details: \nEvent name: \nEvent duration: \nEvent type: ");
 	}
 
