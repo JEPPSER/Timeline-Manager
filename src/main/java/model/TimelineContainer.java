@@ -54,6 +54,7 @@ public class TimelineContainer {
 	 */
 	public void setActiveTimeline(Timeline activeTimeline) {
 		this.activeTimeline = activeTimeline;
+		listener.onModelChanged(timelines, activeTimeline);
 	}
 	
 	/**
