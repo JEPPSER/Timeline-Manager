@@ -3,6 +3,7 @@ package view;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.time.LocalDate;
+import java.util.ArrayList;
 
 import interfaces.TimelineViewListener;
 import javafx.scene.Group;
@@ -76,7 +77,51 @@ public class TimelineView extends ScrollPane {
 		currentTimeline = timeline;
 		drawColumns();
 		// 1. Convert list of events in timeline to a list of EventShapes.
+		ArrayList<EventShape> shapeList = new ArrayList<EventShape>();
+		EventShape e1 = new EventShape(true, 0, 100);
+		EventShape e2 = new EventShape(true, 50, 50);
+		EventShape e3 = new EventShape(true, 100, 50);
+		EventShape e4 = new EventShape(true, 50, 150);
+		EventShape e5 = new EventShape(false, 50, 150);
+		
+		shapeList.add(e1);
+		shapeList.add(e2);
+		shapeList.add(e3);
+		shapeList.add(e4);
+		shapeList.add(e5);
+		
 		// 2. Use algorithm to place the EventShapes in the timeline view.
+		for(int i = 1; i < panes.length; i++){
+			panes[i].getChildren().clear();
+		}
+		
+		ArrayList<EventShape> added = new ArrayList<EventShape>();
+		
+		for(int i=0; i<shapeList.size(); i++){
+			
+			if(i == 0){
+				panes[1].getChildren().add(shapeList.get(i).getShape());
+				added.add(shapeList.get(i));
+			} else{
+				boolean found = false;
+				added.add(shapeList.get(i));
+				
+				for(int j=1; !found; j++){
+					panes[j].getChildren().add(shapeList.get(i).getShape());
+					
+					for(int k=0; k<added.size() - 1; k++){
+						if(shapeList.get(i).isOverlapping(added.get(k)) 
+								&& panes[j].getChildren().contains(added.get(k).getShape())){
+							panes[j].getChildren().remove(shapeList.get(i).getShape());
+							found = false;
+							break;
+						}
+						found = true;
+					}
+				}
+			}
+		}
+		
 		// The width of the EventShapes should be a multiple of the width
 		// variable.
 	}
