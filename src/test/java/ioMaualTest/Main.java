@@ -26,8 +26,8 @@ public class Main {
 
 		File file1 = new File(".\\src\\test\\resources\\a.xml");
 		File file2 = new File(".\\src\\test\\resources\\b.xml");
-		xml.writeXML(timeLine, file2);
-		System.out.println(xml.readXML(file1));
+		xml.writeXML(timeLine, file1);
+		System.out.println(xml.readXML(file2));
 
 	}
 }
