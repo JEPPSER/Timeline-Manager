@@ -76,6 +76,11 @@ public class TimelineView extends ScrollPane {
 
 		currentTimeline = timeline;
 		drawColumns();
+		
+		for(int i=0; i<timeline.getList().size(); i++){
+			
+		}
+		
 		// 1. Convert list of events in timeline to a list of EventShapes.
 		ArrayList<EventShape> shapeList = new ArrayList<EventShape>();
 		EventShape e1 = new EventShape(true, 0, 100);
