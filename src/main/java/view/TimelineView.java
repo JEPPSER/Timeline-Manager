@@ -4,8 +4,11 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import interfaces.TimelineViewListener;
+import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -20,7 +23,7 @@ import javafx.scene.text.Text;
  * Class drawing the graphics for how a timeline will be displayed. This class
  * can be added as a component in a user interface.
  * 
- * @author Jesper Bergström and Zacky Kharboutli
+ * @author Jesper Bergstrï¿½m and Zacky Kharboutli
  * @version 0.00.00
  * @name TimelineView.java
  */
@@ -66,12 +69,24 @@ public class TimelineView extends ScrollPane {
 		stack.getChildren().addAll(dates, vbox);
 
 		root.getChildren().add(stack);
-
+		
 		super.setContent(root);
 	}
 	
 	public void registerListener(TimelineViewListener listener){
-		this.listener = listener;
+		
+		this.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
+
+			@Override
+			public void handle(KeyEvent arg0) {
+				if (arg0.getCode() == KeyCode.E) {
+					listener.onAddEventClicked();
+				}
+				
+			}
+			
+		});
+
 	}
 
 	/**
