@@ -4,11 +4,8 @@ import java.awt.Dimension;
 import java.awt.Toolkit;
 
 import interfaces.TimelineViewListener;
-import javafx.event.EventHandler;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
-import javafx.scene.input.KeyEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -74,19 +71,7 @@ public class TimelineView extends ScrollPane {
 	}
 	
 	public void registerListener(TimelineViewListener listener){
-		
-		this.getScene().setOnKeyPressed(new EventHandler<KeyEvent>() {
-
-			@Override
-			public void handle(KeyEvent arg0) {
-				if (arg0.getCode() == KeyCode.E) {
-					listener.onAddEventClicked();
-				}
-				
-			}
-			
-		});
-
+		this.listener = listener;
 	}
 
 	/**

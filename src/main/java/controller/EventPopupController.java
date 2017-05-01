@@ -1,5 +1,9 @@
 package controller;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 import interfaces.EventPopupListener;
 
 /**
@@ -14,7 +18,8 @@ import interfaces.EventPopupListener;
 public class EventPopupController implements EventPopupListener {
 
 	@Override
-	public void onOkayButtonClicked() {
+	public void onOkayButtonClicked(String eventTitle, String eventDescription, LocalDate startDate,
+		    						LocalTime startTime, LocalDate endDate, LocalTime endTime) {
 		// TODO Auto-generated method stub
 		
 	}
