@@ -7,7 +7,7 @@ import javafx.scene.shape.Shape;
 import model.Event.EventType;
 
 /**
- * A class to create the shape of the event depinding on if it is duration or
+ * A class to create the shape of the event depending on if it is duration or
  * non-duration events.
  * 
  * @author Jesper Bergstrom and Zacky Kharboutli
@@ -19,9 +19,16 @@ public class EventShape {
 	Shape eventShape;
 	int width;
 	int layoutX;
-	int layoutY;
 	EventType isDuration;
 
+	/**
+	 * Constructor that sets the properties and depending on the EventType,
+	 * creates either a circle or a rectangle.
+	 * 
+	 * @param isDuration
+	 * @param layoutX
+	 * @param width
+	 */
 	public EventShape(EventType isDuration, int layoutX, int width) {
 		
 		this.layoutX = layoutX;
@@ -41,6 +48,12 @@ public class EventShape {
 		}
 	}
 	
+	/**
+	 * Method that checks if two events overlap each other.
+	 * 
+	 * @param event
+	 * @return boolean
+	 */
 	public boolean isOverlapping(EventShape event){
 		
 		if(layoutX <= event.getLayoutX() && layoutX + width > event.getLayoutX() ||
@@ -51,28 +64,49 @@ public class EventShape {
 		}
 	}
 
+	/**
+	 * Method that returns the shape of the event.
+	 * 
+	 * @return Event shape
+	 */
 	public Shape getShape() {
 		return eventShape;
 	}
 	
+	/**
+	 * Method that sets the width of the event shape (duration).
+	 * 
+	 * @param width
+	 */
 	public void setWidth(int width){
 		this.width = width;
 	}
 	
+	/**
+	 * Method for getting the width of the event shape.
+	 *  
+	 * @return width
+	 */
 	public int getWidth(){
 		return width;
 	}
 
-	public void setShapeLayoutX(int X) {
+	/**
+	 * Method that sets the x layout of the event shape.
+	 * 
+	 * @param X
+	 */
+	public void setLayoutX(int X) {
 		this.layoutX = X;
 		eventShape.setLayoutX(X);
 	}
 	
+	/**
+	 * Method for getting the x layout of the event shape.
+	 * 
+	 * @return X
+	 */
 	public int getLayoutX(){
 		return layoutX;
-	}
-
-	public void setShapeLayoutY(int Y) {
-		this.layoutX = Y;
 	}
 }

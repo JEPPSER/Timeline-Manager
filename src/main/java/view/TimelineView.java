@@ -160,7 +160,7 @@ public class TimelineView extends ScrollPane {
 	}
 
 	/**
-	 * Method that draws the columns in the TimelinePane.
+	 * Private method that draws the columns in the TimelinePane.
 	 */
 	private void drawColumns() {
 
