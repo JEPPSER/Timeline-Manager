@@ -7,31 +7,33 @@ package controller;
 */
 
 import interfaces.TimelineViewListener;
+import javafx.stage.Stage;
+import view.EventPopup;
 
 public class TimelineViewController implements TimelineViewListener
 {
-
+	private EventPopupController eventPopupController;
+	
 	@Override
-	public void onAddEventClicked() 
-	{
+	public void onAddEventClicked(Stage stage) {
+		EventPopup eventPopup = new EventPopup(stage);
+		eventPopupController = new EventPopupController(eventPopup);
+		eventPopup.registerListener(eventPopupController);
 		System.out.println("Enter event details: \nEvent name: \nEvent duration: \nEvent type: ");
 	}
 
 	@Override
-	public void onMouseOverEvent(String name)
-	{
+	public void onMouseOverEvent(String name) {
 		System.out.println("These are the details of your event: ");
 	}
 
 	@Override
-	public void onDeleteEventClicked(String name) 
-	{
+	public void onDeleteEventClicked(String name) {
 		System.out.println("Are you sure you want to delete this event?");
 	}
 
 	@Override
-	public void onEditEventClicked(String name) 
-	{
+	public void onEditEventClicked(String name) {
 		System.out.println("Rewrite the fields that you want edited: ");
 	}
 	
