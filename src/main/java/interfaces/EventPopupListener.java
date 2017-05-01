@@ -4,6 +4,8 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import javafx.scene.control.Toggle;
+
 /**
  * Listener for the EventPopup. This listener will handle all actions
  * performed by the user in the EventPopup.
@@ -21,6 +23,6 @@ public interface EventPopupListener {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public void onOkayButtonClicked(String eventTitle, String eventDescription, LocalDate startDate,
+	public void onOkayButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
 								    LocalTime startTime, LocalDate endDate, LocalTime endTime);
 }

@@ -17,7 +17,7 @@ public class TimelineViewController implements TimelineViewListener
 	@Override
 	public void onAddEventClicked(Stage stage) {
 		EventPopup eventPopup = new EventPopup(stage);
-		eventPopupController = new EventPopupController();
+		eventPopupController = new EventPopupController(eventPopup);
 		eventPopup.registerListener(eventPopupController);
 		System.out.println("Enter event details: \nEvent name: \nEvent duration: \nEvent type: ");
 	}

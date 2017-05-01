@@ -46,6 +46,7 @@ public class EventPopup {
 	private VBox dateAndTimeBox;
 	private DatePicker startPicker;
 	private DatePicker endPicker;
+	private ToggleGroup group;
 	
 	/**
 	 * Constructor. Initializes stage and builds scene.
@@ -70,7 +71,7 @@ public class EventPopup {
 	 * @param TimelinePopupListener
 	 */
 	public void registerListener(EventPopupListener listener) {
-		okayButton.setOnAction(e -> listener.onOkayButtonClicked(titleField.getText(), descriptionArea.getText(),
+		okayButton.setOnAction(e -> listener.onOkayButtonClicked(group.getSelectedToggle(), titleField.getText(), descriptionArea.getText(),
 				startPicker.getValue(), startTimeSelector.getSelectedTime(), endPicker.getValue(), endTimeSelector.getSelectedTime()));
 	}
 	
@@ -151,9 +152,10 @@ public class EventPopup {
 		innerBox.setSpacing(INNER_SPACING);
 		
 		Label eventTypeHeader = new Label("Event Type");
-		ToggleGroup group = new ToggleGroup();
 		RadioButton durationButton = new RadioButton("Duration event");
+		durationButton.setUserData("duration");	// TODO: Change to enum
 		RadioButton nonDurationButton = new RadioButton("Non-duration event");
+		nonDurationButton.setUserData("non-duration");	// TODO: Change to enum
 		durationButton.setToggleGroup(group);
 		nonDurationButton.setToggleGroup(group);
 		
@@ -189,6 +191,11 @@ public class EventPopup {
 	 */
 	private void initDateAndTimeBox() {
 		dateAndTimeBox = new VBox();
+		group = new ToggleGroup();
+		startPicker = new DatePicker();
+		startTimeSelector = new TimePicker();
+		endPicker = new DatePicker();
+		endTimeSelector = new TimePicker();
 		dateAndTimeBox.setPrefWidth(PICKER_WIDTH + DEFAULT_SPACING);
 		dateAndTimeBox.setSpacing(DEFAULT_SPACING);
 	}
@@ -200,12 +207,9 @@ public class EventPopup {
 		dateAndTimeBox.getChildren().clear();
 		VBox startDateBox = new VBox();
 		VBox startTimeBox = new VBox();
-		startPicker = new DatePicker();
 		startPicker.setPrefWidth(PICKER_WIDTH + DEFAULT_SPACING);
 		Label startDateText = new Label("Date");
 		Label startTimeText = new Label("Time");
-		startTimeSelector = new TimePicker();
-		
 		startDateBox.getChildren().addAll(startDateText, startPicker);
 		startTimeBox.getChildren().addAll(startTimeText, startTimeSelector);
 		dateAndTimeBox.getChildren().addAll(startDateBox, startTimeBox);
@@ -215,8 +219,6 @@ public class EventPopup {
 			VBox endTimeBox = new VBox();
 			startDateText.setText("Start Date");
 			startTimeText.setText("Start Time");
-			endTimeSelector = new TimePicker();
-			endPicker = new DatePicker();
 			endPicker.setPrefWidth(PICKER_WIDTH + DEFAULT_SPACING);
 			endDateBox.getChildren().addAll(new Label("End Date"), endPicker);
 			endTimeBox.getChildren().addAll(new Label("End Time"), endTimeSelector);

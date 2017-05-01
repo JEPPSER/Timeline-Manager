@@ -6,6 +6,7 @@ import java.awt.Toolkit;
 import interfaces.TimelineViewListener;
 import javafx.scene.Group;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -15,6 +16,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.text.Font;
 import javafx.scene.text.Text;
+import javafx.stage.Stage;
 
 /**
  * Class drawing the graphics for how a timeline will be displayed. This class
@@ -71,7 +73,12 @@ public class TimelineView extends ScrollPane {
 	}
 	
 	public void registerListener(TimelineViewListener listener){
-		this.listener = listener;
+		
+		getScene().setOnKeyPressed(k -> {
+			if (k.getCode() == KeyCode.E) {
+				listener.onAddEventClicked((Stage)getScene().getWindow());
+			}
+		});
 	}
 
 	/**
