@@ -2,13 +2,15 @@ package model;
 
 import java.time.LocalDate;
 import java.util.ArrayList;
-import java.util.concurrent.atomic.AtomicInteger;
+import java.util.Collections;
+import java.util.Comparator;
 import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
-import javax.xml.bind.annotation.XmlAttribute;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+import model.Event.EventType;
 
 @XmlRootElement(name = "Timeline")
 @XmlAccessorType(XmlAccessType.FIELD)
@@ -25,9 +27,6 @@ import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 public class Timeline {
 
-	private static final AtomicInteger count = new AtomicInteger(1); 
-	@XmlAttribute(name="id") 
-	private int timelineId;
 	@XmlElement(name="name")
 	private String timelineName;
 	@XmlJavaTypeAdapter(value = io.LocalDateAdapter.class)
@@ -49,7 +48,6 @@ public class Timeline {
 	 * Constructor takes timeLine Name as a parameter.
 	 */
 	public Timeline(String name) {
-		timelineId = count.getAndIncrement(); // auto increment TimeLine Id//
 		this.timelineName = name;
 		eventList = new ArrayList<Event>();
 
@@ -60,15 +58,8 @@ public class Timeline {
 	 */
 	@Override
 	public String toString() {
-		return "TimeLine [Id:" + timelineId + " , Name:" + timelineName + " , StartDate:" + startDate + " , EndDate:"
+		return "TimeLine [ Name:" + timelineName + " , StartDate:" + startDate + " , EndDate:"
 				+ endDate + "]";
-	}
-
-	/**
-	 * Return the Id of a TimeLine.
-	 */
-	public int getId() {
-		return timelineId;
 	}
 
 	/**
@@ -116,8 +107,27 @@ public class Timeline {
 	/**
 	 * Add an event of type Event.
 	 */
-	public void add(Event event) {
-		eventList.add(event);
+	public void add(String name, String desc, LocalDate start, LocalDate end, EventType type) {
+		eventList.add(new Event(getMaxId(), name, desc, start, end, type));
+	}
+	
+	/**
+	 * Update an event of type Event.
+	 */
+	public void update(Event event, String name, String desc, LocalDate start, LocalDate end){
+		eventList.get(eventList.indexOf(event)).setEventName(name);
+		eventList.get(eventList.indexOf(event)).setDiscription(desc);
+		eventList.get(eventList.indexOf(event)).setStartDate(start);
+		if (event.getType() == EventType.DURATION) {
+			eventList.get(eventList.indexOf(event)).setEndDate(end);
+		}
+	}
+	
+	/**
+	 * Delete an event of type Event.
+	 */
+	public void delete(Event event){
+		eventList.remove(event);
 	}
 
 	/**
@@ -148,5 +158,19 @@ public class Timeline {
 	 */
 	public void setPath(String path){
 		this.path = path;
+	}
+	
+	/**
+	 * Return auto increment id for an event.
+	 */
+	public int getMaxId() {
+		Collections.sort(this.eventList, new Comparator<Event>() {
+			@Override
+			public int compare(Event first, Event second) {
+				return first.getId() - second.getId();
+			}
+		});
+		return this.eventList.isEmpty() ? 1
+				: this.eventList.get(this.eventList.size() - 1).getId() + 1;
 	}
 }
