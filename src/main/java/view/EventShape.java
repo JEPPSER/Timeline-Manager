@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import model.Event.EventType;
 
 /**
  * A class to create the shape of the event depinding on if it is duration or
@@ -19,15 +20,15 @@ public class EventShape {
 	int width;
 	int layoutX;
 	int layoutY;
-	boolean isDuration;
+	EventType isDuration;
 
-	public EventShape(boolean isDuration, int layoutX, int width) {
+	public EventShape(EventType isDuration, int layoutX, int width) {
 		
 		this.layoutX = layoutX;
 		this.width = width;
 		this.isDuration = isDuration;
 		
-		if (isDuration) {
+		if (isDuration == EventType.DURATION) {
 
 			Rectangle rect = new Rectangle(layoutX, 0, width, 27);
 			rect.setFill(Color.TEAL);
@@ -43,7 +44,7 @@ public class EventShape {
 	public boolean isOverlapping(EventShape event){
 		
 		if(layoutX <= event.getLayoutX() && layoutX + width > event.getLayoutX() ||
-				layoutX < event.getLayoutX() + event.getWidth() && layoutX < event.getLayoutX()){
+				layoutX < event.getLayoutX() + event.getWidth() && layoutX >= event.getLayoutX()){
 			return true;
 		} else{
 			return false;

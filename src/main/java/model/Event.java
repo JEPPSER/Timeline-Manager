@@ -1,9 +1,6 @@
 package model;
 
 import java.time.LocalDate;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 /**
  * Event class contains the eventId, eventName, eventDescription, eventStartDate, eventEndDate for
@@ -35,6 +32,7 @@ public class Event {
 		this.eventName = eventName;
 		this.discription = discription;
 		this.startDate = startDate;
+		this.type = type;
 		if (type == EventType.DURATION) {
 			this.endDate = endDate;
 		}
