@@ -116,7 +116,7 @@ public class Timeline {
 	 */
 	public void update(Event event, String name, String desc, LocalDate start, LocalDate end){
 		eventList.get(eventList.indexOf(event)).setEventName(name);
-		eventList.get(eventList.indexOf(event)).setDiscription(desc);
+		eventList.get(eventList.indexOf(event)).setDescription(desc);
 		eventList.get(eventList.indexOf(event)).setStartDate(start);
 		if (event.getType() == EventType.DURATION) {
 			eventList.get(eventList.indexOf(event)).setEndDate(end);

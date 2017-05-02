@@ -16,7 +16,7 @@ public class Event {
 	
 	private int eventId;
 	private String eventName;
-	private String discription;
+	private String description;
 	private LocalDate startDate;
 	private LocalDate endDate;
 
@@ -26,11 +26,11 @@ public class Event {
 
 	private EventType type;
 
-	public Event(int eventId, String eventName, String discription, LocalDate startDate, LocalDate endDate,
+	public Event(int eventId, String eventName, String description, LocalDate startDate, LocalDate endDate,
 			EventType type) {
 		this.eventId = eventId;
 		this.eventName = eventName;
-		this.discription = discription;
+		this.description = description;
 		this.startDate = startDate;
 		this.type = type;
 		if (type == EventType.DURATION) {
@@ -92,15 +92,15 @@ public class Event {
 	/**
 	 * Returns the description of an Event.
 	 */
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
     
 	/**
 	 * Set the description of an Event .
 	 */
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	/**
 	 * Returns the start date of an Event.
