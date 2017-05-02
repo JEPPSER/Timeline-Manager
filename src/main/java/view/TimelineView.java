@@ -9,9 +9,11 @@ import java.util.ArrayList;
 import java.util.Locale;
 
 import interfaces.TimelineViewListener;
+import javafx.geometry.Dimension2D;
+import javafx.geometry.Pos;
 import javafx.scene.Group;
+import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.KeyCode;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -30,26 +32,31 @@ import model.Event.EventType;
  * Class drawing the graphics for how a timeline will be displayed. This class
  * can be added as a component in a user interface.
  * 
- * @author Jesper Bergstr�m and Zacky Kharboutli
+ * @author Jesper Bergstrom and Zacky Kharboutli
  * @version 0.00.00
  * @name TimelineView.java
  */
-public class TimelineView extends ScrollPane {
+public class TimelineView extends StackPane {
+
+	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(800, 400);
 
 	private final int ROWS = 30;
 	private int width = 50; // For time perspective
 	private Pane[] panes = new Pane[ROWS];
 	private StackPane stack = new StackPane();
+	private ScrollPane scroll;
 	private HBox dates;
-	private TimelineViewListener listener;
 	private Timeline currentTimeline;
+	private Button addEventButton;
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
 	 */
 	public TimelineView() {
 
-		super.setPrefSize(800, 400); // Default size
+		scroll = new ScrollPane();
+		scroll.setPrefSize(DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight()); // Default
+																				// size
 
 		Group root = new Group();
 
@@ -69,9 +76,19 @@ public class TimelineView extends ScrollPane {
 
 		stack.getChildren().addAll(dates, vbox);
 
-		root.getChildren().add(stack);
-		
-		super.setContent(root);
+		root.getChildren().addAll(stack);
+
+		scroll.setContent(root);
+
+		addEventButton = buildButton();
+		addEventButton.setTranslateX(-50);
+		addEventButton.setTranslateY(-50);
+		if(currentTimeline == null){
+			addEventButton.setVisible(false);
+		}
+
+		super.getChildren().addAll(scroll, addEventButton);
+		super.setAlignment(addEventButton, Pos.BOTTOM_RIGHT);
 	}
 
 	/**
@@ -82,6 +99,7 @@ public class TimelineView extends ScrollPane {
 	public void setTimeline(Timeline timeline) {
 
 		currentTimeline = timeline;
+		addEventButton.setVisible(true);
 		drawColumns();
 
 		DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
@@ -158,11 +176,7 @@ public class TimelineView extends ScrollPane {
 	 * @param listener
 	 */
 	public void registerListener(TimelineViewListener listener) {
-		getScene().setOnKeyPressed(k -> {
-			if (k.getCode() == KeyCode.E) {
-				listener.onAddEventClicked((Stage)getScene().getWindow());
-			}
-		});
+		addEventButton.setOnAction(e -> listener.onAddEventClicked((Stage) getScene().getWindow()));
 	}
 
 	/**
@@ -214,5 +228,19 @@ public class TimelineView extends ScrollPane {
 			column.setBottom(rect);
 			dates.getChildren().add(column);
 		}
+	}
+	
+	/**
+	 * Private method that returns an "Add event button".
+	 * 
+	 * @return Add event button
+	 */
+	private Button buildButton() {
+		final Dimension2D BUTTON_SIZE = new Dimension2D(100, 50);
+
+		Button button = new Button("Add event");
+		button.setPrefSize(BUTTON_SIZE.getWidth(), BUTTON_SIZE.getHeight());
+
+		return button;
 	}
 }
