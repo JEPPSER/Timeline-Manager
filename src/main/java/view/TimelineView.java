@@ -46,6 +46,7 @@ public class TimelineView extends StackPane {
 	private StackPane stack = new StackPane();
 	private ScrollPane scroll;
 	private HBox dates;
+	private VBox vbox;
 	private Timeline currentTimeline;
 	private Button addEventButton;
 
@@ -60,7 +61,7 @@ public class TimelineView extends StackPane {
 
 		Group root = new Group();
 
-		VBox vbox = new VBox();
+		vbox = new VBox();
 		vbox.setSpacing(3);
 
 		dates = new HBox();
@@ -200,6 +201,8 @@ public class TimelineView extends StackPane {
 				days = i;
 			}
 			days++;
+			
+			HBox columns = new HBox();
 
 			// Draw the columns
 			for (int i = 0; i <= days; i++) {
@@ -211,7 +214,7 @@ public class TimelineView extends StackPane {
 				rect.setWidth(width);
 				rect.setHeight(screenSize.getHeight());
 				rect.setStroke(Color.BLACK);
-				rect.setOpacity(0.3);
+				rect.setOpacity(0.1);
 				rect.setFill(Color.WHITE);
 
 				String day = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfMonth());
@@ -225,8 +228,11 @@ public class TimelineView extends StackPane {
 
 				column.setTop(txtContainer);
 				column.setBottom(rect);
-				dates.getChildren().add(column);
+				
+				columns.getChildren().add(column);
 			}
+			
+			stack.getChildren().add(0, columns);
 		}
 	}
 
