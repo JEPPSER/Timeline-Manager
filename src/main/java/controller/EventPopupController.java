@@ -47,15 +47,17 @@ public class EventPopupController implements EventPopupListener {
 			Alert alert = new Alert(AlertType.ERROR, "An event type must be selected.", ButtonType.OK);
 			alert.showAndWait();
 		} else if (isDurationEvent && (startDate == null || startTime == null || endDate == null || endTime == null)) {	// valid duration dates and time?
-			System.out.println("duration");
 			Alert alert = new Alert(AlertType.ERROR, "Date and time have not been set", ButtonType.OK);
 			alert.showAndWait();
 		} else if (!isDurationEvent && (startDate == null || startTime == null)) {	// valid non-duration dates and time?	
-			System.out.println("not duration");
 			Alert alert = new Alert(AlertType.ERROR, "Date and time have not been set", ButtonType.OK);
 			alert.showAndWait();
 		} else if (isDurationEvent && LocalDateTime.of(startDate, startTime).isAfter(LocalDateTime.of(endDate, endTime))) {
 			Alert alert = new Alert(AlertType.ERROR, "End Date can not be before Start Date", ButtonType.OK);
+			alert.showAndWait();
+		} else if (!isDatesWithinTimeline(startDate, endDate, currentTimeline)) {
+			Alert alert = new Alert(AlertType.ERROR, String.format("Event date(s) must be within range %s - %s",
+					currentTimeline.getStartDate(), currentTimeline.getEndDate()), ButtonType.OK);
 			alert.showAndWait();
 		} else {
 			EventType type = isDurationEvent ? EventType.DURATION : EventType.NON_DURATION;
@@ -67,6 +69,18 @@ public class EventPopupController implements EventPopupListener {
 	
 	private boolean isDurationEvent(Toggle toggle) {
 		return toggle != null && toggle.getUserData().toString().equals("duration");
+	}
+	
+	private boolean isDatesWithinTimeline(LocalDate eventStart, LocalDate eventEnd, Timeline timeline) {
+		if (eventEnd == null) { // non-duration event?
+			return eventStart.minusDays(1).isBefore(timeline.getEndDate()) 
+					&& eventStart.plusDays(1).isAfter(timeline.getStartDate());
+		} else {
+			return eventStart.minusDays(1).isBefore(timeline.getEndDate()) 
+					&& eventStart.plusDays(1).isAfter(timeline.getStartDate())
+					&& eventEnd.plusDays(1).isAfter(timeline.getStartDate()) 
+					&& eventEnd.minusDays(1).isBefore(timeline.getEndDate());
+		}
 	}
 
 }
