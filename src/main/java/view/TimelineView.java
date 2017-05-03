@@ -132,6 +132,7 @@ public class TimelineView extends StackPane {
 					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate())) + 1;
 				} else {
 					length = 1;
+					start++;
 				}
 				EventShape shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
 
