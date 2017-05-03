@@ -46,6 +46,7 @@ public class TimelineView extends StackPane {
 	private StackPane stack = new StackPane();
 	private ScrollPane scroll;
 	private HBox dates;
+	private VBox vbox;
 	private Timeline currentTimeline;
 	private Button addEventButton;
 
@@ -60,7 +61,7 @@ public class TimelineView extends StackPane {
 
 		Group root = new Group();
 
-		VBox vbox = new VBox();
+		vbox = new VBox();
 		vbox.setSpacing(3);
 
 		dates = new HBox();
@@ -186,7 +187,7 @@ public class TimelineView extends StackPane {
 
 		dates.getChildren().clear();
 
-		BorderPane column;
+		VBox column;
 		Text text;
 		Rectangle rect;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -200,18 +201,20 @@ public class TimelineView extends StackPane {
 				days = i;
 			}
 			days++;
+			
+			HBox columns = new HBox();
 
 			// Draw the columns
 			for (int i = 0; i <= days; i++) {
 
-				column = new BorderPane();
+				column = new VBox();
 				column.setPrefWidth(width);
 
 				rect = new Rectangle();
 				rect.setWidth(width);
 				rect.setHeight(screenSize.getHeight());
 				rect.setStroke(Color.BLACK);
-				rect.setOpacity(0.3);
+				rect.setOpacity(0.1);
 				rect.setFill(Color.WHITE);
 
 				String day = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfMonth());
@@ -222,11 +225,13 @@ public class TimelineView extends StackPane {
 				BorderPane txtContainer = new BorderPane();
 				txtContainer.setCenter(text);
 				txtContainer.setPrefHeight(20);
-
-				column.setTop(txtContainer);
-				column.setBottom(rect);
-				dates.getChildren().add(column);
+				
+				column.getChildren().addAll(txtContainer,rect);
+				
+				columns.getChildren().add(column);
 			}
+			
+			stack.getChildren().add(0, columns);
 		}
 	}
 
