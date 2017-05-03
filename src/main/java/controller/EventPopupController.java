@@ -8,6 +8,9 @@ import interfaces.EventPopupListener;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Toggle;
+import model.Event.EventType;
+import model.Timeline;
+import model.TimelineContainer;
 import javafx.scene.control.Alert.AlertType;
 import view.EventPopup;
 
@@ -23,9 +26,11 @@ import view.EventPopup;
 public class EventPopupController implements EventPopupListener {
 
 	private EventPopup eventPopup;
+	private TimelineContainer container;
 	
-	public EventPopupController(EventPopup popup) {
+	public EventPopupController(EventPopup popup, TimelineContainer tc) {
 		eventPopup = popup;
+		container = tc;
 	}
 	
 	@Override
@@ -33,6 +38,7 @@ public class EventPopupController implements EventPopupListener {
 		    						LocalTime startTime, LocalDate endDate, LocalTime endTime) {
 		
 		boolean isDurationEvent = isDurationEvent(eventTypeToggle);
+		Timeline currentTimeline = container.getActiveTimeline();
 		
 		if (eventTitle.isEmpty()) {
 			Alert alert = new Alert(AlertType.ERROR, "Title must not be empty", ButtonType.OK);
@@ -52,7 +58,8 @@ public class EventPopupController implements EventPopupListener {
 			Alert alert = new Alert(AlertType.ERROR, "End Date can not be before Start Date", ButtonType.OK);
 			alert.showAndWait();
 		} else {
-			// TODO: Create event
+			EventType type = isDurationEvent ? EventType.DURATION : EventType.NON_DURATION;
+			container.addEvent(eventTitle, eventDescription, startDate, endDate, type);
 			eventPopup.close();
 		}
 		
