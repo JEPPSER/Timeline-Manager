@@ -24,7 +24,7 @@ public class Main {
 		eventList.add(new Event(timeLine.getMaxId(),"x","party",LocalDate.now(),LocalDate.now().plusDays(1),Event.EventType.DURATION));
 		
 
-		File file1 = new File(".\\src\\test\\resources\\a.xml");
+		File file1 = new File(".\\src\\test\\resources\\");
 		File file2 = new File(".\\src\\test\\resources\\b.xml");
 		xml.writeXML(timeLine, file1);
 		System.out.println(xml.readXML(file2));
