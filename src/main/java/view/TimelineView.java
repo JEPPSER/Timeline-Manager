@@ -111,18 +111,8 @@ public class TimelineView extends StackPane {
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 			formatter = formatter.withLocale(Locale.ENGLISH);
 	
-			// Temporary list of events.
-			ArrayList<Event> events = new ArrayList<Event>();
-			events.add(new Event(1, "one", "desc", LocalDate.parse("2017-May-04", formatter),
-					LocalDate.parse("2017-May-07", formatter), EventType.DURATION));
-			events.add(new Event(2, "two", "desc", LocalDate.parse("2017-May-05", formatter),
-					LocalDate.parse("2017-May-07", formatter), EventType.DURATION));
-			events.add(new Event(3, "three", "desc", LocalDate.parse("2017-May-06", formatter),
-					LocalDate.parse("2017-May-10", formatter), EventType.DURATION));
-			events.add(new Event(4, "four", "desc", LocalDate.parse("2017-May-08", formatter),
-					LocalDate.parse("2017-May-12", formatter), EventType.DURATION));
-			events.add(new Event(5, "five", "desc", LocalDate.parse("2017-May-07", formatter),
-					LocalDate.parse("2017-May-12", formatter), EventType.NON_DURATION));
+			// Fetch events from timeline
+			ArrayList<Event> events = currentTimeline.getList();
 	
 			ArrayList<EventShape> shapeList = new ArrayList<EventShape>();
 	
@@ -139,6 +129,7 @@ public class TimelineView extends StackPane {
 					length = 1;
 				}
 				EventShape shape = new EventShape(type, start * trueWidth, length * trueWidth);
+				
 				shapeList.add(shape);
 			}
 	
