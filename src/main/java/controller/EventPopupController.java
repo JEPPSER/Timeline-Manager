@@ -19,7 +19,7 @@ import view.EventPopup;
  * The purpose of the EventPopup is to allow the user to input information about an event to be added
  * or edit information about an event.
  * 
- * @author Jesper Bergstrom
+ * @author Daniel Alm Grundstrom
  * @version 0.00.00
  * @name TimelinePopupController.java
  */

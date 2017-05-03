@@ -83,7 +83,7 @@ public class TimelineView extends StackPane {
 		addEventButton = buildButton();
 		addEventButton.setTranslateX(-50);
 		addEventButton.setTranslateY(-50);
-		if(currentTimeline == null){
+		if (currentTimeline == null) {
 			addEventButton.setVisible(false);
 		}
 
@@ -104,51 +104,56 @@ public class TimelineView extends StackPane {
 			panes[i].getChildren().clear();
 		}
 		drawColumns();
-		
-		if(currentTimeline != null){
+
+		if (currentTimeline != null) {
 			addEventButton.setVisible(true);
-	
+
 			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
 			formatter = formatter.withLocale(Locale.ENGLISH);
-	
+
 			// Fetch events from timeline
-			ArrayList<Event> events = currentTimeline.getList();
-	
+			ArrayList<Event> events = new ArrayList<Event>();
+			if(currentTimeline.getList() != null){
+				for(int i=0; i<currentTimeline.getList().size(); i++){
+					events.add(currentTimeline.getList().get(i));
+				}
+			}
+
 			ArrayList<EventShape> shapeList = new ArrayList<EventShape>();
-	
+
 			int trueWidth = width + 1;
-	
+
 			// Convert list of events in timeline to a list of EventShapes.
 			for (int i = 0; i < events.size(); i++) {
 				EventType type = events.get(i).getType();
 				int length;
 				int start = (int) (ChronoUnit.DAYS.between(timeline.getStartDate(), events.get(i).getStartDate()));
 				if (events.get(i).getType() == EventType.DURATION) {
-					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate()));
+					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate())) + 1;
 				} else {
 					length = 1;
 				}
-				EventShape shape = new EventShape(type, start * trueWidth, length * trueWidth);
-				
+				EventShape shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
+
 				shapeList.add(shape);
 			}
-	
+
 			// List that holds all added events.
 			ArrayList<EventShape> added = new ArrayList<EventShape>();
-	
+
 			// Algorithm for placing the EventShapes in the timeline view.
 			for (int i = 0; i < shapeList.size(); i++) {
-	
+
 				if (i == 0) { // First event.
 					panes[1].getChildren().add(shapeList.get(i).getShape());
 					added.add(shapeList.get(i));
 				} else {
 					boolean found = false;
 					added.add(shapeList.get(i));
-	
+
 					for (int j = 1; !found; j++) {
 						panes[j].getChildren().add(shapeList.get(i).getShape());
-	
+
 						for (int k = 0; k < added.size() - 1; k++) {
 							if (shapeList.get(i).isOverlapping(added.get(k))
 									&& panes[j].getChildren().contains(added.get(k).getShape())) {
@@ -162,7 +167,7 @@ public class TimelineView extends StackPane {
 				}
 			}
 		}
-	}	
+	}
 
 	/**
 	 * Method that registers the listeners for the timeline view.
@@ -197,33 +202,33 @@ public class TimelineView extends StackPane {
 
 			// Draw the columns
 			for (int i = 0; i <= days; i++) {
-	
+
 				column = new BorderPane();
 				column.setPrefWidth(width);
-	
+
 				rect = new Rectangle();
 				rect.setWidth(width);
 				rect.setHeight(screenSize.getHeight());
 				rect.setStroke(Color.BLACK);
 				rect.setOpacity(0.3);
 				rect.setFill(Color.WHITE);
-	
+
 				String day = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfMonth());
 				text = new Text();
 				text.setFont(Font.font("Arial", 18));
 				text.setText(day);
-	
+
 				BorderPane txtContainer = new BorderPane();
 				txtContainer.setCenter(text);
 				txtContainer.setPrefHeight(20);
-	
+
 				column.setTop(txtContainer);
 				column.setBottom(rect);
 				dates.getChildren().add(column);
 			}
-		}	
+		}
 	}
-	
+
 	/**
 	 * Private method that returns an "Add event button".
 	 * 
