@@ -35,7 +35,7 @@ public class MainController implements ModelChangedListener {
 		this.mainView = mainView;
 		this.timelineContainer = timelineContainer;
 		menuController = new MenuController(timelineContainer, mainView.getMenuView());
-		timelineViewController = new TimelineViewController();
+		timelineViewController = new TimelineViewController(timelineContainer);
 	}
 	
 	/**

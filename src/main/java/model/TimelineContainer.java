@@ -1,8 +1,10 @@
 package model;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 
 import interfaces.ModelChangedListener;
+import model.Event.EventType;
 
 /**
  * Main model class of the application. Holds all the timelines that are currently loaded into
@@ -37,6 +39,16 @@ public class TimelineContainer {
 		activeTimeline = timeline; // Set the newly added timeline to be the active one
 		
 		listener.onModelChanged(timelines, activeTimeline); // tell listener that a timeline has been added
+	}
+	
+	/**
+	 * Adds an event to the currently active timeline.
+	 */
+	public void addEvent(String title, String description, LocalDate start, LocalDate end, EventType type) {
+		if (activeTimeline != null) {
+			activeTimeline.add(title, description, start, end, type);
+			listener.onModelChanged(timelines, activeTimeline);
+		}
 	}
 	
 	/**

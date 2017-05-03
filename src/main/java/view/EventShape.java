@@ -4,6 +4,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import javafx.scene.shape.Rectangle;
 import javafx.scene.shape.Shape;
+import model.Event;
 import model.Event.EventType;
 
 /**
@@ -17,6 +18,7 @@ import model.Event.EventType;
 
 public class EventShape {
 	Shape eventShape;
+	Event event;
 	int width;
 	int layoutX;
 	EventType isDuration;
@@ -29,12 +31,13 @@ public class EventShape {
 	 * @param layoutX
 	 * @param width
 	 */
-	public EventShape(EventType isDuration, int layoutX, int width) {
-		
+	public EventShape(Event event, EventType isDuration, int layoutX, int width) {
+
 		this.layoutX = layoutX;
 		this.width = width;
 		this.isDuration = isDuration;
-		
+		this.event = event;
+
 		if (isDuration == EventType.DURATION) {
 
 			Rectangle rect = new Rectangle(layoutX, 0, width, 27);
@@ -47,21 +50,39 @@ public class EventShape {
 			eventShape = new Circle(layoutX, 14, 14, Color.BLACK);
 		}
 	}
-	
+
 	/**
 	 * Method that checks if two events overlap each other.
 	 * 
 	 * @param event
 	 * @return boolean
 	 */
-	public boolean isOverlapping(EventShape event){
-		
-		if(layoutX <= event.getLayoutX() && layoutX + width > event.getLayoutX() ||
-				layoutX < event.getLayoutX() + event.getWidth() && layoutX >= event.getLayoutX()){
+	public boolean isOverlapping(EventShape event) {
+
+		if (layoutX <= event.getLayoutX() && layoutX + width > event.getLayoutX()
+				|| layoutX < event.getLayoutX() + event.getWidth() && layoutX >= event.getLayoutX()) {
 			return true;
-		} else{
+		} else {
 			return false;
 		}
+	}
+
+	/**
+	 * Method that returns the Event that the EventShape object is representing.
+	 * 
+	 * @return event
+	 */
+	public Event getEvent() {
+		return event;
+	}
+
+	/**
+	 * Method that sets what event the EventShape object should represent.
+	 * 
+	 * @param event
+	 */
+	public void setEvent(Event event) {
+		this.event = event;
 	}
 
 	/**
@@ -72,22 +93,22 @@ public class EventShape {
 	public Shape getShape() {
 		return eventShape;
 	}
-	
+
 	/**
 	 * Method that sets the width of the event shape (duration).
 	 * 
 	 * @param width
 	 */
-	public void setWidth(int width){
+	public void setWidth(int width) {
 		this.width = width;
 	}
-	
+
 	/**
 	 * Method for getting the width of the event shape.
-	 *  
+	 * 
 	 * @return width
 	 */
-	public int getWidth(){
+	public int getWidth() {
 		return width;
 	}
 
@@ -100,13 +121,13 @@ public class EventShape {
 		this.layoutX = X;
 		eventShape.setLayoutX(X);
 	}
-	
+
 	/**
 	 * Method for getting the x layout of the event shape.
 	 * 
 	 * @return X
 	 */
-	public int getLayoutX(){
+	public int getLayoutX() {
 		return layoutX;
 	}
 }
