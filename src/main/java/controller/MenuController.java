@@ -89,11 +89,19 @@ public class MenuController implements MenuListener {
 	@Override
 	public void onDeleteButtonClicked() {
 		System.out.println("Are you sure you want to delete this timeline");
-		
+		Timeline timeline = timelineContainer.getActiveTimeline();
+		if (timeline == null){
+			Alert alert = new Alert(AlertType.INFORMATION, "There is no timeline to delete ", ButtonType.OK);
+			alert.setHeaderText(null);
+			alert.showAndWait();
+			if(alert.getResult() == ButtonType.OK){
+				alert.close();
+			}
+		}else {
+			
 		Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this timeline?", ButtonType.YES, ButtonType.NO);
 		alert.showAndWait();
 		if(alert.getResult() == ButtonType.YES){
-			Timeline timeline = timelineContainer.getActiveTimeline();
 			String path = timeline.getPath();
 			try {
 				if (!path.equals(""))
@@ -117,12 +125,22 @@ public class MenuController implements MenuListener {
 			alert.close();
 		}
 	}
+	}
+
 
 	@Override
 	public void onSaveButtonClicked(Stage stage) {
 
 		Timeline active = timelineContainer.getActiveTimeline();
 
+		if(active == null) {
+			Alert alert = new Alert(AlertType.INFORMATION, "There is no timeline to save ", ButtonType.OK);
+			alert.setHeaderText(null);
+			alert.showAndWait();
+			if(alert.getResult() == ButtonType.OK){
+				alert.close();
+			}
+		}else {
 		File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
 
 		// Create initial directory if it does not exist
@@ -145,6 +163,7 @@ public class MenuController implements MenuListener {
 		} catch (Exception ex) {
 			// TODO: Show error message in Alert window
 			System.err.println("Could not save timeline. Error: " + ex.getMessage());
+		}
 		}
 	}
 
