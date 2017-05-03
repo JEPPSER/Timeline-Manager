@@ -187,7 +187,7 @@ public class TimelineView extends StackPane {
 
 		dates.getChildren().clear();
 
-		BorderPane column;
+		VBox column;
 		Text text;
 		Rectangle rect;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -207,7 +207,7 @@ public class TimelineView extends StackPane {
 			// Draw the columns
 			for (int i = 0; i <= days; i++) {
 
-				column = new BorderPane();
+				column = new VBox();
 				column.setPrefWidth(width);
 
 				rect = new Rectangle();
@@ -225,9 +225,8 @@ public class TimelineView extends StackPane {
 				BorderPane txtContainer = new BorderPane();
 				txtContainer.setCenter(text);
 				txtContainer.setPrefHeight(20);
-
-				column.setTop(txtContainer);
-				column.setBottom(rect);
+				
+				column.getChildren().addAll(txtContainer,rect);
 				
 				columns.getChildren().add(column);
 			}
