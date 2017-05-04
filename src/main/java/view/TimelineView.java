@@ -7,13 +7,15 @@ import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.Locale;
-
+import org.controlsfx.control.PopOver;
 import interfaces.TimelineViewListener;
+import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
@@ -48,6 +50,9 @@ public class TimelineView extends StackPane {
 	private HBox dates;
 	private Timeline currentTimeline;
 	private Button addEventButton;
+	private EventShape shape;
+	PopOver hoverOver = new PopOver();
+;
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -134,9 +139,12 @@ public class TimelineView extends StackPane {
 					length = 1;
 					start++;
 				}
-				EventShape shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
+				shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
 
 				shapeList.add(shape);
+				
+				OnMouseOver();
+				onMouseExit();
 			}
 
 			// List that holds all added events.
@@ -242,5 +250,40 @@ public class TimelineView extends StackPane {
 		button.setPrefSize(BUTTON_SIZE.getWidth(), BUTTON_SIZE.getHeight());
 
 		return button;
+	}
+	
+	private void OnMouseOver()
+	{
+		EventShape eventshape;
+		
+		eventshape = shape;
+		
+		
+		eventshape.eventShape.setOnMouseEntered(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event)
+			{	
+				VBox popupVBox = new VBox();
+				Text eventID = new Text("Event ID: " + eventshape.event.getId());
+				Text eventName = new Text("Event name: " + eventshape.event.getEventName());
+				Text eventDescription = new Text("Event description: " + eventshape.event.getDescription());
+				Text eventType = new Text("Event type: " + eventshape.event.getType());
+				Text eventStart = new Text("Event start date: " + eventshape.event.getStartDate());
+				Text eventEnd = new Text("Event end date: " + eventshape.event.getEndDate());
+				popupVBox.getChildren().addAll(eventID,eventName,eventDescription,eventType,eventStart,eventEnd);
+				hoverOver.setContentNode(popupVBox);
+				hoverOver.show(eventshape.eventShape);	
+			}
+			});	
+	}
+	
+	private void onMouseExit()
+	{
+		shape.eventShape.setOnMouseExited(new EventHandler<MouseEvent>() {
+			@Override
+			public void handle(MouseEvent event) {
+			hoverOver.hide();
+			}
+		});	
 	}
 }
