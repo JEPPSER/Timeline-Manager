@@ -3,10 +3,8 @@ package view;
 import java.awt.Dimension;
 import java.awt.Toolkit;
 import java.time.LocalDate;
-import java.time.format.DateTimeFormatter;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
-import java.util.Locale;
 import org.controlsfx.control.PopOver;
 import interfaces.TimelineViewListener;
 import javafx.event.EventHandler;
@@ -52,7 +50,6 @@ public class TimelineView extends StackPane {
 	private Button addEventButton;
 	private EventShape shape;
 	PopOver hoverOver = new PopOver();
-;
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -112,14 +109,11 @@ public class TimelineView extends StackPane {
 
 		if (currentTimeline != null) {
 			addEventButton.setVisible(true);
-
-			DateTimeFormatter formatter = DateTimeFormatter.ofPattern("yyyy-MMM-dd");
-			formatter = formatter.withLocale(Locale.ENGLISH);
-
+			
 			// Fetch events from timeline
 			ArrayList<Event> events = new ArrayList<Event>();
-			if(currentTimeline.getList() != null){
-				for(int i=0; i<currentTimeline.getList().size(); i++){
+			if (currentTimeline.getList() != null) {
+				for (int i = 0; i < currentTimeline.getList().size(); i++) {
 					events.add(currentTimeline.getList().get(i));
 				}
 			}
@@ -134,7 +128,8 @@ public class TimelineView extends StackPane {
 				int length;
 				int start = (int) (ChronoUnit.DAYS.between(timeline.getStartDate(), events.get(i).getStartDate()));
 				if (events.get(i).getType() == EventType.DURATION) {
-					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate())) + 1;
+					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate()))
+							+ 1;
 				} else {
 					length = 1;
 					start++;
@@ -142,8 +137,8 @@ public class TimelineView extends StackPane {
 				shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
 
 				shapeList.add(shape);
-				
-				OnMouseOver();
+
+				onMouseOver();
 				onMouseExit();
 			}
 
@@ -251,18 +246,15 @@ public class TimelineView extends StackPane {
 
 		return button;
 	}
-	
-	private void OnMouseOver()
-	{
+
+	private void onMouseOver() {
 		EventShape eventshape;
-		
+
 		eventshape = shape;
-		
-		
+
 		eventshape.eventShape.setOnMouseEntered(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event)
-			{	
+			public void handle(MouseEvent event) {
 				VBox popupVBox = new VBox();
 				Text eventID = new Text("Event ID: " + eventshape.event.getId());
 				Text eventName = new Text("Event name: " + eventshape.event.getEventName());
@@ -270,20 +262,19 @@ public class TimelineView extends StackPane {
 				Text eventType = new Text("Event type: " + eventshape.event.getType());
 				Text eventStart = new Text("Event start date: " + eventshape.event.getStartDate());
 				Text eventEnd = new Text("Event end date: " + eventshape.event.getEndDate());
-				popupVBox.getChildren().addAll(eventID,eventName,eventDescription,eventType,eventStart,eventEnd);
+				popupVBox.getChildren().addAll(eventID, eventName, eventDescription, eventType, eventStart, eventEnd);
 				hoverOver.setContentNode(popupVBox);
-				hoverOver.show(eventshape.eventShape);	
+				hoverOver.show(eventshape.eventShape);
 			}
-			});	
+		});
 	}
-	
-	private void onMouseExit()
-	{
+
+	private void onMouseExit() {
 		shape.eventShape.setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
-			hoverOver.hide();
+				hoverOver.hide();
 			}
-		});	
+		});
 	}
 }
