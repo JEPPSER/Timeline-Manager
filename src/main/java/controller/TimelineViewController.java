@@ -27,7 +27,7 @@ public class TimelineViewController implements TimelineViewListener
 		eventPopup.registerListener(eventPopupController);
 		System.out.println("Enter event details: \nEvent name: \nEvent duration: \nEvent type: ");
 	}
-
+	
 	@Override
 	public void onMouseOverEvent(String name) {
 		System.out.println("These are the details of your event: ");
@@ -42,5 +42,4 @@ public class TimelineViewController implements TimelineViewListener
 	public void onEditEventClicked(String name) {
 		System.out.println("Rewrite the fields that you want edited: ");
 	}
-	
 }
