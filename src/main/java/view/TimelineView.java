@@ -225,13 +225,16 @@ public class TimelineView extends StackPane {
 				BorderPane txtContainer = new BorderPane();
 				txtContainer.setCenter(text);
 				txtContainer.setPrefHeight(20);
-				
+
 				column.getChildren().addAll(txtContainer,rect);
-				
 				columns.getChildren().add(column);
+				
+				stack.setPrefSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().getHeight());
+
 			}
 			
 			stack.getChildren().add(0, columns);
+
 		}
 	}
 
