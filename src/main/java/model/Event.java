@@ -1,7 +1,14 @@
 package model;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement(name = "Event")
+@XmlAccessorType(XmlAccessType.FIELD)
 
 /**
  * Event class contains the eventId, eventName, eventDescription, eventStartDate, eventEndDate for
@@ -18,7 +25,9 @@ public class Event {
 	private int eventId;
 	private String eventName;
 	private String description;
+	@XmlJavaTypeAdapter(value = io.LocalDateTimeAdapter.class)
 	private LocalDateTime startDate;
+	@XmlJavaTypeAdapter(value = io.LocalDateTimeAdapter.class)
 	private LocalDateTime endDate;
 
 	public enum EventType {
@@ -53,11 +62,11 @@ public class Event {
 	public String toString() {
 		if (type == EventType.DURATION) {
 
-			return "Event [ ID:" + eventId + " , Name:" + eventName + " , StartDate:" + startDate + " , EndDate:"
-					+ endDate + " , EventType" + EventType.DURATION + "]";
+			return "Event [ ID:" + eventId + " , Name:" + eventName + " , Description:" + description + " , StartDate:" + startDate + " , EndDate:"
+					+ endDate + " , EventType:" + EventType.DURATION + "]";
 		} else {
-			return "Event [ ID:" + eventId + " , Name:" + eventName + " , StartDate:" + startDate + " , EventType"
-					+ EventType.NON_DURATION + "]";
+			return "Event [ ID:" + eventId + " , Name:" + eventName + " , Description:" + description + " , StartDate:"
+		             + startDate + " , EventType:" + EventType.NON_DURATION + "]";
 		}
 	}
 	
