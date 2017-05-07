@@ -52,6 +52,18 @@ public class TimelineContainer {
 	}
 	
 	/**
+	 * Edits an existing event in the currently active timeline
+	 */
+	public void editEvent(int id, String title, String description, LocalDate start, LocalDate end, EventType type) {
+		Event eventToEdit = getEventById(id);
+		
+		if (eventToEdit != null) {
+			activeTimeline.update(eventToEdit, title, description, start, end, type);
+			listener.onModelChanged(timelines, activeTimeline);
+		}
+	}
+	
+	/**
 	 * Fetches the currently active timeline. The active timeline is the timeline the user has selected in the 
 	 * list of timelines and the one that is currently displayed in the view.
 	 *  
@@ -84,5 +96,15 @@ public class TimelineContainer {
 	 */
 	public ArrayList<Timeline> getTimelines(){
 		return timelines;
+	}
+	
+	private Event getEventById(int id) {
+		for (Event e : activeTimeline.getList()) {
+			if (e.getId() == id) {
+				return e;
+			}
+		}
+		
+		return null;
 	}
 }

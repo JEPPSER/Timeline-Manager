@@ -1,6 +1,7 @@
 package interfaces;
 
 import javafx.stage.Stage;
+import model.Event;
 
 /**
  * Interface used to listen for user interaction events (button clicks, etc.) on the timeline view.
@@ -43,9 +44,10 @@ public interface TimelineViewListener {
 	
 	/**
 	 * Called whenever the user clicks on the edit event button located
-	 * on the popup displayed when the user hovers over an event.
+	 * on the popup displayed when the user clicks on an event.
 	 * 
-	 * @param name - name of the event which the user wants to edit
+	 * @param stage - the owner of the popup to be created
+	 * @param event - the event associated with the EventShape that the edit button was clicked on.
 	 */
-	public void onEditEventClicked(String name);
+	public void onEditEventClicked(Stage stage, Event event);
 }
