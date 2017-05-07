@@ -194,7 +194,8 @@ public class TimelineView extends StackPane {
 	private void drawColumns() {
 
 		dates.getChildren().clear();
-
+		stack.getChildren().clear();
+		
 		VBox column;
 		Text text;
 		Rectangle rect;
