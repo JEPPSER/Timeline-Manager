@@ -6,13 +6,18 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import org.controlsfx.control.PopOver;
+
+import de.jensd.fx.fontawesome.AwesomeDude;
+import de.jensd.fx.fontawesome.AwesomeIcon;
 import interfaces.TimelineViewListener;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -48,7 +53,7 @@ public class TimelineView extends StackPane {
 	private HBox dates;
 	private VBox vbox;
 	private Timeline currentTimeline;
-	private Button addEventButton;
+	private ToggleButton addEventButton;
 	private EventShape shape;
 	PopOver hoverOver = new PopOver();
 
@@ -83,7 +88,7 @@ public class TimelineView extends StackPane {
 
 		scroll.setContent(root);
 
-		addEventButton = buildButton();
+		addEventButton = AwesomeDude.createIconToggleButton(AwesomeIcon.PLUS_SIGN, "","4em", ContentDisplay.GRAPHIC_ONLY);
 		addEventButton.setTranslateX(-50);
 		addEventButton.setTranslateY(-50);
 		if (currentTimeline == null) {
@@ -241,19 +246,7 @@ public class TimelineView extends StackPane {
 		}
 	}
 
-	/**
-	 * Private method that returns an "Add event button".
-	 * 
-	 * @return Add event button
-	 */
-	private Button buildButton() {
-		final Dimension2D BUTTON_SIZE = new Dimension2D(100, 50);
 
-		Button button = new Button("Add event");
-		button.setPrefSize(BUTTON_SIZE.getWidth(), BUTTON_SIZE.getHeight());
-
-		return button;
-	}
 
 	private void onMouseOver() {
 		EventShape eventshape;

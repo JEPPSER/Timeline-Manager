@@ -32,7 +32,7 @@ import javafx.stage.Window;
  */
 public class EventPopup {
 	
-	private static final Dimension2D POPUP_SIZE = new Dimension2D(200, 480);
+	private static final Dimension2D POPUP_SIZE = new Dimension2D(200, 500);
 	private static final int ROOT_PADDING = 10;
 	private static final int DEFAULT_SPACING = 10;
 	private static final int PICKER_WIDTH = 120;
