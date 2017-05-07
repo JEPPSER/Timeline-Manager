@@ -1,8 +1,9 @@
 package interfaces;
 
 import java.time.LocalDate;
-import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import com.sun.istack.internal.Nullable;
 
 import javafx.scene.control.Toggle;
 
@@ -19,20 +20,29 @@ public interface EventPopupListener {
 	/**
 	 * Method that handles when the user clicks the Add button in the add event popup.
 	 * 
-	 * @param title
-	 * @param startDate
-	 * @param endDate
+	 * @param eventTypeToggle - The selected toggle the user uses to select if the event should be duration event or a non-duration event.
+	 * @param eventTitle - The event title that the user entered
+	 * @param eventDescription - The event description that the user entered
+	 * @param startDate - The start date the user selected. If the event is non-duration, this is the only date used.
+	 * @param startTime - The start time the user selected. If the event is non-duration, this is the only time used.
+	 * @param endDate - The end date the user selected. Is null if the event is non-duration.
+	 * @param endTime - The end time the user selected. Is null if the event is non-duration.
 	 */
 	public void onAddButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
-								    LocalTime startTime, LocalDate endDate, LocalTime endTime);
+								    LocalTime startTime, @Nullable LocalDate endDate, @Nullable LocalTime endTime);
 	
 	/**
 	 * Method that handles when the user clicks the Edit button in the edit event popup.
 	 * 
-	 * @param title
-	 * @param startDate
-	 * @param endDate
+	 * @param eventId - The ID of the event to edit
+	 * @param eventTypeToggle - The selected toggle the user uses to select if the event should be duration event or a non-duration event.
+	 * @param eventTitle - The event title that the user entered
+	 * @param eventDescription - The event description that the user entered
+	 * @param startDate - The start date the user selected. If the event is non-duration, this is the only date used.
+	 * @param startTime - The start time the user selected. If the event is non-duration, this is the only time used.
+	 * @param endDate - The end date the user selected. Is null if the event is non-duration.
+	 * @param endTime - The end time the user selected. Is null if the event is non-duration.
 	 */
-	public void onEditButtonClicked(int eventID, Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
-								    LocalTime startTime, LocalDate endDate, LocalTime endTime);
+	public void onEditButtonClicked(int eventId, Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
+								    LocalTime startTime, @Nullable LocalDate endDate, @Nullable LocalTime endTime);
 }

@@ -3,6 +3,8 @@ package view;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
+import com.sun.istack.internal.Nullable;
+
 import interfaces.EventPopupListener;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Insets;
@@ -101,7 +103,17 @@ public class EventPopup {
 		stage.close();
 	}
 	
-	public void setFields(int id, String title, String description, EventType type, LocalDateTime start, LocalDateTime end) {
+	/**
+	 * Used for initializing the popup for editing an event. 
+	 * 
+	 * @param id - the ID of the event to edit
+	 * @param title - The title of the event to edit
+	 * @param description - The description of the event to edit
+	 * @param type - The type of the event to edit
+	 * @param start - The start date and time of the event to edit
+	 * @param end - The end date and time of the event to edit
+	 */
+	public void setFields(int id, String title, String description, EventType type, LocalDateTime start, @Nullable LocalDateTime end) {
 		eventId = id;
 		titleField.setText(title);
 		descriptionArea.setText(description);

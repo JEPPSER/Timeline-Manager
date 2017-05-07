@@ -293,7 +293,7 @@ public class TimelineView extends StackPane {
 		EventShape clicked = shape;
 		
 		shape.getShape().setOnMouseClicked(e -> {
-			listener.onEventClicked((Stage)getScene().getWindow(), clicked.getEvent());
+			listener.onEditEventClicked((Stage)getScene().getWindow(), clicked.getEvent());
 		});
 	}
 }

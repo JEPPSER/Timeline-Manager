@@ -89,6 +89,13 @@ public class EventPopupController implements EventPopupListener {
 			return true;
 		} else {
 			message.insert(0, "The following input was invalid:\n");
+			
+			// remove last instance of '\n' in the stringbuilder
+			int index = message.lastIndexOf("\n");
+			if (index >= 0) {
+				message = message.replace(index, index + 1, "");
+			}
+			
 			Alert alert = new Alert(AlertType.ERROR, message.toString(), ButtonType.OK);
 			alert.showAndWait();
 			return false;
