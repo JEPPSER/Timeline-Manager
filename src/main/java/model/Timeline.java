@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -107,16 +108,16 @@ public class Timeline {
 	/**
 	 * Add an event of type Event.
 	 */
-	public void add(String name, String desc, LocalDate start, LocalDate end, EventType type) {
+	public void add(String name, String desc, LocalDateTime start, LocalDateTime end, EventType type) {
 		eventList.add(new Event(getMaxId(), name, desc, start, end, type));
 	}
 	
 	/**
 	 * Update an event of type Event.
 	 */
-	public void update(Event event, String name, String desc, LocalDate start, LocalDate end){
+	public void update(Event event, String name, String desc, LocalDateTime start, LocalDateTime end){
 		eventList.get(eventList.indexOf(event)).setEventName(name);
-		eventList.get(eventList.indexOf(event)).setDiscription(desc);
+		eventList.get(eventList.indexOf(event)).setDescription(desc);
 		eventList.get(eventList.indexOf(event)).setStartDate(start);
 		if (event.getType() == EventType.DURATION) {
 			eventList.get(eventList.indexOf(event)).setEndDate(end);
