@@ -1,9 +1,7 @@
 package model;
 
 import java.time.LocalDate;
-import javax.xml.bind.annotation.XmlAttribute;
-import javax.xml.bind.annotation.XmlElement;
-import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+import java.time.LocalDateTime;
 
 /**
  * Event class contains the eventId, eventName, eventDescription, eventStartDate, eventEndDate for
@@ -19,9 +17,9 @@ public class Event {
 	
 	private int eventId;
 	private String eventName;
-	private String discription;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	private String description;
+	private LocalDateTime startDate;
+	private LocalDateTime endDate;
 
 	public enum EventType {
 		DURATION, NON_DURATION
@@ -29,12 +27,13 @@ public class Event {
 
 	private EventType type;
 
-	public Event(int eventId, String eventName, String discription, LocalDate startDate, LocalDate endDate,
+	public Event(int eventId, String eventName, String description, LocalDateTime startDate, LocalDateTime endDate,
 			EventType type) {
 		this.eventId = eventId;
 		this.eventName = eventName;
-		this.discription = discription;
+		this.description = description;
 		this.startDate = startDate;
+		this.type = type;
 		if (type == EventType.DURATION) {
 			this.endDate = endDate;
 		}
@@ -94,41 +93,41 @@ public class Event {
 	/**
 	 * Returns the description of an Event.
 	 */
-	public String getDiscription() {
-		return discription;
+	public String getDescription() {
+		return description;
 	}
     
 	/**
 	 * Set the description of an Event .
 	 */
-	public void setDiscription(String discription) {
-		this.discription = discription;
+	public void setDescription(String description) {
+		this.description = description;
 	}
 	/**
 	 * Returns the start date of an Event.
 	 */
-	public LocalDate getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 	
 	/**
 	 * Set the start date of an Event .
 	 */
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 	
 	/**
 	 * Returns the end date of an Event.
 	 */
-	public LocalDate getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 	
 	/**
 	 * Set the end date of an Event .
 	 */
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
     
