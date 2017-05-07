@@ -1,5 +1,8 @@
 package controller;
 
+import java.time.LocalDateTime;
+import java.time.LocalTime;
+
 /**
 *@author Vikrant Mainali and Tomas Mendes
 * @version 0.00.00
@@ -8,8 +11,10 @@ package controller;
 
 import interfaces.TimelineViewListener;
 import javafx.stage.Stage;
+import model.Event;
 import model.TimelineContainer;
 import view.EventPopup;
+import view.EventShape;
 
 public class TimelineViewController implements TimelineViewListener
 {
@@ -26,6 +31,17 @@ public class TimelineViewController implements TimelineViewListener
 		eventPopupController = new EventPopupController(eventPopup, timelineContainer);
 		eventPopup.registerListener(eventPopupController);
 		System.out.println("Enter event details: \nEvent name: \nEvent duration: \nEvent type: ");
+	}
+	
+	@Override
+	public void onEventClicked(Stage stage, Event event) {
+		EventPopup eventPopup = new EventPopup(stage);
+		eventPopup.setFields(event.getId(), event.getEventName(), event.getDescription(), event.getType(),
+				LocalDateTime.of(event.getStartDate(), LocalTime.of(0, 0)),
+				event.getEndDate() != null ? LocalDateTime.of(event.getEndDate(), LocalTime.of(0, 0))
+						: null);
+		eventPopupController = new EventPopupController(eventPopup, timelineContainer);
+		eventPopup.registerListener(eventPopupController);
 	}
 	
 	@Override

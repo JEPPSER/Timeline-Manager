@@ -1,5 +1,6 @@
 package view;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 
 import interfaces.EventPopupListener;
@@ -21,6 +22,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import model.Event.EventType;
 
 /**
  * A popup window that pops up when the add event button is pressed and when an event is edited.
@@ -32,20 +34,31 @@ import javafx.stage.Window;
  */
 public class EventPopup {
 	
+	private enum Mode {
+		Add,
+		Edit
+	}
+	
 	private static final Dimension2D POPUP_SIZE = new Dimension2D(200, 480);
 	private static final int ROOT_PADDING = 10;
 	private static final int DEFAULT_SPACING = 10;
 	private static final int PICKER_WIDTH = 120;
 	
+	private Mode mode;
+	
+	private int eventId;
+	
 	private final Stage stage;
 	private Button okayButton;
-	private TimePicker startTimeSelector;
-	private TimePicker endTimeSelector;
 	private TextField titleField;
 	private TextArea descriptionArea;
 	private VBox dateAndTimeBox;
 	private DatePicker startPicker;
 	private DatePicker endPicker;
+	private TimePicker startTimeSelector;
+	private TimePicker endTimeSelector;
+	private RadioButton durationButton;
+	private RadioButton nonDurationButton;
 	private ToggleGroup group;
 	
 	/**
@@ -55,6 +68,7 @@ public class EventPopup {
 	 */
 	public EventPopup(Window owner) {
 		stage = new Stage();
+		mode = Mode.Add;
 		
 		initDateAndTimeBox();
 
@@ -71,8 +85,13 @@ public class EventPopup {
 	 * @param TimelinePopupListener
 	 */
 	public void registerListener(EventPopupListener listener) {
-		okayButton.setOnAction(e -> listener.onOkayButtonClicked(group.getSelectedToggle(), titleField.getText(), descriptionArea.getText(),
-				startPicker.getValue(), startTimeSelector.getSelectedTime(), endPicker.getValue(), endTimeSelector.getSelectedTime()));
+		if (mode == Mode.Add) {
+			okayButton.setOnAction(e -> listener.onAddButtonClicked(group.getSelectedToggle(), titleField.getText(), descriptionArea.getText(),
+					startPicker.getValue(), startTimeSelector.getSelectedTime(), endPicker.getValue(), endTimeSelector.getSelectedTime()));
+		} else if (mode == Mode.Edit) {
+			okayButton.setOnAction(e -> listener.onEditButtonClicked(eventId, group.getSelectedToggle(), titleField.getText(), descriptionArea.getText(),
+					startPicker.getValue(), startTimeSelector.getSelectedTime(), endPicker.getValue(), endTimeSelector.getSelectedTime()));
+		}
 	}
 	
 	/**
@@ -80,6 +99,28 @@ public class EventPopup {
 	 */
 	public void close() {
 		stage.close();
+	}
+	
+	public void setFields(int id, String title, String description, EventType type, LocalDateTime start, LocalDateTime end) {
+		eventId = id;
+		titleField.setText(title);
+		descriptionArea.setText(description);
+		
+		startPicker.setValue(start.toLocalDate());
+		startTimeSelector.setSelectedTime(start.toLocalTime());
+		
+		if (type == EventType.DURATION) {
+			displayDateAndTimePickers(true);
+			durationButton.setSelected(true);
+			endPicker.setValue(end.toLocalDate());
+			endTimeSelector.setSelectedTime(end.toLocalTime());
+		} else {
+			displayDateAndTimePickers(false);
+			nonDurationButton.setSelected(true);
+		}
+		
+		mode = Mode.Edit;
+		okayButton.setText("Edit");
 	}
 	
 	/**
@@ -152,9 +193,9 @@ public class EventPopup {
 		innerBox.setSpacing(INNER_SPACING);
 		
 		Label eventTypeHeader = new Label("Event Type");
-		RadioButton durationButton = new RadioButton("Duration event");
+		durationButton = new RadioButton("Duration event");
 		durationButton.setUserData("duration");	// TODO: Change to enum
-		RadioButton nonDurationButton = new RadioButton("Non-duration event");
+		nonDurationButton = new RadioButton("Non-duration event");
 		nonDurationButton.setUserData("non-duration");	// TODO: Change to enum
 		durationButton.setToggleGroup(group);
 		nonDurationButton.setToggleGroup(group);
@@ -266,6 +307,11 @@ public class EventPopup {
 		
 		private LocalTime getSelectedTime() {
 			return LocalTime.of(hourSpinner.getValue(), minuteSpinner.getValue());
+		}
+		
+		private void setSelectedTime(LocalTime time) {
+			hourFactory.setValue(time.getHour());
+			minuteFactory.setValue(time.getMinute());
 		}
 	}
 }

@@ -17,12 +17,22 @@ import javafx.scene.control.Toggle;
 public interface EventPopupListener {
 	
 	/**
-	 * Method that handles when the user clicks the Okay button in the add/edit event popup.
+	 * Method that handles when the user clicks the Add button in the add event popup.
 	 * 
 	 * @param title
 	 * @param startDate
 	 * @param endDate
 	 */
-	public void onOkayButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
+	public void onAddButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
+								    LocalTime startTime, LocalDate endDate, LocalTime endTime);
+	
+	/**
+	 * Method that handles when the user clicks the Edit button in the edit event popup.
+	 * 
+	 * @param title
+	 * @param startDate
+	 * @param endDate
+	 */
+	public void onEditButtonClicked(int eventID, Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
 								    LocalTime startTime, LocalDate endDate, LocalTime endTime);
 }
