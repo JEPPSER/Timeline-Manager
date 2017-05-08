@@ -2,7 +2,6 @@ package controller;
 
 import java.time.LocalDate;
 import java.time.LocalDateTime;
-import java.time.LocalTime;
 
 import interfaces.EventPopupListener;
 import javafx.scene.control.Alert;

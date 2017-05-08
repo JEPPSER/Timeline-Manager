@@ -13,6 +13,7 @@ import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ScrollPane;
+import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -293,7 +294,12 @@ public class TimelineView extends StackPane {
 		EventShape clicked = shape;
 		
 		shape.getShape().setOnMouseClicked(e -> {
-			listener.onEditEventClicked((Stage)getScene().getWindow(), clicked.getEvent());
+			
+			if (e.getButton() == MouseButton.PRIMARY) {
+				listener.onEditEventClicked((Stage)getScene().getWindow(), clicked.getEvent());
+			} else if (e.getButton() == MouseButton.SECONDARY) {
+				listener.onDeleteEventClicked(clicked.getEvent().getId());
+			}
 		});
 	}
 }

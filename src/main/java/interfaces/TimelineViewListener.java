@@ -38,9 +38,9 @@ public interface TimelineViewListener {
 	 * Called whenever the user clicks on the delete event button located
 	 * on the popup displayed when the user hovers over an event.
 	 * 
-	 * @param name - name of the event which the user wants to delete
+	 * @param eventId - the id of the event to delete
 	 */
-	public void onDeleteEventClicked(String name);
+	public void onDeleteEventClicked(int eventId);
 	
 	/**
 	 * Called whenever the user clicks on the edit event button located
