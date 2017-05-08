@@ -34,37 +34,72 @@ public class EventPopupController implements EventPopupListener {
 	}
 	
 	@Override
-	public void onOkayButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
-		    						LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+	public void onAddButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription,
+			LocalDateTime startDate, LocalDateTime endDate) {
 		
-		boolean isDurationEvent = isDurationEvent(eventTypeToggle);
-		Timeline currentTimeline = container.getActiveTimeline();
-		
-		if (eventTitle.isEmpty()) {
-			Alert alert = new Alert(AlertType.ERROR, "Title must not be empty", ButtonType.OK);
-			alert.showAndWait();
-		} else if (eventTypeToggle == null) {
-			Alert alert = new Alert(AlertType.ERROR, "An event type must be selected.", ButtonType.OK);
-			alert.showAndWait();
-		} else if (isDurationEvent && (startDate == null || startTime == null || endDate == null || endTime == null)) {	// valid duration dates and time?
-			Alert alert = new Alert(AlertType.ERROR, "Date and time have not been set", ButtonType.OK);
-			alert.showAndWait();
-		} else if (!isDurationEvent && (startDate == null || startTime == null)) {	// valid non-duration dates and time?	
-			Alert alert = new Alert(AlertType.ERROR, "Date and time have not been set", ButtonType.OK);
-			alert.showAndWait();
-		} else if (isDurationEvent && LocalDateTime.of(startDate, startTime).isAfter(LocalDateTime.of(endDate, endTime))) {
-			Alert alert = new Alert(AlertType.ERROR, "End Date can not be before Start Date", ButtonType.OK);
-			alert.showAndWait();
-		} else if (!isDatesWithinTimeline(startDate, endDate, currentTimeline)) {
-			Alert alert = new Alert(AlertType.ERROR, String.format("Event date(s) must be within range %s - %s",
-					currentTimeline.getStartDate(), currentTimeline.getEndDate()), ButtonType.OK);
-			alert.showAndWait();
-		} else {
-			EventType type = isDurationEvent ? EventType.DURATION : EventType.NON_DURATION;
+		if (checkInput(eventTypeToggle, eventTitle, eventDescription, startDate, endDate)) {
+			EventType type = isDurationEvent(eventTypeToggle) ? EventType.DURATION : EventType.NON_DURATION;
 			container.addEvent(eventTitle, eventDescription, startDate, endDate, type);
 			eventPopup.close();
 		}
+	}
+	
+	@Override
+	public void onEditButtonClicked(int eventId, Toggle eventTypeToggle, String eventTitle, String eventDescription,
+			LocalDateTime startDate, LocalDateTime endDate) {
 		
+		if (checkInput(eventTypeToggle, eventTitle, eventDescription, startDate, endDate)) {
+			EventType newType = isDurationEvent(eventTypeToggle) ? EventType.DURATION : EventType.NON_DURATION;
+			container.editEvent(eventId, eventTitle, eventDescription, startDate, endDate, newType);
+			eventPopup.close();
+		}
+		
+	}
+	
+	private boolean checkInput(Toggle eventTypeToggle, String eventTitle, String eventDescription,
+			LocalDateTime startDate, LocalDateTime endDate) {
+		
+		StringBuilder message = new StringBuilder();
+		boolean isDurationEvent = isDurationEvent(eventTypeToggle);
+		Timeline currentTimeline = container.getActiveTimeline();
+		boolean inputOkay = true;
+		
+		if (eventTitle.isEmpty()) {
+			inputOkay = false;
+			message.append("- Title must not be empty.\n");
+		} if (eventTypeToggle == null) {
+			inputOkay = false;
+			message.append("- An event type must be selected.\n");
+		} else if (isDurationEvent && (startDate == null || endDate == null)) {	// valid duration dates and time?
+			inputOkay = false;
+			message.append("- A start and end date and time must be selected for duration events.\n");
+		} else if (!isDurationEvent && (startDate == null)) {	// valid non-duration dates and time?
+			inputOkay = false;
+			message.append("- A start date and start time must be selected for non-duration events.\n");
+		} else if (isDurationEvent && startDate.isAfter(endDate)) {
+			inputOkay = false;
+			message.append("- End Date can not be before Start Date.\n");
+		} else if (!isDatesWithinTimeline(startDate.toLocalDate(), endDate.toLocalDate(), currentTimeline)) {
+			inputOkay = false;
+			message.append(String.format("- Event date(s) must be within range %s - %s.\n",
+					currentTimeline.getStartDate(), currentTimeline.getEndDate()));
+		}
+		
+		if (inputOkay) {
+			return true;
+		} else {
+			message.insert(0, "The following input was invalid:\n");
+			
+			// remove last instance of '\n' in the stringbuilder
+			int index = message.lastIndexOf("\n");
+			if (index >= 0) {
+				message = message.replace(index, index + 1, "");
+			}
+			
+			Alert alert = new Alert(AlertType.ERROR, message.toString(), ButtonType.OK);
+			alert.showAndWait();
+			return false;
+		}
 	}
 	
 	private boolean isDurationEvent(Toggle toggle) {

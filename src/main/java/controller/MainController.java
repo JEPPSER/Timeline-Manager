@@ -52,6 +52,5 @@ public class MainController implements ModelChangedListener {
 	public void onModelChanged(List<Timeline> timelines, Timeline active) {
 		System.out.println("MainController: TimelineContainer has been updated");
 		mainView.getTimelineView().setTimeline(active);
-		// TODO: Tell the view to update
 	}
 }

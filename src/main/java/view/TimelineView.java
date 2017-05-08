@@ -55,6 +55,7 @@ public class TimelineView extends StackPane {
 	private EventShape shape;
 	PopOver hoverOver = new PopOver();
 	private VBox container = new VBox();
+	private TimelineViewListener listener;
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -140,9 +141,10 @@ public class TimelineView extends StackPane {
 				shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
 
 				shapeList.add(shape);
-
+				
 				onMouseOver();
 				onMouseExit();
+				setOnEventShapeClicked(shape);
 			}
 
 			// List that holds all added events.
@@ -182,6 +184,7 @@ public class TimelineView extends StackPane {
 	 * @param listener
 	 */
 	public void registerListener(TimelineViewListener listener) {
+		this.listener = listener;
 		addEventButton.setOnAction(e -> listener.onAddEventClicked((Stage) getScene().getWindow()));
 	}
 
@@ -288,6 +291,14 @@ public class TimelineView extends StackPane {
 			public void handle(MouseEvent event) {
 				hoverOver.hide();
 			}
+		});
+	}
+	
+	private void setOnEventShapeClicked(EventShape shape) {
+		EventShape clicked = shape;
+		
+		shape.getShape().setOnMouseClicked(e -> {
+			listener.onEditEventClicked((Stage)getScene().getWindow(), clicked.getEvent());
 		});
 	}
 }

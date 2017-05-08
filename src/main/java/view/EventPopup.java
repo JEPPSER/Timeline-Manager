@@ -1,6 +1,9 @@
 package view;
 
+import java.time.LocalDateTime;
 import java.time.LocalTime;
+
+import com.sun.istack.internal.Nullable;
 
 import interfaces.EventPopupListener;
 import javafx.geometry.Dimension2D;
@@ -21,6 +24,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 import javafx.stage.Window;
+import model.Event.EventType;
 
 /**
  * A popup window that pops up when the add event button is pressed and when an event is edited.
@@ -31,21 +35,32 @@ import javafx.stage.Window;
  * @name EventPopup.java
  */
 public class EventPopup {
+
+	private enum Mode {
+		Add,
+		Edit
+	}
 	
-	private static final Dimension2D POPUP_SIZE = new Dimension2D(200, 500);
-	private static final int ROOT_PADDING = 10;
+	private static final Dimension2D POPUP_SIZE = new Dimension2D(200, 480);
+	private static final int ROOT_PADDING = 10;https://github.com/Kramg0/Timeline-Manager/branches
 	private static final int DEFAULT_SPACING = 10;
 	private static final int PICKER_WIDTH = 120;
 	
+	private Mode mode;
+	
+	private int eventId;
+	
 	private final Stage stage;
 	private Button okayButton;
-	private TimePicker startTimeSelector;
-	private TimePicker endTimeSelector;
 	private TextField titleField;
 	private TextArea descriptionArea;
 	private VBox dateAndTimeBox;
 	private DatePicker startPicker;
 	private DatePicker endPicker;
+	private TimePicker startTimeSelector;
+	private TimePicker endTimeSelector;
+	private RadioButton durationButton;
+	private RadioButton nonDurationButton;
 	private ToggleGroup group;
 	
 	/**
@@ -55,6 +70,7 @@ public class EventPopup {
 	 */
 	public EventPopup(Window owner) {
 		stage = new Stage();
+		mode = Mode.Add;
 		
 		initDateAndTimeBox();
 
@@ -71,8 +87,27 @@ public class EventPopup {
 	 * @param TimelinePopupListener
 	 */
 	public void registerListener(EventPopupListener listener) {
-		okayButton.setOnAction(e -> listener.onOkayButtonClicked(group.getSelectedToggle(), titleField.getText(), descriptionArea.getText(),
-				startPicker.getValue(), startTimeSelector.getSelectedTime(), endPicker.getValue(), endTimeSelector.getSelectedTime()));
+		if (mode == Mode.Add) {
+			okayButton.setOnAction(e ->  {
+				LocalDateTime start = startPicker.getValue() != null ? LocalDateTime.of(startPicker.getValue(), startTimeSelector.getSelectedTime())
+						 : null;
+				LocalDateTime end = startPicker.getValue() != null ? LocalDateTime.of(endPicker.getValue(), endTimeSelector.getSelectedTime())
+					   : null;
+				
+				listener.onAddButtonClicked(group.getSelectedToggle(), titleField.getText(), descriptionArea.getText(), start, end);
+			});
+					
+		} else if (mode == Mode.Edit) {
+			okayButton.setOnAction(e ->  { 
+				LocalDateTime start = startPicker.getValue() != null ? LocalDateTime.of(startPicker.getValue(), startTimeSelector.getSelectedTime())
+						 : null;
+				LocalDateTime end = startPicker.getValue() != null ? LocalDateTime.of(endPicker.getValue(), endTimeSelector.getSelectedTime())
+					   : null;
+				
+				listener.onEditButtonClicked(eventId, group.getSelectedToggle(), titleField.getText(), descriptionArea.getText(),
+						start, end);
+			});
+		}
 	}
 	
 	/**
@@ -80,6 +115,38 @@ public class EventPopup {
 	 */
 	public void close() {
 		stage.close();
+	}
+	
+	/**
+	 * Used for initializing the popup for editing an event. 
+	 * 
+	 * @param id - the ID of the event to edit
+	 * @param title - The title of the event to edit
+	 * @param description - The description of the event to edit
+	 * @param type - The type of the event to edit
+	 * @param start - The start date and time of the event to edit
+	 * @param end - The end date and time of the event to edit
+	 */
+	public void setFields(int id, String title, String description, EventType type, LocalDateTime start, @Nullable LocalDateTime end) {
+		eventId = id;
+		titleField.setText(title);
+		descriptionArea.setText(description);
+		
+		startPicker.setValue(start.toLocalDate());
+		startTimeSelector.setSelectedTime(start.toLocalTime());
+		
+		if (type == EventType.DURATION) {
+			displayDateAndTimePickers(true);
+			durationButton.setSelected(true);
+			endPicker.setValue(end.toLocalDate());
+			endTimeSelector.setSelectedTime(end.toLocalTime());
+		} else {
+			displayDateAndTimePickers(false);
+			nonDurationButton.setSelected(true);
+		}
+		
+		mode = Mode.Edit;
+		okayButton.setText("Edit");
 	}
 	
 	/**
@@ -152,9 +219,9 @@ public class EventPopup {
 		innerBox.setSpacing(INNER_SPACING);
 		
 		Label eventTypeHeader = new Label("Event Type");
-		RadioButton durationButton = new RadioButton("Duration event");
+		durationButton = new RadioButton("Duration event");
 		durationButton.setUserData("duration");	// TODO: Change to enum
-		RadioButton nonDurationButton = new RadioButton("Non-duration event");
+		nonDurationButton = new RadioButton("Non-duration event");
 		nonDurationButton.setUserData("non-duration");	// TODO: Change to enum
 		durationButton.setToggleGroup(group);
 		nonDurationButton.setToggleGroup(group);
@@ -266,6 +333,11 @@ public class EventPopup {
 		
 		private LocalTime getSelectedTime() {
 			return LocalTime.of(hourSpinner.getValue(), minuteSpinner.getValue());
+		}
+		
+		private void setSelectedTime(LocalTime time) {
+			hourFactory.setValue(time.getHour());
+			minuteFactory.setValue(time.getMinute());
 		}
 	}
 }
