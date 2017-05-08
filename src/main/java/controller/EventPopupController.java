@@ -34,10 +34,10 @@ public class EventPopupController implements EventPopupListener {
 	}
 	
 	@Override
-	public void onAddButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
-		    						LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+	public void onAddButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription,
+			LocalDateTime startDate, LocalDateTime endDate) {
 		
-		if (checkInput(eventTypeToggle, eventTitle, eventDescription, startDate, startTime, endDate, endTime)) {
+		if (checkInput(eventTypeToggle, eventTitle, eventDescription, startDate, endDate)) {
 			EventType type = isDurationEvent(eventTypeToggle) ? EventType.DURATION : EventType.NON_DURATION;
 			container.addEvent(eventTitle, eventDescription, startDate, endDate, type);
 			eventPopup.close();
@@ -45,10 +45,10 @@ public class EventPopupController implements EventPopupListener {
 	}
 	
 	@Override
-	public void onEditButtonClicked(int eventId, Toggle eventTypeToggle, String eventTitle, String eventDescription, LocalDate startDate,
-		    						LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+	public void onEditButtonClicked(int eventId, Toggle eventTypeToggle, String eventTitle, String eventDescription,
+			LocalDateTime startDate, LocalDateTime endDate) {
 		
-		if (checkInput(eventTypeToggle, eventTitle, eventDescription, startDate, startTime, endDate, endTime)) {
+		if (checkInput(eventTypeToggle, eventTitle, eventDescription, startDate, endDate)) {
 			EventType newType = isDurationEvent(eventTypeToggle) ? EventType.DURATION : EventType.NON_DURATION;
 			container.editEvent(eventId, eventTitle, eventDescription, startDate, endDate, newType);
 			eventPopup.close();
@@ -57,7 +57,7 @@ public class EventPopupController implements EventPopupListener {
 	}
 	
 	private boolean checkInput(Toggle eventTypeToggle, String eventTitle, String eventDescription,
-			LocalDate startDate, LocalTime startTime, LocalDate endDate, LocalTime endTime) {
+			LocalDateTime startDate, LocalDateTime endDate) {
 		
 		StringBuilder message = new StringBuilder();
 		boolean isDurationEvent = isDurationEvent(eventTypeToggle);
@@ -70,16 +70,16 @@ public class EventPopupController implements EventPopupListener {
 		} if (eventTypeToggle == null) {
 			inputOkay = false;
 			message.append("- An event type must be selected.\n");
-		} else if (isDurationEvent && (startDate == null || startTime == null || endDate == null || endTime == null)) {	// valid duration dates and time?
+		} else if (isDurationEvent && (startDate == null || endDate == null)) {	// valid duration dates and time?
 			inputOkay = false;
 			message.append("- A start and end date and time must be selected for duration events.\n");
-		} else if (!isDurationEvent && (startDate == null || startTime == null)) {	// valid non-duration dates and time?
+		} else if (!isDurationEvent && (startDate == null)) {	// valid non-duration dates and time?
 			inputOkay = false;
 			message.append("- A start date and start time must be selected for non-duration events.\n");
-		} else if (isDurationEvent && LocalDateTime.of(startDate, startTime).isAfter(LocalDateTime.of(endDate, endTime))) {
+		} else if (isDurationEvent && startDate.isAfter(endDate)) {
 			inputOkay = false;
 			message.append("- End Date can not be before Start Date.\n");
-		} else if (!isDatesWithinTimeline(startDate, endDate, currentTimeline)) {
+		} else if (!isDatesWithinTimeline(startDate.toLocalDate(), endDate.toLocalDate(), currentTimeline)) {
 			inputOkay = false;
 			message.append(String.format("- Event date(s) must be within range %s - %s.\n",
 					currentTimeline.getStartDate(), currentTimeline.getEndDate()));

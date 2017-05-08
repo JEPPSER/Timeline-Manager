@@ -1,6 +1,7 @@
 package model;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import interfaces.ModelChangedListener;
@@ -44,7 +45,7 @@ public class TimelineContainer {
 	/**
 	 * Adds an event to the currently active timeline.
 	 */
-	public void addEvent(String title, String description, LocalDate start, LocalDate end, EventType type) {
+	public void addEvent(String title, String description, LocalDateTime start, LocalDateTime end, EventType type) {
 		if (activeTimeline != null) {
 			activeTimeline.add(title, description, start, end, type);
 			listener.onModelChanged(timelines, activeTimeline);
@@ -54,7 +55,7 @@ public class TimelineContainer {
 	/**
 	 * Edits an existing event in the currently active timeline
 	 */
-	public void editEvent(int id, String title, String description, LocalDate start, LocalDate end, EventType type) {
+	public void editEvent(int id, String title, String description, LocalDateTime start, LocalDateTime end, EventType type) {
 		Event eventToEdit = getEventById(id);
 		
 		if (eventToEdit != null) {

@@ -1,5 +1,6 @@
 package controller;
 
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.LocalTime;
 
@@ -34,15 +35,10 @@ public class TimelineViewController implements TimelineViewListener
 	@Override
 	public void onEditEventClicked(Stage stage, Event event) {
 		EventPopup eventPopup = new EventPopup(stage);
-		LocalDateTime endDateTime = null;
-		
-		if (event.getEndDate() != null) {
-			endDateTime = LocalDateTime.of(event.getEndDate(), LocalTime.of(0, 0));
-		}
 		
 		// Initialize fields in the event popup with the information in the event that is to be edited
 		eventPopup.setFields(event.getId(), event.getEventName(), event.getDescription(), event.getType(),
-				LocalDateTime.of(event.getStartDate(), LocalTime.of(0, 0)), endDateTime);
+				event.getStartDate(), event.getEndDate());
 				
 		
 		eventPopupController = new EventPopupController(eventPopup, timelineContainer);
