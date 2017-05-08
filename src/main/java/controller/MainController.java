@@ -35,7 +35,7 @@ public class MainController implements ModelChangedListener {
 		this.mainView = mainView;
 		this.timelineContainer = timelineContainer;
 		menuController = new MenuController(timelineContainer, mainView.getMenuView());
-		timelineViewController = new TimelineViewController();
+		timelineViewController = new TimelineViewController(timelineContainer);
 	}
 	
 	/**
@@ -51,7 +51,6 @@ public class MainController implements ModelChangedListener {
 	@Override
 	public void onModelChanged(List<Timeline> timelines, Timeline active) {
 		System.out.println("MainController: TimelineContainer has been updated");
-		
-		// TODO: Tell the view to update
+		mainView.getTimelineView().setTimeline(active);
 	}
 }

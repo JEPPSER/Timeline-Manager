@@ -42,7 +42,7 @@ public class Timeline {
 	 * Empty constructor.
 	 */
 	public Timeline() {
-
+		eventList = new ArrayList<Event>();
 	}
 
 	/**
@@ -110,16 +110,22 @@ public class Timeline {
 	 */
 	public void add(String name, String desc, LocalDateTime start, LocalDateTime end, EventType type) {
 		eventList.add(new Event(getMaxId(), name, desc, start, end, type));
+		
+		for (Event e : eventList) {
+			System.out.println(e);
+		}
 	}
 	
 	/**
 	 * Update an event of type Event.
 	 */
-	public void update(Event event, String name, String desc, LocalDateTime start, LocalDateTime end){
+	public void update(Event event, String name, String desc, LocalDateTime start, LocalDateTime end, EventType type){
 		eventList.get(eventList.indexOf(event)).setEventName(name);
 		eventList.get(eventList.indexOf(event)).setDescription(desc);
 		eventList.get(eventList.indexOf(event)).setStartDate(start);
-		if (event.getType() == EventType.DURATION) {
+		eventList.get(eventList.indexOf(event)).setType(type);
+		
+		if (type == EventType.DURATION) {
 			eventList.get(eventList.indexOf(event)).setEndDate(end);
 		}
 	}
@@ -168,6 +174,11 @@ public class Timeline {
 		Collections.sort(this.eventList, new Comparator<Event>() {
 			@Override
 			public int compare(Event first, Event second) {
+				if (first == null) {
+					System.out.println("first null");
+				} else if (second == null) {
+					System.out.println("second null");
+				}
 				return first.getId() - second.getId();
 			}
 		});

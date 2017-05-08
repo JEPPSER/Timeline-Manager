@@ -36,6 +36,7 @@ public class Event {
 
 	private EventType type;
 
+
 	public Event(int eventId, String eventName, String description, LocalDateTime startDate, LocalDateTime endDate,
 			EventType type) {
 		this.eventId = eventId;
