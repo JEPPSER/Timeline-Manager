@@ -55,7 +55,7 @@ public class TimelineViewController implements TimelineViewListener
 		alert.showAndWait();
 		
 		if(alert.getResult() == ButtonType.YES){
-			//timelineContainer.deleteEvent(eventId)
+			timelineContainer.deleteEvent(eventId);
 		}
 		
 		alert.close();

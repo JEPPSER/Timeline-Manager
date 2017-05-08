@@ -67,7 +67,7 @@ public class TimelineContainer {
 	/**
 	 * Delete an event in an active TimeLine
 	 */
-	public void deleteEvent(int id, String title, String description, LocalDateTime start, LocalDateTime end, EventType type) {
+	public void deleteEvent(int id) {
 		Event deleteEvent = getEventById(id);
 		
 		if (deleteEvent != null) {

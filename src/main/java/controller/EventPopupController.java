@@ -78,7 +78,7 @@ public class EventPopupController implements EventPopupListener {
 		} else if (isDurationEvent && startDate.isAfter(endDate)) {
 			inputOkay = false;
 			message.append("- End Date can not be before Start Date.\n");
-		} else if (!isDatesWithinTimeline(startDate.toLocalDate(), endDate.toLocalDate(), currentTimeline)) {
+		} else if (!isDatesWithinTimeline(startDate, endDate, currentTimeline)) {
 			inputOkay = false;
 			message.append(String.format("- Event date(s) must be within range %s - %s.\n",
 					currentTimeline.getStartDate(), currentTimeline.getEndDate()));
@@ -105,15 +105,15 @@ public class EventPopupController implements EventPopupListener {
 		return toggle != null && toggle.getUserData().toString().equals("duration");
 	}
 	
-	private boolean isDatesWithinTimeline(LocalDate eventStart, LocalDate eventEnd, Timeline timeline) {
+	private boolean isDatesWithinTimeline(LocalDateTime eventStart, LocalDateTime eventEnd, Timeline timeline) {
 		if (eventEnd == null) { // non-duration event?
-			return eventStart.minusDays(1).isBefore(timeline.getEndDate()) 
-					&& eventStart.plusDays(1).isAfter(timeline.getStartDate());
+			return eventStart.toLocalDate().minusDays(1).isBefore(timeline.getEndDate()) 
+					&& eventStart.toLocalDate().plusDays(1).isAfter(timeline.getStartDate());
 		} else {
-			return eventStart.minusDays(1).isBefore(timeline.getEndDate()) 
-					&& eventStart.plusDays(1).isAfter(timeline.getStartDate())
-					&& eventEnd.plusDays(1).isAfter(timeline.getStartDate()) 
-					&& eventEnd.minusDays(1).isBefore(timeline.getEndDate());
+			return eventStart.toLocalDate().minusDays(1).isBefore(timeline.getEndDate()) 
+					&& eventStart.toLocalDate().plusDays(1).isAfter(timeline.getStartDate())
+					&& eventEnd.toLocalDate().plusDays(1).isAfter(timeline.getStartDate()) 
+					&& eventEnd.toLocalDate().minusDays(1).isBefore(timeline.getEndDate());
 		}
 	}
 
