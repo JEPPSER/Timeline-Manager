@@ -199,6 +199,7 @@ public class TimelineView extends StackPane {
 		Text date;
 		Rectangle rect;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		stack.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
 		int days = 0;
 		Pane months = new Pane();
 
@@ -215,7 +216,7 @@ public class TimelineView extends StackPane {
 			boolean isFirst = true;
 
 			// Draw the columns
-			for (int i = 0; i <= days; i++) {
+			for (int i = 0; i <= days || i <= (stack.getPrefWidth() / (width + 1)); i++) {
 
 				column = new VBox();
 				column.setPrefWidth(width);
@@ -251,7 +252,7 @@ public class TimelineView extends StackPane {
 				column.getChildren().addAll(txtContainer, rect);
 				columns.getChildren().add(column);
 
-				if (day.equals("1") || i < 25 && isFirst == true) {
+				if (day.equals("1") || Integer.parseInt(day) < 25 && isFirst == true) {
 					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " "
 							+ currentTimeline.getStartDate().plusDays(i).getYear());
 					month.setFont(new Font(20));
@@ -259,9 +260,7 @@ public class TimelineView extends StackPane {
 					month.setLayoutX(i * (width + 1));
 					isFirst = false;
 				}
-				stack.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
 			}
-
 			container.getChildren().addAll(months, columns);
 		}
 	}
