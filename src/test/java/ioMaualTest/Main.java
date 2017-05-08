@@ -7,6 +7,7 @@ import java.util.ArrayList;
 
 import io.FileHandler;
 import model.Event;
+import model.Event.EventType;
 import model.Timeline;
 
 public class Main {
@@ -34,7 +35,7 @@ public class Main {
 		System.out.println(FileHandler.readXML(file2));
 		for(Event e:timeLine.getList())
          System.out.println(e);
-		timeLine.update(timeLine.getList().get(0), "x", "party2", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2));
+		timeLine.update(timeLine.getList().get(0), "x", "party2", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2), EventType.DURATION);
 		FileHandler.writeXML(timeLine, file1);
 		System.out.println(FileHandler.readXML(file2));
 		for(Event e:timeLine.getList())

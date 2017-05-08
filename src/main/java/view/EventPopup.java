@@ -42,7 +42,7 @@ public class EventPopup {
 	}
 	
 	private static final Dimension2D POPUP_SIZE = new Dimension2D(200, 480);
-	private static final int ROOT_PADDING = 10;https://github.com/Kramg0/Timeline-Manager/branches
+	private static final int ROOT_PADDING = 10;
 	private static final int DEFAULT_SPACING = 10;
 	private static final int PICKER_WIDTH = 120;
 	

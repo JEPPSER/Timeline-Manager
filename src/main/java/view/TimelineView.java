@@ -80,7 +80,7 @@ public class TimelineView extends StackPane {
 
 		vbox.getChildren().addAll(panes);
 		stack.getChildren().add(vbox);
-		vbox.setTranslateY(70);
+		vbox.setTranslateY(45);
 		root.getChildren().addAll(stack);
 		scroll.setContent(root);
 
