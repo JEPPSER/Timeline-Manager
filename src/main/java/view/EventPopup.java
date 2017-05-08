@@ -91,7 +91,7 @@ public class EventPopup {
 			okayButton.setOnAction(e ->  {
 				LocalDateTime start = startPicker.getValue() != null ? LocalDateTime.of(startPicker.getValue(), startTimeSelector.getSelectedTime())
 						 : null;
-				LocalDateTime end = startPicker.getValue() != null ? LocalDateTime.of(endPicker.getValue(), endTimeSelector.getSelectedTime())
+				LocalDateTime end = endPicker.getValue() != null ? LocalDateTime.of(endPicker.getValue(), endTimeSelector.getSelectedTime())
 					   : null;
 				
 				listener.onAddButtonClicked(group.getSelectedToggle(), titleField.getText(), descriptionArea.getText(), start, end);

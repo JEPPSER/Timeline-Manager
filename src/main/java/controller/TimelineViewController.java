@@ -1,10 +1,9 @@
 package controller;
 
-import java.time.LocalDate;
-import java.time.LocalDateTime;
-import java.time.LocalTime;
-
 import interfaces.TimelineViewListener;
+import javafx.scene.control.Alert;
+import javafx.scene.control.ButtonType;
+import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
 import model.Event;
 import model.TimelineContainer;
@@ -51,7 +50,14 @@ public class TimelineViewController implements TimelineViewListener
 	}
 
 	@Override
-	public void onDeleteEventClicked(String name) {
-		System.out.println("Are you sure you want to delete this event?");
+	public void onDeleteEventClicked(int eventId) {
+		Alert alert = new Alert(AlertType.WARNING, String.format("Are you sure you want to delete event with ID %d?", eventId), ButtonType.YES, ButtonType.NO);
+		alert.showAndWait();
+		
+		if(alert.getResult() == ButtonType.YES){
+			timelineContainer.deleteEvent(eventId);
+		}
+		
+		alert.close();
 	}
 }

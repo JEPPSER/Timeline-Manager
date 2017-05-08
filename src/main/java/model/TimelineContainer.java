@@ -65,6 +65,19 @@ public class TimelineContainer {
 	}
 	
 	/**
+	 * Delete an event in an active TimeLine
+	 */
+	public void deleteEvent(int id) {
+		Event deleteEvent = getEventById(id);
+		
+		if (deleteEvent != null) {
+			activeTimeline.delete(deleteEvent);
+			listener.onModelChanged(timelines, activeTimeline);
+		}
+	}
+	
+	
+	/**
 	 * Fetches the currently active timeline. The active timeline is the timeline the user has selected in the 
 	 * list of timelines and the one that is currently displayed in the view.
 	 *  
