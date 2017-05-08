@@ -1,6 +1,14 @@
 package model;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
+
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
+import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
+
+@XmlRootElement(name = "Event")
+@XmlAccessorType(XmlAccessType.FIELD)
 
 /**
  * Event class contains the eventId, eventName, eventDescription, eventStartDate, eventEndDate for
@@ -17,8 +25,10 @@ public class Event {
 	private int eventId;
 	private String eventName;
 	private String description;
-	private LocalDate startDate;
-	private LocalDate endDate;
+	@XmlJavaTypeAdapter(value = io.LocalDateTimeAdapter.class)
+	private LocalDateTime startDate;
+	@XmlJavaTypeAdapter(value = io.LocalDateTimeAdapter.class)
+	private LocalDateTime endDate;
 
 	public enum EventType {
 		DURATION, NON_DURATION
@@ -26,7 +36,8 @@ public class Event {
 
 	private EventType type;
 
-	public Event(int eventId, String eventName, String description, LocalDate startDate, LocalDate endDate,
+
+	public Event(int eventId, String eventName, String description, LocalDateTime startDate, LocalDateTime endDate,
 			EventType type) {
 		this.eventId = eventId;
 		this.eventName = eventName;
@@ -52,11 +63,11 @@ public class Event {
 	public String toString() {
 		if (type == EventType.DURATION) {
 
-			return "Event [ ID:" + eventId + " , Name:" + eventName + " , StartDate:" + startDate + " , EndDate:"
-					+ endDate + " , EventType" + EventType.DURATION + "]";
+			return "Event [ ID:" + eventId + " , Name:" + eventName + " , Description:" + description + " , StartDate:" + startDate + " , EndDate:"
+					+ endDate + " , EventType:" + EventType.DURATION + "]";
 		} else {
-			return "Event [ ID:" + eventId + " , Name:" + eventName + " , StartDate:" + startDate + " , EventType"
-					+ EventType.NON_DURATION + "]";
+			return "Event [ ID:" + eventId + " , Name:" + eventName + " , Description:" + description + " , StartDate:"
+		             + startDate + " , EventType:" + EventType.NON_DURATION + "]";
 		}
 	}
 	
@@ -105,28 +116,28 @@ public class Event {
 	/**
 	 * Returns the start date of an Event.
 	 */
-	public LocalDate getStartDate() {
+	public LocalDateTime getStartDate() {
 		return startDate;
 	}
 	
 	/**
 	 * Set the start date of an Event .
 	 */
-	public void setStartDate(LocalDate startDate) {
+	public void setStartDate(LocalDateTime startDate) {
 		this.startDate = startDate;
 	}
 	
 	/**
 	 * Returns the end date of an Event.
 	 */
-	public LocalDate getEndDate() {
+	public LocalDateTime getEndDate() {
 		return endDate;
 	}
 	
 	/**
 	 * Set the end date of an Event .
 	 */
-	public void setEndDate(LocalDate endDate) {
+	public void setEndDate(LocalDateTime endDate) {
 		this.endDate = endDate;
 	}
     

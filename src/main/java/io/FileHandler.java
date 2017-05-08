@@ -21,7 +21,7 @@ public class FileHandler {
 	/**
 	 * Read the contents of TimeLine XML file.
 	 */
-	public Timeline readXML(File file) throws Exception {
+	public static Timeline readXML(File file) throws Exception {
 		JAXBContext context = JAXBContext.newInstance(Timeline.class);
 		Unmarshaller un = context.createUnmarshaller();
 		return (Timeline) un.unmarshal(file);
@@ -30,7 +30,7 @@ public class FileHandler {
 	/**
 	 * Create a TimeLine XML file.
 	 */
-	public void writeXML(Timeline timeLine, File directory) throws Exception {
+	public static void writeXML(Timeline timeLine, File directory) throws Exception {
 		String fileName = timeLine.getName().toLowerCase() + ".xml";
 		String filePath = directory.getAbsolutePath() + "\\" + fileName;
 		File file = new File(filePath);
