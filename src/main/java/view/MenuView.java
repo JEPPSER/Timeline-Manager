@@ -3,6 +3,7 @@ package view;
 import de.jensd.fx.fontawesome.*;
 import interfaces.MenuListener;
 import javafx.geometry.Pos;
+import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.ToggleButton;
@@ -24,10 +25,10 @@ import javafx.stage.Stage;
  */
 public class MenuView extends StackPane {
 
-	private ToggleButton deleteTimeline;
-	private ToggleButton addTimeline;
-	private ToggleButton saveTimeline;
-	private ToggleButton openTimeline;
+	private Button deleteTimeline;
+	private Button addTimeline;
+	private Button saveTimeline;
+	private Button openTimeline;
 	private MenuButton loadedTimelines;
 
 	/**
@@ -35,10 +36,10 @@ public class MenuView extends StackPane {
 	 */
 	public MenuView() {
 		
-		deleteTimeline = new ToggleButton();
-		addTimeline = new ToggleButton();
-		saveTimeline = new ToggleButton();
-		openTimeline = new ToggleButton();
+		deleteTimeline = new Button();
+		addTimeline = new Button();
+		saveTimeline = new Button();
+		openTimeline = new Button();
 		
 		InnerShadow is = new InnerShadow();
 
@@ -68,14 +69,14 @@ public class MenuView extends StackPane {
 		loadedTimelines.setText("Timelines");
 		loadedTimelines.setPrefSize(100, 35);
 		loadedTimelines.setStyle(AwesomeStyle.RED.getStylePath());
-		addTimeline = AwesomeDude.createIconToggleButton(AwesomeIcon.PLUS_SIGN_ALT, "","2em", ContentDisplay.CENTER);
+		addTimeline = AwesomeDude.createIconButton(AwesomeIcon.PLUS_SIGN_ALT, "","20", "15", ContentDisplay.CENTER);
 		//addTimeline.setPrefSize(30, 30);
 		//addTimeline.setText("+");
-		deleteTimeline=AwesomeDude.createIconToggleButton(AwesomeIcon.MINUS_SIGN_ALT, "","2em", ContentDisplay.CENTER);
+		deleteTimeline=AwesomeDude.createIconButton(AwesomeIcon.TRASH, "","20", "15", ContentDisplay.CENTER);
 		//deleteTimeline.setText("-");
-		saveTimeline=AwesomeDude.createIconToggleButton(AwesomeIcon.SAVE, "","2em", ContentDisplay.CENTER);
+		saveTimeline=AwesomeDude.createIconButton(AwesomeIcon.SAVE, "","20", "15", ContentDisplay.CENTER);
 		//saveTimeline.setText("S");
-		openTimeline=AwesomeDude.createIconToggleButton(AwesomeIcon.FOLDER_OPEN, "","2em", ContentDisplay.CENTER);
+		openTimeline=AwesomeDude.createIconButton(AwesomeIcon.FOLDER_OPEN_ALT, "","20", "15", ContentDisplay.CENTER);
 		//openTimeline.setText("L");
 
 		menu.setMaxHeight(60);
@@ -92,7 +93,7 @@ public class MenuView extends StackPane {
 	 * Method for getting the addTimeline Button
 	 * @return addTimeline Button
 	 */
-	public ToggleButton getAddTimelineButton() {
+	public Button getAddTimelineButton() {
 		return addTimeline;
 	}
 	
@@ -100,7 +101,7 @@ public class MenuView extends StackPane {
 	 * Method for getting the openTimeline Button
 	 * @return openTimeline Button
 	 */
-	public ToggleButton getOpenTimelineButton() {
+	public Button getOpenTimelineButton() {
 		return openTimeline;
 	}
 	
@@ -108,7 +109,7 @@ public class MenuView extends StackPane {
 	 * Method for getting the saveTimeline Button
 	 * @return saveTimeline Button
 	 */
-	public ToggleButton getSaveTimelineButton() {
+	public Button getSaveTimelineButton() {
 		return saveTimeline;
 	}
 	
@@ -116,7 +117,7 @@ public class MenuView extends StackPane {
 	 * Method for getting the deleteTimeline Button
 	 * @return deleteTimeline Button
 	 */
-	public ToggleButton getDeleteTimelineButton() {
+	public Button getDeleteTimelineButton() {
 		return deleteTimeline;
 	}
 	

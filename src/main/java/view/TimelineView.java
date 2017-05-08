@@ -17,7 +17,6 @@ import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.control.ToggleButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -53,7 +52,7 @@ public class TimelineView extends StackPane {
 	private HBox dates;
 	private VBox vbox;
 	private Timeline currentTimeline;
-	private ToggleButton addEventButton;
+	private Button addEventButton;
 	private EventShape shape;
 	PopOver hoverOver = new PopOver();
 
@@ -88,7 +87,7 @@ public class TimelineView extends StackPane {
 
 		scroll.setContent(root);
 
-		addEventButton = AwesomeDude.createIconToggleButton(AwesomeIcon.PLUS_SIGN, "","4em", ContentDisplay.GRAPHIC_ONLY);
+		addEventButton = AwesomeDude.createIconButton(AwesomeIcon.PLUS_SIGN, "", "30", "30", ContentDisplay.GRAPHIC_ONLY);
 		addEventButton.setTranslateX(-50);
 		addEventButton.setTranslateY(-50);
 		if (currentTimeline == null) {
