@@ -6,6 +6,8 @@ import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.ToggleButton;
+import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
@@ -84,6 +86,24 @@ public class MenuView extends StackPane {
 		timelineButtons.getChildren().addAll(filler1, loadedTimelines, addTimeline, deleteTimeline, saveTimeline, openTimeline);
 		timelineButtons.setAlignment(Pos.CENTER);
 		menu.setLeft(timelineButtons);
+		
+		final ToggleGroup group = new ToggleGroup();
+
+		ToggleButton tb1 = new ToggleButton("Days");
+		tb1.setToggleGroup(group);
+		tb1.setPrefWidth(70);
+		tb1.setSelected(true);
+		ToggleButton tb2 = new ToggleButton("Weeks");
+		tb2.setToggleGroup(group);
+		tb2.setPrefWidth(70);
+		ToggleButton tb3 = new ToggleButton("Months");
+		tb3.setToggleGroup(group);
+		tb3.setPrefWidth(70);
+		HBox toggleButtons = new HBox();
+		toggleButtons.getChildren().addAll(tb1, tb2, tb3, filler2);
+		toggleButtons.setAlignment(Pos.CENTER);
+		menu.setRight(toggleButtons);
+		
 		super.setMaxHeight(60);
 		super.getChildren().addAll(bg, menu);
 	}
