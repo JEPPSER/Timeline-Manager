@@ -6,12 +6,16 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import org.controlsfx.control.PopOver;
+
+import de.jensd.fx.fontawesome.AwesomeDude;
+import de.jensd.fx.fontawesome.AwesomeIcon;
 import interfaces.TimelineViewListener;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
@@ -45,12 +49,12 @@ public class TimelineView extends StackPane {
 	private Pane[] panes = new Pane[ROWS];
 	private StackPane stack = new StackPane();
 	private ScrollPane scroll;
-	private HBox dates;
 	private VBox vbox;
 	private Timeline currentTimeline;
 	private Button addEventButton;
 	private EventShape shape;
 	PopOver hoverOver = new PopOver();
+	private VBox container = new VBox();
 	private TimelineViewListener listener;
 
 	/**
@@ -59,15 +63,12 @@ public class TimelineView extends StackPane {
 	public TimelineView() {
 
 		scroll = new ScrollPane();
-		scroll.setPrefSize(DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight()); // Default
-																				// size
+		scroll.setPrefSize(DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight());
 
 		Group root = new Group();
 
 		vbox = new VBox();
 		vbox.setSpacing(3);
-
-		dates = new HBox();
 
 		// Create the rows
 		for (int i = 0; i < panes.length; i++) {
@@ -77,19 +78,20 @@ public class TimelineView extends StackPane {
 		}
 
 		vbox.getChildren().addAll(panes);
-
-		stack.getChildren().addAll(dates, vbox);
-
+		stack.getChildren().add(vbox);
+		vbox.setTranslateY(70);
 		root.getChildren().addAll(stack);
-
 		scroll.setContent(root);
 
-		addEventButton = buildButton();
+		addEventButton = AwesomeDude.createIconButton(AwesomeIcon.PLUS_SIGN, "", "30", "30",
+				ContentDisplay.GRAPHIC_ONLY);
 		addEventButton.setTranslateX(-50);
 		addEventButton.setTranslateY(-50);
 		if (currentTimeline == null) {
 			addEventButton.setVisible(false);
 		}
+
+		stack.getChildren().add(0, container);
 
 		super.getChildren().addAll(scroll, addEventButton);
 		super.setAlignment(addEventButton, Pos.BOTTOM_RIGHT);
@@ -111,7 +113,7 @@ public class TimelineView extends StackPane {
 
 		if (currentTimeline != null) {
 			addEventButton.setVisible(true);
-			
+
 			// Fetch events from timeline
 			ArrayList<Event> events = new ArrayList<Event>();
 			if (currentTimeline.getList() != null) {
@@ -152,13 +154,13 @@ public class TimelineView extends StackPane {
 			for (int i = 0; i < shapeList.size(); i++) {
 
 				if (i == 0) { // First event.
-					panes[1].getChildren().add(shapeList.get(i).getShape());
+					panes[0].getChildren().add(shapeList.get(i).getShape());
 					added.add(shapeList.get(i));
 				} else {
 					boolean found = false;
 					added.add(shapeList.get(i));
 
-					for (int j = 1; !found; j++) {
+					for (int j = 0; !found; j++) {
 						panes[j].getChildren().add(shapeList.get(i).getShape());
 
 						for (int k = 0; k < added.size() - 1; k++) {
@@ -191,13 +193,13 @@ public class TimelineView extends StackPane {
 	 */
 	private void drawColumns() {
 
-		dates.getChildren().clear();
-
+		container.getChildren().clear();
 		VBox column;
-		Text text;
+		Text date;
 		Rectangle rect;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int days = 0;
+		Pane months = new Pane();
 
 		// Get the duration of the timeline.
 		if (currentTimeline != null) {
@@ -207,7 +209,7 @@ public class TimelineView extends StackPane {
 				days = i;
 			}
 			days++;
-			
+
 			HBox columns = new HBox();
 
 			// Draw the columns
@@ -224,38 +226,41 @@ public class TimelineView extends StackPane {
 				rect.setFill(Color.WHITE);
 
 				String day = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfMonth());
-				text = new Text();
-				text.setFont(Font.font("Arial", 18));
-				text.setText(day);
+				date = new Text();
+				date.setFont(Font.font("Arial", 18));
+				date.setText(day);
 
 				BorderPane txtContainer = new BorderPane();
-				txtContainer.setCenter(text);
+				txtContainer.setCenter(date);
 				txtContainer.setPrefHeight(20);
 
-				column.getChildren().addAll(txtContainer,rect);
+				String weekDayStr = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfWeek());
+
+				if (i % 2 == 0) {
+					weekDayStr = weekDayStr.substring(0, 3);
+				} else {
+					weekDayStr = "";
+				}
+
+				Text weekDay = new Text(weekDayStr);
+				txtContainer.setTop(weekDay);
+				BorderPane.setAlignment(weekDay, Pos.TOP_CENTER);
+
+				column.getChildren().addAll(txtContainer, rect);
 				columns.getChildren().add(column);
-				
-				stack.setPrefSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().getHeight());
 
+				if (day.equals("1")) {
+					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " "
+							+ currentTimeline.getStartDate().plusDays(i).getYear());
+					month.setFont(new Font(20));
+					months.getChildren().add(month);
+					month.setLayoutX(i * (width + 1));
+				}
+				stack.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
 			}
-			
-			stack.getChildren().add(0, columns);
 
+			container.getChildren().addAll(months, columns);
 		}
-	}
-
-	/**
-	 * Private method that returns an "Add event button".
-	 * 
-	 * @return Add event button
-	 */
-	private Button buildButton() {
-		final Dimension2D BUTTON_SIZE = new Dimension2D(100, 50);
-
-		Button button = new Button("Add event");
-		button.setPrefSize(BUTTON_SIZE.getWidth(), BUTTON_SIZE.getHeight());
-
-		return button;
 	}
 
 	private void onMouseOver() {

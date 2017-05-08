@@ -1,6 +1,7 @@
 package main;
 
 import controller.MainController;
+import de.jensd.fx.fontawesome.AwesomeStyle;
 import javafx.application.Application;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
@@ -29,7 +30,7 @@ public class TimelineManager extends Application {
 		MainController mainController = new MainController(ui, timelineContainer);
 		
 		Scene scene = new Scene(ui);
-
+		scene.getStylesheets().add(AwesomeStyle.BLUE.getStylePath());
 		primaryStage.setScene(scene);
 		primaryStage.show();
 

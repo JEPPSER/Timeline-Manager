@@ -1,8 +1,10 @@
 package view;
 
+import de.jensd.fx.fontawesome.*;
 import interfaces.MenuListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
+import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.MenuButton;
 import javafx.scene.effect.InnerShadow;
 import javafx.scene.layout.BorderPane;
@@ -37,7 +39,7 @@ public class MenuView extends StackPane {
 		addTimeline = new Button();
 		saveTimeline = new Button();
 		openTimeline = new Button();
-
+		
 		InnerShadow is = new InnerShadow();
 
 		BorderPane menu = new BorderPane();
@@ -64,16 +66,17 @@ public class MenuView extends StackPane {
 		// timelines will be displayed.
 		loadedTimelines = new MenuButton();
 		loadedTimelines.setText("Timelines");
-		loadedTimelines.setPrefSize(100, 30);
-
-		addTimeline.setPrefSize(30, 30);
-		addTimeline.setText("+");
-		deleteTimeline.setPrefSize(30, 30);
-		deleteTimeline.setText("-");
-		saveTimeline.setPrefSize(30, 30);
-		saveTimeline.setText("S");
-		openTimeline.setPrefSize(30, 30);
-		openTimeline.setText("L");
+		loadedTimelines.setPrefSize(100, 35);
+		loadedTimelines.setStyle(AwesomeStyle.RED.getStylePath());
+		addTimeline = AwesomeDude.createIconButton(AwesomeIcon.PLUS_SIGN_ALT, "","20", "15", ContentDisplay.CENTER);
+		//addTimeline.setPrefSize(30, 30);
+		//addTimeline.setText("+");
+		deleteTimeline=AwesomeDude.createIconButton(AwesomeIcon.TRASH, "","20", "15", ContentDisplay.CENTER);
+		//deleteTimeline.setText("-");
+		saveTimeline=AwesomeDude.createIconButton(AwesomeIcon.SAVE, "","20", "15", ContentDisplay.CENTER);
+		//saveTimeline.setText("S");
+		openTimeline=AwesomeDude.createIconButton(AwesomeIcon.FOLDER_OPEN_ALT, "","20", "15", ContentDisplay.CENTER);
+		//openTimeline.setText("L");
 
 		menu.setMaxHeight(60);
 		menu.setMinHeight(60);
@@ -81,7 +84,6 @@ public class MenuView extends StackPane {
 		timelineButtons.getChildren().addAll(filler1, loadedTimelines, addTimeline, deleteTimeline, saveTimeline, openTimeline);
 		timelineButtons.setAlignment(Pos.CENTER);
 		menu.setLeft(timelineButtons);
-
 		super.setMaxHeight(60);
 		super.getChildren().addAll(bg, menu);
 	}
