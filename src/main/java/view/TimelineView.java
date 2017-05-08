@@ -212,6 +212,7 @@ public class TimelineView extends StackPane {
 			days++;
 
 			HBox columns = new HBox();
+			boolean isFirst = true;
 
 			// Draw the columns
 			for (int i = 0; i <= days; i++) {
@@ -250,12 +251,13 @@ public class TimelineView extends StackPane {
 				column.getChildren().addAll(txtContainer, rect);
 				columns.getChildren().add(column);
 
-				if (day.equals("1")) {
+				if (day.equals("1") || i < 25 && isFirst == true) {
 					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " "
 							+ currentTimeline.getStartDate().plusDays(i).getYear());
 					month.setFont(new Font(20));
 					months.getChildren().add(month);
 					month.setLayoutX(i * (width + 1));
+					isFirst = false;
 				}
 				stack.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
 			}
