@@ -49,12 +49,12 @@ public class TimelineView extends StackPane {
 	private Pane[] panes = new Pane[ROWS];
 	private StackPane stack = new StackPane();
 	private ScrollPane scroll;
-	private HBox dates;
 	private VBox vbox;
 	private Timeline currentTimeline;
 	private Button addEventButton;
 	private EventShape shape;
 	PopOver hoverOver = new PopOver();
+	private VBox container = new VBox();
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -62,15 +62,12 @@ public class TimelineView extends StackPane {
 	public TimelineView() {
 
 		scroll = new ScrollPane();
-		scroll.setPrefSize(DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight()); // Default
-																				// size
+		scroll.setPrefSize(DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight());	
 
 		Group root = new Group();
 
 		vbox = new VBox();
 		vbox.setSpacing(3);
-
-		dates = new HBox();
 
 		// Create the rows
 		for (int i = 0; i < panes.length; i++) {
@@ -80,11 +77,9 @@ public class TimelineView extends StackPane {
 		}
 
 		vbox.getChildren().addAll(panes);
-
-		stack.getChildren().addAll(dates, vbox);
-
+		stack.getChildren().add(vbox);
+		vbox.setTranslateY(70);
 		root.getChildren().addAll(stack);
-
 		scroll.setContent(root);
 
 		addEventButton = AwesomeDude.createIconButton(AwesomeIcon.PLUS_SIGN, "", "30", "30", ContentDisplay.GRAPHIC_ONLY);
@@ -93,6 +88,8 @@ public class TimelineView extends StackPane {
 		if (currentTimeline == null) {
 			addEventButton.setVisible(false);
 		}
+		
+		stack.getChildren().add(0, container);
 
 		super.getChildren().addAll(scroll, addEventButton);
 		super.setAlignment(addEventButton, Pos.BOTTOM_RIGHT);
@@ -154,13 +151,13 @@ public class TimelineView extends StackPane {
 			for (int i = 0; i < shapeList.size(); i++) {
 
 				if (i == 0) { // First event.
-					panes[1].getChildren().add(shapeList.get(i).getShape());
+					panes[0].getChildren().add(shapeList.get(i).getShape());
 					added.add(shapeList.get(i));
 				} else {
 					boolean found = false;
 					added.add(shapeList.get(i));
 
-					for (int j = 1; !found; j++) {
+					for (int j = 0; !found; j++) {
 						panes[j].getChildren().add(shapeList.get(i).getShape());
 
 						for (int k = 0; k < added.size() - 1; k++) {
@@ -191,15 +188,14 @@ public class TimelineView extends StackPane {
 	 * Private method that draws the columns in the TimelinePane.
 	 */
 	private void drawColumns() {
-
-		dates.getChildren().clear();
-		stack.getChildren().clear();
 		
+		container.getChildren().clear();
 		VBox column;
-		Text text;
+		Text date;
 		Rectangle rect;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int days = 0;
+		HBox months = new HBox();
 
 		// Get the duration of the timeline.
 		if (currentTimeline != null) {
@@ -226,27 +222,45 @@ public class TimelineView extends StackPane {
 				rect.setFill(Color.WHITE);
 
 				String day = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfMonth());
-				text = new Text();
-				text.setFont(Font.font("Arial", 18));
-				text.setText(day);
+				date = new Text();
+				date.setFont(Font.font("Arial", 18));
+				date.setText(day);
 
 				BorderPane txtContainer = new BorderPane();
-				txtContainer.setCenter(text);
+				txtContainer.setCenter(date);
 				txtContainer.setPrefHeight(20);
-
-				column.getChildren().addAll(txtContainer,rect);
+				
+				String weekDayStr = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfWeek());
+				
+				if(i % 2 == 0){
+					weekDayStr = weekDayStr.substring(0, 3);
+				} else {
+					weekDayStr = "";
+				}
+				
+				Text weekDay = new Text(weekDayStr);
+				txtContainer.setTop(weekDay);
+				BorderPane.setAlignment(weekDay, Pos.TOP_CENTER);
+				
+				column.getChildren().addAll(txtContainer, rect);
 				columns.getChildren().add(column);
 				
-				stack.setPrefSize(Toolkit.getDefaultToolkit().getScreenSize().getWidth(), Toolkit.getDefaultToolkit().getScreenSize().getHeight());
-
+				if(day.equals("1")){
+					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " " + currentTimeline.getStartDate().plusDays(i).getYear());
+					month.setFont(new Font(20));
+					months.getChildren().add(month);
+				} else{
+					Pane space = new Pane();
+					space.setPrefWidth(width);
+					months.getChildren().add(space);
+				}
+				
+				stack.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
 			}
 			
-			stack.getChildren().add(0, columns);
-
+			container.getChildren().addAll(months, columns);
 		}
 	}
-
-
 
 	private void onMouseOver() {
 		EventShape eventshape;
