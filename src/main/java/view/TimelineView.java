@@ -107,7 +107,7 @@ public class TimelineView extends StackPane {
 
 		currentTimeline = timeline;
 		addEventButton.setVisible(false);
-		for (int i = 1; i < panes.length; i++) { // Clear the timeline view.
+		for (int i = 0; i < panes.length; i++) { // Clear the timeline view.
 			panes[i].getChildren().clear();
 		}
 		drawColumns();
