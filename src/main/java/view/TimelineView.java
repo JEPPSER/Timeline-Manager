@@ -62,7 +62,7 @@ public class TimelineView extends StackPane {
 	public TimelineView() {
 
 		scroll = new ScrollPane();
-		scroll.setPrefSize(DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight());	
+		scroll.setPrefSize(DEFAULT_SIZE.getWidth(), DEFAULT_SIZE.getHeight());
 
 		Group root = new Group();
 
@@ -82,13 +82,14 @@ public class TimelineView extends StackPane {
 		root.getChildren().addAll(stack);
 		scroll.setContent(root);
 
-		addEventButton = AwesomeDude.createIconButton(AwesomeIcon.PLUS_SIGN, "", "30", "30", ContentDisplay.GRAPHIC_ONLY);
+		addEventButton = AwesomeDude.createIconButton(AwesomeIcon.PLUS_SIGN, "", "30", "30",
+				ContentDisplay.GRAPHIC_ONLY);
 		addEventButton.setTranslateX(-50);
 		addEventButton.setTranslateY(-50);
 		if (currentTimeline == null) {
 			addEventButton.setVisible(false);
 		}
-		
+
 		stack.getChildren().add(0, container);
 
 		super.getChildren().addAll(scroll, addEventButton);
@@ -111,7 +112,7 @@ public class TimelineView extends StackPane {
 
 		if (currentTimeline != null) {
 			addEventButton.setVisible(true);
-			
+
 			// Fetch events from timeline
 			ArrayList<Event> events = new ArrayList<Event>();
 			if (currentTimeline.getList() != null) {
@@ -188,14 +189,14 @@ public class TimelineView extends StackPane {
 	 * Private method that draws the columns in the TimelinePane.
 	 */
 	private void drawColumns() {
-		
+
 		container.getChildren().clear();
 		VBox column;
 		Text date;
 		Rectangle rect;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 		int days = 0;
-		HBox months = new HBox();
+		Pane months = new Pane();
 
 		// Get the duration of the timeline.
 		if (currentTimeline != null) {
@@ -205,7 +206,7 @@ public class TimelineView extends StackPane {
 				days = i;
 			}
 			days++;
-			
+
 			HBox columns = new HBox();
 
 			// Draw the columns
@@ -229,35 +230,32 @@ public class TimelineView extends StackPane {
 				BorderPane txtContainer = new BorderPane();
 				txtContainer.setCenter(date);
 				txtContainer.setPrefHeight(20);
-				
+
 				String weekDayStr = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfWeek());
-				
-				if(i % 2 == 0){
+
+				if (i % 2 == 0) {
 					weekDayStr = weekDayStr.substring(0, 3);
 				} else {
 					weekDayStr = "";
 				}
-				
+
 				Text weekDay = new Text(weekDayStr);
 				txtContainer.setTop(weekDay);
 				BorderPane.setAlignment(weekDay, Pos.TOP_CENTER);
-				
+
 				column.getChildren().addAll(txtContainer, rect);
 				columns.getChildren().add(column);
-				
-				if(day.equals("1")){
-					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " " + currentTimeline.getStartDate().plusDays(i).getYear());
+
+				if (day.equals("1")) {
+					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " "
+							+ currentTimeline.getStartDate().plusDays(i).getYear());
 					month.setFont(new Font(20));
 					months.getChildren().add(month);
-				} else{
-					Pane space = new Pane();
-					space.setPrefWidth(width);
-					months.getChildren().add(space);
+					month.setLayoutX(i * (width + 1));
 				}
-				
 				stack.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
 			}
-			
+
 			container.getChildren().addAll(months, columns);
 		}
 	}
