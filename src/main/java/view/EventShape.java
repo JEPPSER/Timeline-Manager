@@ -39,7 +39,6 @@ public class EventShape {
 		this.event = event;
 
 		if (isDuration == EventType.DURATION) {
-
 			Rectangle rect = new Rectangle(layoutX, 0, width, 27);
 			rect.setFill(Color.TEAL);
 			rect.setArcHeight(30);
