@@ -46,7 +46,7 @@ public class TimelineView extends StackPane {
 	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(800, 400);
 
 	private final int ROWS = 30;
-	private int width = 50; // For time perspective
+	private int width = 90; // For time perspective
 	private Pane[] panes = new Pane[ROWS];
 	private StackPane stack = new StackPane();
 	private ScrollPane scroll;
@@ -57,6 +57,7 @@ public class TimelineView extends StackPane {
 	PopOver hoverOver = new PopOver();
 	private VBox container = new VBox();
 	private TimelineViewListener listener;
+	private String timePerspective = "Week";
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -97,20 +98,37 @@ public class TimelineView extends StackPane {
 		super.getChildren().addAll(scroll, addEventButton);
 		super.setAlignment(addEventButton, Pos.BOTTOM_RIGHT);
 	}
+	
+	/**
+	 * Method that gets the current timeline.
+	 * 
+	 * @return Current Timeline
+	 */
+	public Timeline getTimeline(){
+		return currentTimeline;
+	}
 
 	/**
 	 * Method that sets a timeline to be displayed in the timeline view.
 	 * 
 	 * @param Timeline
 	 */
-	public void setTimeline(Timeline timeline) {
+	public void setTimeline(Timeline timeline, String timePerspective) {
+		
+		if(timePerspective.equals("")){
+			timePerspective = this.timePerspective;
+		} else{
+			this.timePerspective = timePerspective;
+		}
 
 		currentTimeline = timeline;
 		addEventButton.setVisible(false);
+		
 		for (int i = 0; i < panes.length; i++) { // Clear the timeline view.
 			panes[i].getChildren().clear();
 		}
-		drawColumns();
+		
+		drawColumns(timePerspective);
 
 		if (currentTimeline != null) {
 			addEventButton.setVisible(true);
@@ -135,12 +153,13 @@ public class TimelineView extends StackPane {
 				if (events.get(i).getType() == EventType.DURATION) {
 					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate()))
 							+ 1;
+					shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
 				} else {
 					length = 1;
+					shape = new EventShape(events.get(i), type, start * trueWidth + trueWidth / 2, length * trueWidth);
 					start++;
 				}
-				shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
-
+				
 				shapeList.add(shape);
 				
 				onMouseOver();
@@ -190,15 +209,24 @@ public class TimelineView extends StackPane {
 	}
 
 	/**
-	 * Private method that draws the columns in the TimelinePane.
+	 * Method that draws the columns in the TimelineView.
 	 */
-	private void drawColumns() {
-
+	private void drawColumns(String timePerspective) {
+		
+		if(timePerspective.equals("Week")){
+			width = 90;
+		} else if(timePerspective.equals("Month")){
+			width = 29;
+		} else if(timePerspective.equals("Year")){
+			width = 5;
+		}
+		
 		container.getChildren().clear();
 		VBox column;
 		Text date;
 		Rectangle rect;
 		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		stack.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
 		int days = 0;
 		Pane months = new Pane();
 
@@ -213,55 +241,81 @@ public class TimelineView extends StackPane {
 
 			HBox columns = new HBox();
 			boolean isFirst = true;
+			int monthCount = 0;
 
 			// Draw the columns
-			for (int i = 0; i <= days; i++) {
-
-				column = new VBox();
-				column.setPrefWidth(width);
-
-				rect = new Rectangle();
-				rect.setWidth(width);
-				rect.setHeight(screenSize.getHeight());
-				rect.setStroke(Color.BLACK);
-				rect.setOpacity(0.1);
-				rect.setFill(Color.WHITE);
+			for (int i = 0; i <= days || i <= (stack.getPrefWidth() / (width + 1)); i++) {
 
 				String day = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfMonth());
-				date = new Text();
-				date.setFont(Font.font("Arial", 18));
-				date.setText(day);
+				column = new VBox();
+				
+				if(!timePerspective.equals("Year")){
+					
+					column.setPrefWidth(width);
+					rect = new Rectangle();
+					rect.setWidth(width);
+					rect.setHeight(screenSize.getHeight());
+					rect.setStroke(Color.BLACK);
+					rect.setOpacity(0.1);
+					rect.setFill(Color.WHITE);
+	
+					date = new Text();
+					date.setFont(Font.font("Arial", 18));
+					date.setText(day);
+	
+					BorderPane txtContainer = new BorderPane();
+					txtContainer.setCenter(date);
+					txtContainer.setPrefHeight(20);
+	
+					String weekDayStr = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfWeek());
+	
+					if (i % 2 == 0) {
+						weekDayStr = weekDayStr.substring(0, 3);
+					} else {
+						weekDayStr = "";
+					}
+	
+					Text weekDay = new Text(weekDayStr);
+					txtContainer.setTop(weekDay);
+					BorderPane.setAlignment(weekDay, Pos.TOP_CENTER);
+	
+					column.getChildren().addAll(txtContainer, rect);
+				}	
 
-				BorderPane txtContainer = new BorderPane();
-				txtContainer.setCenter(date);
-				txtContainer.setPrefHeight(20);
-
-				String weekDayStr = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfWeek());
-
-				if (i % 2 == 0) {
-					weekDayStr = weekDayStr.substring(0, 3);
-				} else {
-					weekDayStr = "";
-				}
-
-				Text weekDay = new Text(weekDayStr);
-				txtContainer.setTop(weekDay);
-				BorderPane.setAlignment(weekDay, Pos.TOP_CENTER);
-
-				column.getChildren().addAll(txtContainer, rect);
-				columns.getChildren().add(column);
-
-				if (day.equals("1") || i < 25 && isFirst == true) {
+				if (day.equals("1") || Integer.parseInt(day) < 25 && isFirst == true) {
 					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " "
 							+ currentTimeline.getStartDate().plusDays(i).getYear());
 					month.setFont(new Font(20));
 					months.getChildren().add(month);
 					month.setLayoutX(i * (width + 1));
 					isFirst = false;
+					
+					if(timePerspective.equals("Year")){
+						int yearWidth;
+						
+						if(monthCount % 3 == 0)
+							yearWidth = (width+1) * 31;
+						else
+							yearWidth = (width+1) * 30;
+						
+						if(!day.equals("1")){
+							yearWidth = (31 - Integer.parseInt(day)) * (width+1);
+						}
+						
+						Rectangle yearRect = new Rectangle();
+						yearRect.setWidth(yearWidth);
+						yearRect.setHeight(screenSize.getHeight());
+						yearRect.setStroke(Color.BLACK);
+						yearRect.setOpacity(0.1);
+						yearRect.setFill(Color.WHITE);
+						Pane filler = new Pane();
+						filler.setMinHeight(38);
+						column.getChildren().addAll(filler, yearRect);
+					}
+					monthCount++;
 				}
-				stack.setPrefSize(screenSize.getWidth(), screenSize.getHeight());
+				columns.getChildren().add(column);
 			}
-
 			container.getChildren().addAll(months, columns);
 		}
 	}
