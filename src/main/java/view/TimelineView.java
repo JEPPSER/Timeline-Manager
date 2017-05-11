@@ -6,12 +6,12 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import org.controlsfx.control.PopOver;
-
 import de.jensd.fx.fontawesome.AwesomeDude;
 import de.jensd.fx.fontawesome.AwesomeIcon;
 import interfaces.TimelineViewListener;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
@@ -23,6 +23,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -32,7 +33,6 @@ import javafx.stage.Stage;
 import model.Event;
 import model.Timeline;
 import model.Event.EventType;
-
 /**
  * Class drawing the graphics for how a timeline will be displayed. This class
  * can be added as a component in a user interface.
@@ -163,7 +163,6 @@ public class TimelineView extends StackPane {
 				shapeList.add(shape);
 				
 				onMouseOver();
-				onMouseExit();
 				setOnEventShapeClicked(shape);
 			}
 
@@ -321,32 +320,39 @@ public class TimelineView extends StackPane {
 	}
 
 	private void onMouseOver() {
-		EventShape eventshape;
+		EventShape eventshape = shape;
 
-		eventshape = shape;
-
-		eventshape.eventShape.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		TilePane buttonTile = new TilePane(Orientation.HORIZONTAL);
+		buttonTile.setHgap(20);
+		
+		Button edit =  AwesomeDude.createIconButton(AwesomeIcon.EDIT_SIGN, "", "15", "15", ContentDisplay.CENTER);
+		buttonTile.getChildren().add(edit);
+		
+		Button delete = AwesomeDude.createIconButton(AwesomeIcon.REMOVE_SIGN, "", "15", "15", ContentDisplay.CENTER);
+		buttonTile.getChildren().add(delete);
+		
+		eventshape.eventShape.setOnMouseEntered(new EventHandler<MouseEvent>() {  
 			@Override
 			public void handle(MouseEvent event) {
 				VBox popupVBox = new VBox();
-				Text eventID = new Text("Event ID: " + eventshape.event.getId());
+				
 				Text eventName = new Text("Event name: " + eventshape.event.getEventName());
 				Text eventDescription = new Text("Event description: " + eventshape.event.getDescription());
-				Text eventType = new Text("Event type: " + eventshape.event.getType());
 				Text eventStart = new Text("Event start date: " + eventshape.event.getStartDate());
-				Text eventEnd = new Text("Event end date: " + eventshape.event.getEndDate());
-				popupVBox.getChildren().addAll(eventID, eventName, eventDescription, eventType, eventStart, eventEnd);
+				Text eventEnd = new Text("Event end date: " + eventshape.event.getEndDate());	
+				
+				if (eventshape.event.getType() == EventType.DURATION)
+				{
+				popupVBox.getChildren().addAll(eventName, eventDescription, eventStart, eventEnd, buttonTile);
+				}
+				else
+				{
+					popupVBox.getChildren().addAll(eventName, eventDescription, eventStart, buttonTile);
+				}
+				
+				hoverOver.setDetached(true);
 				hoverOver.setContentNode(popupVBox);
 				hoverOver.show(eventshape.eventShape);
-			}
-		});
-	}
-
-	private void onMouseExit() {
-		shape.eventShape.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				hoverOver.hide();
 			}
 		});
 	}
