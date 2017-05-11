@@ -17,11 +17,10 @@ import model.Event.EventType;
  */
 
 public class EventShape {
-	Shape eventShape;
-	Event event;
-	int width;
-	int layoutX;
-	EventType isDuration;
+	private Shape eventShape;
+	private Event event;
+	private int width;
+	private int layoutX;
 
 	/**
 	 * Constructor that sets the properties and depending on the EventType,
@@ -35,7 +34,6 @@ public class EventShape {
 
 		this.layoutX = layoutX;
 		this.width = width;
-		this.isDuration = isDuration;
 		this.event = event;
 
 		if (isDuration == EventType.DURATION) {

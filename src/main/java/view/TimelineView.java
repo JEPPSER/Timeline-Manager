@@ -6,23 +6,25 @@ import java.time.LocalDate;
 import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import org.controlsfx.control.PopOver;
+import org.controlsfx.control.PopOver.ArrowLocation;
 
 import de.jensd.fx.fontawesome.AwesomeDude;
 import de.jensd.fx.fontawesome.AwesomeIcon;
 import interfaces.TimelineViewListener;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
+import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ScrollPane;
-import javafx.scene.input.MouseButton;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
+import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -54,10 +56,12 @@ public class TimelineView extends StackPane {
 	private Timeline currentTimeline;
 	private Button addEventButton;
 	private EventShape shape;
-	PopOver hoverOver = new PopOver();
+	private PopOver eventWindow = new PopOver();
 	private VBox container = new VBox();
 	private TimelineViewListener listener;
 	private String timePerspective = "Week";
+	private Button delete;
+	private Button edit;
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -98,13 +102,13 @@ public class TimelineView extends StackPane {
 		super.getChildren().addAll(scroll, addEventButton);
 		super.setAlignment(addEventButton, Pos.BOTTOM_RIGHT);
 	}
-	
+
 	/**
 	 * Method that gets the current timeline.
 	 * 
 	 * @return Current Timeline
 	 */
-	public Timeline getTimeline(){
+	public Timeline getTimeline() {
 		return currentTimeline;
 	}
 
@@ -114,20 +118,20 @@ public class TimelineView extends StackPane {
 	 * @param Timeline
 	 */
 	public void setTimeline(Timeline timeline, String timePerspective) {
-		
-		if(timePerspective.equals("")){
+
+		if (timePerspective.equals("")) {
 			timePerspective = this.timePerspective;
-		} else{
+		} else {
 			this.timePerspective = timePerspective;
 		}
 
 		currentTimeline = timeline;
 		addEventButton.setVisible(false);
-		
+
 		for (int i = 0; i < panes.length; i++) { // Clear the timeline view.
 			panes[i].getChildren().clear();
 		}
-		
+
 		drawColumns(timePerspective);
 
 		if (currentTimeline != null) {
@@ -159,11 +163,10 @@ public class TimelineView extends StackPane {
 					shape = new EventShape(events.get(i), type, start * trueWidth + trueWidth / 2, length * trueWidth);
 					start++;
 				}
-				
+
 				shapeList.add(shape);
-				
+
 				onMouseOver();
-				onMouseExit();
 				setOnEventShapeClicked(shape);
 			}
 
@@ -212,15 +215,15 @@ public class TimelineView extends StackPane {
 	 * Method that draws the columns in the TimelineView.
 	 */
 	private void drawColumns(String timePerspective) {
-		
-		if(timePerspective.equals("Week")){
+
+		if (timePerspective.equals("Week")) {
 			width = 90;
-		} else if(timePerspective.equals("Month")){
+		} else if (timePerspective.equals("Month")) {
 			width = 29;
-		} else if(timePerspective.equals("Year")){
+		} else if (timePerspective.equals("Year")) {
 			width = 5;
 		}
-		
+
 		container.getChildren().clear();
 		VBox column;
 		Text date;
@@ -248,9 +251,9 @@ public class TimelineView extends StackPane {
 
 				String day = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfMonth());
 				column = new VBox();
-				
-				if(!timePerspective.equals("Year")){
-					
+
+				if (!timePerspective.equals("Year")) {
+
 					column.setPrefWidth(width);
 					rect = new Rectangle();
 					rect.setWidth(width);
@@ -258,29 +261,29 @@ public class TimelineView extends StackPane {
 					rect.setStroke(Color.BLACK);
 					rect.setOpacity(0.1);
 					rect.setFill(Color.WHITE);
-	
+
 					date = new Text();
 					date.setFont(Font.font("Arial", 18));
 					date.setText(day);
-	
+
 					BorderPane txtContainer = new BorderPane();
 					txtContainer.setCenter(date);
 					txtContainer.setPrefHeight(20);
-	
+
 					String weekDayStr = String.valueOf(currentTimeline.getStartDate().plusDays(i).getDayOfWeek());
-	
+
 					if (i % 2 == 0) {
 						weekDayStr = weekDayStr.substring(0, 3);
 					} else {
 						weekDayStr = "";
 					}
-	
+
 					Text weekDay = new Text(weekDayStr);
 					txtContainer.setTop(weekDay);
 					BorderPane.setAlignment(weekDay, Pos.TOP_CENTER);
-	
+
 					column.getChildren().addAll(txtContainer, rect);
-				}	
+				}
 
 				if (day.equals("1") || Integer.parseInt(day) < 25 && isFirst == true) {
 					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " "
@@ -289,19 +292,19 @@ public class TimelineView extends StackPane {
 					months.getChildren().add(month);
 					month.setLayoutX(i * (width + 1));
 					isFirst = false;
-					
-					if(timePerspective.equals("Year")){
+
+					if (timePerspective.equals("Year")) {
 						int yearWidth;
-						
-						if(monthCount % 3 == 0)
-							yearWidth = (width+1) * 31;
+
+						if (monthCount % 3 == 0)
+							yearWidth = (width + 1) * 31;
 						else
-							yearWidth = (width+1) * 30;
-						
-						if(!day.equals("1")){
-							yearWidth = (31 - Integer.parseInt(day)) * (width+1);
+							yearWidth = (width + 1) * 30;
+
+						if (!day.equals("1")) {
+							yearWidth = (31 - Integer.parseInt(day)) * (width + 1);
 						}
-						
+
 						Rectangle yearRect = new Rectangle();
 						yearRect.setWidth(yearWidth);
 						yearRect.setHeight(screenSize.getHeight());
@@ -321,46 +324,52 @@ public class TimelineView extends StackPane {
 	}
 
 	private void onMouseOver() {
-		EventShape eventshape;
+		EventShape eventshape = shape;
 
-		eventshape = shape;
+		TilePane buttonTile = new TilePane(Orientation.HORIZONTAL);
+		buttonTile.setHgap(5);
 
-		eventshape.eventShape.setOnMouseEntered(new EventHandler<MouseEvent>() {
+		edit = AwesomeDude.createIconButton(AwesomeIcon.EDIT_SIGN, "", "15", "15", ContentDisplay.CENTER);
+		buttonTile.getChildren().add(edit);
+
+		delete = AwesomeDude.createIconButton(AwesomeIcon.REMOVE_SIGN, "", "15", "15", ContentDisplay.CENTER);
+		buttonTile.getChildren().add(delete);
+
+		eventshape.getShape().setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
+
 				VBox popupVBox = new VBox();
-				Text eventID = new Text("Event ID: " + eventshape.event.getId());
-				Text eventName = new Text("Event name: " + eventshape.event.getEventName());
-				Text eventDescription = new Text("Event description: " + eventshape.event.getDescription());
-				Text eventType = new Text("Event type: " + eventshape.event.getType());
-				Text eventStart = new Text("Event start date: " + eventshape.event.getStartDate());
-				Text eventEnd = new Text("Event end date: " + eventshape.event.getEndDate());
-				popupVBox.getChildren().addAll(eventID, eventName, eventDescription, eventType, eventStart, eventEnd);
-				hoverOver.setContentNode(popupVBox);
-				hoverOver.show(eventshape.eventShape);
+				Text eventName = new Text("Event name: " + eventshape.getEvent().getEventName());
+				Text eventDescription = new Text("Event description: " + eventshape.getEvent().getDescription());
+				Text eventStart = new Text("Event start date: " + eventshape.getEvent().getStartDate());
+				Text eventEnd = new Text("Event end date: " + eventshape.getEvent().getEndDate());
+
+				if (eventshape.getEvent().getType() == EventType.DURATION) {
+					popupVBox.getChildren().addAll(eventName, eventDescription, eventStart, eventEnd, buttonTile);
+				} else {
+					popupVBox.getChildren().addAll(eventName, eventDescription, eventStart, buttonTile);
+				}
+
+				eventWindow.setDetached(false);
+				eventWindow.setArrowLocation(ArrowLocation.TOP_CENTER);
+				eventWindow.setContentNode(popupVBox);
+				eventWindow.show(eventshape.getShape());
 			}
 		});
 	}
 
-	private void onMouseExit() {
-		shape.eventShape.setOnMouseExited(new EventHandler<MouseEvent>() {
-			@Override
-			public void handle(MouseEvent event) {
-				hoverOver.hide();
-			}
-		});
-	}
-	
 	private void setOnEventShapeClicked(EventShape shape) {
 		EventShape clicked = shape;
-		
-		shape.getShape().setOnMouseClicked(e -> {
-			
-			if (e.getButton() == MouseButton.PRIMARY) {
-				listener.onEditEventClicked((Stage)getScene().getWindow(), clicked.getEvent());
-			} else if (e.getButton() == MouseButton.SECONDARY) {
-				listener.onDeleteEventClicked(clicked.getEvent().getId());
-			}
+
+		delete.setOnAction(e -> {
+			listener.onDeleteEventClicked(clicked.getEvent().getId());
+			eventWindow.hide();
+		});
+
+		edit.setOnAction(e -> {
+			listener.onEditEventClicked((Stage) getScene().getWindow(), clicked.getEvent());
+			eventWindow.hide();
 		});
 	}
 }
