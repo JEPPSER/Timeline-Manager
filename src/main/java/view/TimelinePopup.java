@@ -51,7 +51,7 @@ public class TimelinePopup {
 		Text endHeader = new Text("End Date");
 
 		HBox buttons = new HBox();
-		buttons.setSpacing(10);
+		buttons.setSpacing(8);
 		cancelButton = new Button("Cancel");
 		saveButton = new Button("Add");
 		buttons.getChildren().addAll(saveButton, cancelButton);
@@ -69,7 +69,8 @@ public class TimelinePopup {
 		root.getChildren().addAll(hbox);
 
 		stage = new Stage();
-		stage.setScene(new Scene(root, 220, 220));
+		stage.setScene(new Scene(root, 220, 225));
+		stage.setResizable(false);
 		stage.show();
 
 		cancelButton.setOnAction(e -> {

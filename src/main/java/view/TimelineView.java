@@ -329,10 +329,10 @@ public class TimelineView extends StackPane {
 		TilePane buttonTile = new TilePane(Orientation.HORIZONTAL);
 		buttonTile.setHgap(5);
 
-		edit = AwesomeDude.createIconButton(AwesomeIcon.EDIT_SIGN, "", "15", "15", ContentDisplay.CENTER);
+		edit = AwesomeDude.createIconButton(AwesomeIcon.EDIT_SIGN, "", "10", "10", ContentDisplay.CENTER);
 		buttonTile.getChildren().add(edit);
 
-		delete = AwesomeDude.createIconButton(AwesomeIcon.REMOVE_SIGN, "", "15", "15", ContentDisplay.CENTER);
+		delete = AwesomeDude.createIconButton(AwesomeIcon.TRASH, "", "10", "10", ContentDisplay.GRAPHIC_ONLY);
 		buttonTile.getChildren().add(delete);
 
 		eventshape.getShape().setOnMouseClicked(new EventHandler<MouseEvent>() {
