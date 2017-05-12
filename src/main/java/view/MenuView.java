@@ -87,11 +87,11 @@ public class MenuView extends StackPane {
 		ToggleButton tb1 = new ToggleButton("Week");
 		tb1.setToggleGroup(group);
 		tb1.setPrefWidth(70);
-		tb1.setSelected(true);
-		tb1.setDisable(true);
 		ToggleButton tb2 = new ToggleButton("Month");
 		tb2.setToggleGroup(group);
 		tb2.setPrefWidth(70);
+		tb2.setSelected(true);
+		tb2.setDisable(true);
 		ToggleButton tb3 = new ToggleButton("Year");
 		tb3.setToggleGroup(group);
 		tb3.setPrefWidth(70);

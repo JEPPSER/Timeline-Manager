@@ -48,7 +48,7 @@ public class TimelineView extends StackPane {
 	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(800, 400);
 
 	private final int ROWS = 30;
-	private int width = 90; // For time perspective
+	private int width = 29; // For time perspective
 	private Pane[] panes = new Pane[ROWS];
 	private StackPane stack = new StackPane();
 	private ScrollPane scroll;
@@ -59,7 +59,7 @@ public class TimelineView extends StackPane {
 	private PopOver eventWindow = new PopOver();
 	private VBox container = new VBox();
 	private TimelineViewListener listener;
-	private String timePerspective = "Week";
+	private String timePerspective = "Month";
 	private Button delete;
 	private Button edit;
 
@@ -332,7 +332,7 @@ public class TimelineView extends StackPane {
 		edit = AwesomeDude.createIconButton(AwesomeIcon.EDIT_SIGN, "", "15", "15", ContentDisplay.CENTER);
 		buttonTile.getChildren().add(edit);
 
-		delete = AwesomeDude.createIconButton(AwesomeIcon.REMOVE_SIGN, "", "15", "15", ContentDisplay.CENTER);
+		delete = AwesomeDude.createIconButton(AwesomeIcon.TRASH, "", "15", "15", ContentDisplay.CENTER);
 		buttonTile.getChildren().add(delete);
 
 		eventshape.getShape().setOnMouseClicked(new EventHandler<MouseEvent>() {
