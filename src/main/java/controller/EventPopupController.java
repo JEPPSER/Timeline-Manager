@@ -1,12 +1,12 @@
 package controller;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import interfaces.EventPopupListener;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Toggle;
+import javafx.scene.paint.Color;
 import model.Event.EventType;
 import model.Timeline;
 import model.TimelineContainer;
@@ -34,22 +34,22 @@ public class EventPopupController implements EventPopupListener {
 	
 	@Override
 	public void onAddButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription,
-			LocalDateTime startDate, LocalDateTime endDate) {
+			LocalDateTime startDate, LocalDateTime endDate, Color color) {
 		
 		if (checkInput(eventTypeToggle, eventTitle, eventDescription, startDate, endDate)) {
 			EventType type = isDurationEvent(eventTypeToggle) ? EventType.DURATION : EventType.NON_DURATION;
-			container.addEvent(eventTitle, eventDescription, startDate, endDate, type);
+			container.addEvent(eventTitle, eventDescription, startDate, endDate, type, color);
 			eventPopup.close();
 		}
 	}
 	
 	@Override
 	public void onEditButtonClicked(int eventId, Toggle eventTypeToggle, String eventTitle, String eventDescription,
-			LocalDateTime startDate, LocalDateTime endDate) {
+			LocalDateTime startDate, LocalDateTime endDate, Color color) {
 		
 		if (checkInput(eventTypeToggle, eventTitle, eventDescription, startDate, endDate)) {
 			EventType newType = isDurationEvent(eventTypeToggle) ? EventType.DURATION : EventType.NON_DURATION;
-			container.editEvent(eventId, eventTitle, eventDescription, startDate, endDate, newType);
+			container.editEvent(eventId, eventTitle, eventDescription, startDate, endDate, newType, color);
 			eventPopup.close();
 		}
 		

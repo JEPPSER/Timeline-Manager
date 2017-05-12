@@ -5,6 +5,7 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 
 import io.FileHandler;
+import javafx.scene.paint.Color;
 import model.Event;
 import model.Event.EventType;
 import model.Timeline;
@@ -18,8 +19,8 @@ public class Main {
 		timeLine.setEndDate(LocalDate.now().plusDays(1));
 		FileHandler fileHandler = new FileHandler();
 	
-		timeLine.add("a", "party", LocalDateTime.now(), LocalDateTime.now().plusDays(2),Event.EventType.DURATION);
-		timeLine.add("meeting", "implementation 4", LocalDateTime.now(), LocalDateTime.now().plusDays(1),Event.EventType.NON_DURATION);
+		timeLine.add("a", "party", LocalDateTime.now(), LocalDateTime.now().plusDays(2),Event.EventType.DURATION, Color.BLUE);
+		timeLine.add("meeting", "implementation 4", LocalDateTime.now(), LocalDateTime.now().plusDays(1),Event.EventType.NON_DURATION, Color.BLACK);
 		/*notice that if we add end date for a non duration event it will not be printed*/
 		
 		File file1 = new File(".\\src\\test\\resources\\");
@@ -28,7 +29,7 @@ public class Main {
 		System.out.println(fileHandler.readXML(file2));
 		for(Event e:timeLine.getList())
          System.out.println(e);
-		timeLine.update(timeLine.getList().get(0), "x", "party2", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2), EventType.DURATION);
+		timeLine.update(timeLine.getList().get(0), "x", "party2", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2), EventType.DURATION, Color.BLACK);
 		fileHandler.writeXML(timeLine, file1);
 		System.out.println(fileHandler.readXML(file2));
 		for(Event e:timeLine.getList())

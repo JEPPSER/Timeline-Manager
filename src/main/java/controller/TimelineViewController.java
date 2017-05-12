@@ -37,7 +37,7 @@ public class TimelineViewController implements TimelineViewListener
 		
 		// Initialize fields in the event popup with the information in the event that is to be edited
 		eventPopup.setFields(event.getId(), event.getEventName(), event.getDescription(), event.getType(),
-				event.getStartDate(), event.getEndDate());
+				event.getStartDate(), event.getEndDate(), event.getColor());
 				
 		
 		eventPopupController = new EventPopupController(eventPopup, timelineContainer);
