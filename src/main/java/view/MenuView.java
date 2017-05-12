@@ -69,7 +69,7 @@ public class MenuView extends StackPane {
 		// timelines will be displayed.
 		loadedTimelines = new MenuButton();
 		loadedTimelines.setText("Timelines");
-		loadedTimelines.setPrefSize(100, 35);
+		loadedTimelines.setPrefSize(100, 30);
 		loadedTimelines.setStyle(AwesomeStyle.RED.getStylePath());
 		addTimeline = AwesomeDude.createIconButton(AwesomeIcon.PLUS_SIGN_ALT, "", "20", "15", ContentDisplay.CENTER);
 		deleteTimeline = AwesomeDude.createIconButton(AwesomeIcon.TRASH, "", "20", "15", ContentDisplay.CENTER);

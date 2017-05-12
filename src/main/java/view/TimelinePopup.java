@@ -57,7 +57,7 @@ public class TimelinePopup {
 		buttons.getChildren().addAll(saveButton, cancelButton);
 
 		VBox vbox = new VBox();
-		vbox.setSpacing(10);
+		vbox.setSpacing(8);
 		vbox.getChildren().addAll(titleHeader, titleField, startHeader, startPicker, endHeader, endPicker, buttons);
 
 		HBox hbox = new HBox();
@@ -69,7 +69,8 @@ public class TimelinePopup {
 		root.getChildren().addAll(hbox);
 
 		stage = new Stage();
-		stage.setScene(new Scene(root, 220, 220));
+		stage.setScene(new Scene(root, 220, 225));
+		stage.setResizable(false);
 		stage.show();
 
 		cancelButton.setOnAction(e -> {
