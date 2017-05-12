@@ -49,7 +49,7 @@ public class MenuView extends StackPane {
 
 		// Background for the menu.
 		Rectangle bg = new Rectangle();
-		bg.setFill(Color.GRAY);
+		bg.setFill(Color.DARKGREY);
 		bg.setHeight(60);
 		bg.setWidth(10);
 		bg.setScaleX(200);

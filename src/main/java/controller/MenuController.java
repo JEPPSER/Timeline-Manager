@@ -137,6 +137,7 @@ public class MenuController implements MenuListener {
 			Alert alert = new Alert(AlertType.INFORMATION, "There is no timeline to save ", ButtonType.OK);
 			alert.setHeaderText(null);
 			alert.showAndWait();
+			alert.initOwner(stage);
 			if(alert.getResult() == ButtonType.OK){
 				alert.close();
 			}
@@ -153,10 +154,13 @@ public class MenuController implements MenuListener {
 		File file = chooser.showDialog(stage);
 
 		String fileName = active.getName().toLowerCase() + ".xml";
-		String path = file.getAbsolutePath() + "/" + fileName;
-		active.setPath(path);
-
-		System.out.println("Saving timeline to location: " + file.getPath());
+		String path = "";
+		
+		if(file != null){
+			path = file.getAbsolutePath() + "/" + fileName;
+			active.setPath(path);
+			System.out.println("Saving timeline to location: " + file.getPath());
+		}
 
 		try {
 			fileHandler.writeXML(active, file);
