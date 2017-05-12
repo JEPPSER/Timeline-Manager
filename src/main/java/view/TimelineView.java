@@ -13,18 +13,17 @@ import de.jensd.fx.fontawesome.AwesomeIcon;
 import interfaces.TimelineViewListener;
 import javafx.event.EventHandler;
 import javafx.geometry.Dimension2D;
-import javafx.geometry.Orientation;
 import javafx.geometry.Pos;
 import javafx.scene.Group;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.ScrollPane;
 import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.Background;
 import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
@@ -326,15 +325,17 @@ public class TimelineView extends StackPane {
 	private void onMouseOver() {
 		EventShape eventshape = shape;
 
-		TilePane buttonTile = new TilePane(Orientation.HORIZONTAL);
-		buttonTile.setHgap(5);
+		HBox buttonTile = new HBox();
+		
+		Pane filler = new Pane();
+		filler.setMinWidth(150);
 
 		edit = AwesomeDude.createIconButton(AwesomeIcon.EDIT_SIGN, "", "15", "15", ContentDisplay.CENTER);
-		buttonTile.getChildren().add(edit);
-
-		delete = AwesomeDude.createIconButton(AwesomeIcon.TRASH, "", "15", "15", ContentDisplay.CENTER);
-		buttonTile.getChildren().add(delete);
-
+		edit.setBackground(Background.EMPTY);
+		delete = AwesomeDude.createIconButton(AwesomeIcon.TRASH, "", "15", "15", ContentDisplay.GRAPHIC_ONLY);
+		delete.setBackground(Background.EMPTY);
+		buttonTile.setSpacing(0);
+		buttonTile.getChildren().addAll(filler,delete,edit);
 		eventshape.getShape().setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -346,9 +347,9 @@ public class TimelineView extends StackPane {
 				Text eventEnd = new Text("Event end date: " + eventshape.getEvent().getEndDate());
 
 				if (eventshape.getEvent().getType() == EventType.DURATION) {
-					popupVBox.getChildren().addAll(eventName, eventDescription, eventStart, eventEnd, buttonTile);
+					popupVBox.getChildren().addAll(buttonTile,eventName, eventDescription, eventStart, eventEnd );
 				} else {
-					popupVBox.getChildren().addAll(eventName, eventDescription, eventStart, buttonTile);
+					popupVBox.getChildren().addAll(buttonTile,eventName, eventDescription, eventStart);
 				}
 
 				eventWindow.setDetached(false);

@@ -29,7 +29,7 @@ public class TimelineManager extends Application {
 		ui = new MainView();
 		TimelineContainer timelineContainer = new TimelineContainer();
 		MainController mainController = new MainController(ui, timelineContainer);
-		
+		setUserAgentStylesheet(STYLESHEET_CASPIAN);
 		Scene scene = new Scene(ui);
 		scene.getStylesheets().add(AwesomeStyle.BLUE.getStylePath());
 		primaryStage.setScene(scene);
