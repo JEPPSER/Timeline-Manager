@@ -11,6 +11,7 @@ import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
+import javafx.scene.paint.Color;
 import model.Event.EventType;
 
 @XmlRootElement(name = "Timeline")
@@ -108,8 +109,8 @@ public class Timeline {
 	/**
 	 * Add an event of type Event.
 	 */
-	public void add(String name, String desc, LocalDateTime start, LocalDateTime end, EventType type) {
-		eventList.add(new Event(getMaxId(), name, desc, start, end, type));
+	public void add(String name, String desc, LocalDateTime start, LocalDateTime end, EventType type, Color color) {
+		eventList.add(new Event(getMaxId(), name, desc, start, end, type, color));
 		
 		for (Event e : eventList) {
 			System.out.println(e);
@@ -119,11 +120,12 @@ public class Timeline {
 	/**
 	 * Update an event of type Event.
 	 */
-	public void update(Event event, String name, String desc, LocalDateTime start, LocalDateTime end, EventType type){
+	public void update(Event event, String name, String desc, LocalDateTime start, LocalDateTime end, EventType type, Color color){
 		eventList.get(eventList.indexOf(event)).setEventName(name);
 		eventList.get(eventList.indexOf(event)).setDescription(desc);
 		eventList.get(eventList.indexOf(event)).setStartDate(start);
 		eventList.get(eventList.indexOf(event)).setType(type);
+		eventList.get(eventList.indexOf(event)).setColor(color);
 		
 		if (type == EventType.DURATION) {
 			eventList.get(eventList.indexOf(event)).setEndDate(end);

@@ -9,7 +9,7 @@ import javax.xml.bind.annotation.adapters.XmlAdapter;
  * 
  * @author Daniel Alm Grundström
  * @version 0.00.00
- * @name FileHandler.java
+ * @name LocalDateAdapter.java
  */
 public class LocalDateAdapter extends XmlAdapter<String, LocalDate> {
     public LocalDate unmarshal(String v) throws Exception {

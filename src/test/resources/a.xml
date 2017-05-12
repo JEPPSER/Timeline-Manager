@@ -1,13 +1,23 @@
 <?xml version="1.0" encoding="UTF-8" standalone="yes"?>
 <Timeline>
     <name>a</name>
-    <startDate>2017-05-08</startDate>
-    <endDate>2017-05-09</endDate>
+    <startDate>2017-05-12</startDate>
+    <endDate>2017-05-13</endDate>
+    <Event>
+        <eventId>1</eventId>
+        <eventName>a</eventName>
+        <description>party</description>
+        <color/>
+        <startDate>2017-05-12T21:59:03.816</startDate>
+        <endDate>2017-05-14T21:59:03.816</endDate>
+        <type>DURATION</type>
+    </Event>
     <Event>
         <eventId>2</eventId>
         <eventName>meeting</eventName>
         <description>implementation 4</description>
-        <startDate>2017-05-08T17:57:49.520</startDate>
+        <color/>
+        <startDate>2017-05-12T21:59:03.827</startDate>
         <type>NON_DURATION</type>
     </Event>
     <path></path>

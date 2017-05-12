@@ -4,6 +4,7 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 
 import interfaces.ModelChangedListener;
+import javafx.scene.paint.Color;
 import model.Event.EventType;
 
 /**
@@ -44,9 +45,9 @@ public class TimelineContainer {
 	/**
 	 * Adds an event to the currently active timeline.
 	 */
-	public void addEvent(String title, String description, LocalDateTime start, LocalDateTime end, EventType type) {
+	public void addEvent(String title, String description, LocalDateTime start, LocalDateTime end, EventType type, Color color) {
 		if (activeTimeline != null) {
-			activeTimeline.add(title, description, start, end, type);
+			activeTimeline.add(title, description, start, end, type, color);
 			listener.onModelChanged(timelines, activeTimeline);
 		}
 	}
@@ -54,11 +55,11 @@ public class TimelineContainer {
 	/**
 	 * Edits an existing event in the currently active timeline
 	 */
-	public void editEvent(int id, String title, String description, LocalDateTime start, LocalDateTime end, EventType type) {
+	public void editEvent(int id, String title, String description, LocalDateTime start, LocalDateTime end, EventType type, Color color) {
 		Event eventToEdit = getEventById(id);
 		
 		if (eventToEdit != null) {
-			activeTimeline.update(eventToEdit, title, description, start, end, type);
+			activeTimeline.update(eventToEdit, title, description, start, end, type, color);
 			listener.onModelChanged(timelines, activeTimeline);
 		}
 	}

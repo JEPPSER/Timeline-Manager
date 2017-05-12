@@ -156,10 +156,10 @@ public class TimelineView extends StackPane {
 				if (events.get(i).getType() == EventType.DURATION) {
 					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate()))
 							+ 1;
-					shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth);
+					shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth, events.get(i).getColor());
 				} else {
 					length = 1;
-					shape = new EventShape(events.get(i), type, start * trueWidth + trueWidth / 2, length * trueWidth);
+					shape = new EventShape(events.get(i), type, start * trueWidth + trueWidth / 2, length * trueWidth, events.get(i).getColor());
 					start++;
 				}
 

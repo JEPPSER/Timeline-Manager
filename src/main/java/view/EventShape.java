@@ -21,6 +21,7 @@ public class EventShape {
 	private Event event;
 	private int width;
 	private int layoutX;
+	private Color color;
 
 	/**
 	 * Constructor that sets the properties and depending on the EventType,
@@ -30,7 +31,7 @@ public class EventShape {
 	 * @param layoutX
 	 * @param width
 	 */
-	public EventShape(Event event, EventType isDuration, int layoutX, int width) {
+	public EventShape(Event event, EventType isDuration, int layoutX, int width, Color color) {
 
 		this.layoutX = layoutX;
 		this.width = width;
@@ -38,7 +39,7 @@ public class EventShape {
 
 		if (isDuration == EventType.DURATION) {
 			Rectangle rect = new Rectangle(layoutX, 0, width, 27);
-			rect.setFill(Color.TEAL);
+			rect.setFill(color);
 			rect.setArcHeight(30);
 			rect.setArcWidth(30);
 			eventShape = rect;
