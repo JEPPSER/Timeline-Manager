@@ -10,7 +10,7 @@ import javafx.scene.control.Toggle;
  * Listener for the EventPopup. This listener will handle all actions
  * performed by the user in the EventPopup.
  * 
- * @author Daniel Alm Grundstrom
+ * @author Daniel Alm Grundström
  * @version 0.00.00
  * @name EventPopupListener.java
  */

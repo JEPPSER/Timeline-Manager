@@ -332,7 +332,7 @@ public class TimelineView extends StackPane {
 		edit = AwesomeDude.createIconButton(AwesomeIcon.EDIT_SIGN, "", "15", "15", ContentDisplay.CENTER);
 		buttonTile.getChildren().add(edit);
 
-		delete = AwesomeDude.createIconButton(AwesomeIcon.TRASH, "", "15", "15", ContentDisplay.CENTER);
+		delete = AwesomeDude.createIconButton(AwesomeIcon.REMOVE_SIGN, "", "15", "15", ContentDisplay.CENTER);
 		buttonTile.getChildren().add(delete);
 
 		eventshape.getShape().setOnMouseClicked(new EventHandler<MouseEvent>() {
