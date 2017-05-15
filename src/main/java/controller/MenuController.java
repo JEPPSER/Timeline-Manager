@@ -90,80 +90,83 @@ public class MenuController implements MenuListener {
 	public void onDeleteButtonClicked() {
 		System.out.println("Are you sure you want to delete this timeline");
 		Timeline timeline = timelineContainer.getActiveTimeline();
-		if (timeline == null){
+		if (timeline == null) {
 			Alert alert = new Alert(AlertType.INFORMATION, "There is no timeline to delete ", ButtonType.OK);
 			alert.setHeaderText(null);
 			alert.showAndWait();
-			if(alert.getResult() == ButtonType.OK){
+			if (alert.getResult() == ButtonType.OK) {
 				alert.close();
 			}
-		}else {
-			
-		Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this timeline?", ButtonType.YES, ButtonType.NO);
-		alert.showAndWait();
-		if(alert.getResult() == ButtonType.YES){
-			String path = timeline.getPath();
-			try {
-				if (!path.equals(""))
-					Files.delete(Paths.get(path));
-			} catch (IOException f) {
-				f.printStackTrace();
-			}
+		} else {
 
-			// Finding the right menu item and removing it.
-			for (int i = 0; i < menuView.getLoadedTimelines().getItems().size(); i++) {
-				if (menuView.getLoadedTimelines().getItems().get(i).getText().equals(timeline.getName())) {
-					menuView.getLoadedTimelines().getItems().remove(i);
+			Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this timeline?", ButtonType.YES,
+					ButtonType.NO);
+			alert.showAndWait();
+			if (alert.getResult() == ButtonType.YES) {
+				String path = timeline.getPath();
+				try {
+					if (!path.equals(""))
+						Files.delete(Paths.get(path));
+				} catch (IOException f) {
+					f.printStackTrace();
 				}
-			}
 
-			menuView.getLoadedTimelines().setText("Timelines");
-			timelineContainer.getTimelines().remove(timelineContainer.getActiveTimeline());
-			timelineContainer.setActiveTimeline(null);
-			alert.close();
-		} else if(alert.getResult() == ButtonType.NO){
-			alert.close();
+				// Finding the right menu item and removing it.
+				for (int i = 0; i < menuView.getLoadedTimelines().getItems().size(); i++) {
+					if (menuView.getLoadedTimelines().getItems().get(i).getText().equals(timeline.getName())) {
+						menuView.getLoadedTimelines().getItems().remove(i);
+					}
+				}
+
+				menuView.getLoadedTimelines().setText("Timelines");
+				timelineContainer.getTimelines().remove(timelineContainer.getActiveTimeline());
+				timelineContainer.setActiveTimeline(null);
+				alert.close();
+			} else if (alert.getResult() == ButtonType.NO) {
+				alert.close();
+			}
 		}
 	}
-	}
-
 
 	@Override
 	public void onSaveButtonClicked(Stage stage) {
 
 		Timeline active = timelineContainer.getActiveTimeline();
 
-		if(active == null) {
+		if (active == null) {
 			Alert alert = new Alert(AlertType.INFORMATION, "There is no timeline to save ", ButtonType.OK);
 			alert.setHeaderText(null);
 			alert.showAndWait();
-			if(alert.getResult() == ButtonType.OK){
+			if (alert.getResult() == ButtonType.OK) {
 				alert.close();
 			}
-		}else {
-		File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
+		} else {
+			File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
 
-		// Create initial directory if it does not exist
-		if (!initialDirectory.exists()) {
-			initialDirectory.mkdirs();
-		}
+			// Create initial directory if it does not exist
+			if (!initialDirectory.exists()) {
+				initialDirectory.mkdirs();
+			}
 
-		chooser = new DirectoryChooser();
-		chooser.setInitialDirectory(initialDirectory);
-		File file = chooser.showDialog(stage);
+			chooser = new DirectoryChooser();
+			chooser.setInitialDirectory(initialDirectory);
+			File file = chooser.showDialog(stage);
 
-		String fileName = active.getName().toLowerCase() + ".xml";
-		String path = file.getAbsolutePath() + "/" + fileName;
-		active.setPath(path);
+			String fileName = active.getName().toLowerCase() + ".xml";
+			String path = "";
 
-		System.out.println("Saving timeline to location: " + file.getPath());
+			if (file != null) {
+				path = file.getAbsolutePath() + "/" + fileName;
+				active.setPath(path);
+				System.out.println("Saving timeline to location: " + file.getPath());
+			}
 
-		try {
-			fileHandler.writeXML(active, file);
-		} catch (Exception ex) {
-			// TODO: Show error message in Alert window
-			System.err.println("Could not save timeline. Error: " + ex.getMessage());
-		}
+			try {
+				fileHandler.writeXML(active, file);
+			} catch (Exception ex) {
+				// TODO: Show error message in Alert window
+				System.err.println("Could not save timeline. Error: " + ex.getMessage());
+			}
 		}
 	}
 

@@ -1,7 +1,9 @@
 package main;
 
 import controller.MainController;
+import de.jensd.fx.fontawesome.AwesomeStyle;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.TimelineContainer;
@@ -27,11 +29,12 @@ public class TimelineManager extends Application {
 		ui = new MainView();
 		TimelineContainer timelineContainer = new TimelineContainer();
 		MainController mainController = new MainController(ui, timelineContainer);
-		
+		setUserAgentStylesheet(STYLESHEET_CASPIAN);
 		Scene scene = new Scene(ui);
-
+		scene.getStylesheets().add(AwesomeStyle.BLUE.getStylePath());
 		primaryStage.setScene(scene);
 		primaryStage.show();
+		primaryStage.setOnHidden(e -> Platform.exit());
 
 		mainController.setupListeners();
 	}
