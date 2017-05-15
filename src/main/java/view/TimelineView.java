@@ -46,9 +46,9 @@ public class TimelineView extends StackPane {
 
 	private static final Dimension2D DEFAULT_SIZE = new Dimension2D(800, 400);
 
-	private final int ROWS = 30;
+	private int rows = 8;
 	private int width = 29; // For time perspective
-	private Pane[] panes = new Pane[ROWS];
+	private Pane[] panes = new Pane[rows];
 	private StackPane stack = new StackPane();
 	private ScrollPane scroll;
 	private VBox vbox;
@@ -183,6 +183,11 @@ public class TimelineView extends StackPane {
 					added.add(shapeList.get(i));
 
 					for (int j = 0; !found; j++) {
+						
+						if(j == rows ){
+							resize();
+						}
+						
 						panes[j].getChildren().add(shapeList.get(i).getShape());
 
 						for (int k = 0; k < added.size() - 1; k++) {
@@ -197,6 +202,7 @@ public class TimelineView extends StackPane {
 					}
 				}
 			}
+			System.out.println(rows);
 		}
 	}
 
@@ -320,6 +326,26 @@ public class TimelineView extends StackPane {
 			}
 			container.getChildren().addAll(months, columns);
 		}
+	}
+	
+	private void resize(){
+		rows += 8;
+		Pane[] temp = new Pane[rows];
+		for(int i=0; i<rows; i++){
+			if(i < panes.length)
+				temp[i] = panes[i];
+			else
+				temp[i] = new Pane();
+		}
+		
+		panes = temp;
+		
+		for(int i=0; i<rows; i++){
+			panes[i] = temp[i];
+		}
+		
+		vbox.getChildren().clear();
+		vbox.getChildren().addAll(panes);
 	}
 
 	private void onMouseOver() {
