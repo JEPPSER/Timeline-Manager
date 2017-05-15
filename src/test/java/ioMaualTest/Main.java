@@ -3,6 +3,7 @@ package ioMaualTest;
 import java.io.File;
 import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 
 import io.FileHandler;
 import javafx.scene.paint.Color;
@@ -29,9 +30,12 @@ public class Main {
 		System.out.println(fileHandler.readXML(file2));
 		for(Event e:timeLine.getList())
          System.out.println(e);
+
+
 		timeLine.update(timeLine.getList().get(0), "x", "party2", LocalDateTime.now().plusDays(1), LocalDateTime.now().plusDays(2), EventType.DURATION, Color.BLACK);
 		fileHandler.writeXML(timeLine, file1);
 		System.out.println(fileHandler.readXML(file2));
+    
 		for(Event e:timeLine.getList())
 	         System.out.println(e);
 		
