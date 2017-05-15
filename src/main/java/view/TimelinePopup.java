@@ -69,7 +69,8 @@ public class TimelinePopup {
 		root.getChildren().addAll(hbox);
 
 		stage = new Stage();
-		stage.setScene(new Scene(root, 220, 225));
+		stage.setTitle("Add Timeline");
+		stage.setScene(new Scene(root, 225, 230));
 		stage.setResizable(false);
 		stage.show();
 
