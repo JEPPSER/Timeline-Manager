@@ -82,6 +82,7 @@ public class EventPopup {
 		stage.setResizable(false);
 		stage.setScene(scene);
 		stage.initOwner(owner);
+		stage.setTitle("Add Event");
 		stage.show();
 	}
 
@@ -171,6 +172,7 @@ public class EventPopup {
 		root.setPadding(new Insets(ROOT_PADDING));
 		root.setBottom(buildButtonBox());
 		root.setCenter(buildCenterBox());
+		
 
 		return root;
 	}
