@@ -5,6 +5,7 @@ import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 
+import de.jensd.fx.fontawesome.AwesomeStyle;
 /**
 *@author Vikrant Mainali and Tomas Mendes
 * @version 0.00.00
@@ -13,6 +14,7 @@ import java.nio.file.Paths;
 
 import interfaces.MenuListener;
 import io.FileHandler;
+import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
@@ -178,5 +180,18 @@ public class MenuController implements MenuListener {
 
 	public TimelineContainer getTimelineContainer() {
 		return timelineContainer;
+	}
+
+	@Override
+	public void onThemesButtonPressed(Stage stage) {
+		if (!stage.getScene().getStylesheets().isEmpty()){
+		stage.getScene().getStylesheets().clear();}
+
+		else  {
+			stage.getScene().getStylesheets().add(AwesomeStyle.DARK.getStylePath());
+		}
+		
+		// TODO Auto-generated method stub
+		
 	}
 }
