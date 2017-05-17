@@ -203,7 +203,6 @@ public class TimelineView extends StackPane {
 					}
 				}
 			}
-			System.out.println(rows);
 		}
 	}
 
