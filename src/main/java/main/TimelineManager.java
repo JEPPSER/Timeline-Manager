@@ -27,7 +27,7 @@ public class TimelineManager extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		ui = new MainView();
+		ui = new MainView(primaryStage);
 		TimelineContainer timelineContainer = new TimelineContainer();
 		MainController mainController = new MainController(ui, timelineContainer);
 		setUserAgentStylesheet(STYLESHEET_CASPIAN);

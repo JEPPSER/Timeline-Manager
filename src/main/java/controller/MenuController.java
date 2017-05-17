@@ -14,7 +14,6 @@ import de.jensd.fx.fontawesome.AwesomeStyle;
 
 import interfaces.MenuListener;
 import io.FileHandler;
-import javafx.scene.Scene;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.MenuItem;
@@ -180,18 +179,5 @@ public class MenuController implements MenuListener {
 
 	public TimelineContainer getTimelineContainer() {
 		return timelineContainer;
-	}
-
-	@Override
-	public void onThemesButtonPressed(Stage stage) {
-		if (!stage.getScene().getStylesheets().isEmpty()){
-		stage.getScene().getStylesheets().clear();}
-
-		else  {
-			stage.getScene().getStylesheets().add(AwesomeStyle.DARK.getStylePath());
-		}
-		
-		// TODO Auto-generated method stub
-		
 	}
 }

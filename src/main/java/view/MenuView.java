@@ -161,6 +161,10 @@ public class MenuView extends StackPane {
 	public MenuButton getLoadedTimelines() {
 		return loadedTimelines;
 	}
+	
+	public Button getThemesButton(){
+		return themes;
+	}
 
 	/**
 	 * Method for registering the listener for the MenuView
@@ -185,10 +189,6 @@ public class MenuView extends StackPane {
 
 		openTimeline.setOnAction(e -> {
 			listener.onOpenButtonClicked(stage);
-		});
-		themes.setOnAction(e->{
-			listener.onThemesButtonPressed(stage);
-			
 		});
 	}
 }

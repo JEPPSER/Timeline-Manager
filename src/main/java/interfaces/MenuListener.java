@@ -50,9 +50,4 @@ public interface MenuListener {
 	 * loaded TimeLine from the loaded TiimeLine list
 	 */
 	public void onNEWTimeLineSelected(String timeLineName);
-	/**
-	 * This method is used by menu controller when the user press the 
-	 * themes button to change between them
-	 */
-	public void onThemesButtonPressed(Stage stage );
 }
