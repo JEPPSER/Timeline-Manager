@@ -92,7 +92,14 @@ public class MainController implements ModelChangedListener {
 					menuController.onSaveButtonClicked((Stage)mainView.getScene().getWindow());
 				}
 				
-				Platform.exit();
+				if (timelineContainer.getTimelines().stream().filter(t -> t.getHasUnsavedChanges()).count() > 0) {
+					Alert alert2 = new Alert(AlertType.ERROR, "One or more timelines could not be saved. Try again before exiting.",
+							ButtonType.OK);
+					alert2.showAndWait();
+					e.consume();
+				} else {
+					Platform.exit();
+				}
 			} else if (result == ButtonType.NO) {
 				Platform.exit();
 			} else {

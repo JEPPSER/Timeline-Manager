@@ -30,10 +30,7 @@ public class FileHandler {
 	/**
 	 * Create a TimeLine XML file.
 	 */
-	public void writeXML(Timeline timeLine, File directory) throws Exception {
-		String fileName = timeLine.getName().toLowerCase() + ".xml";
-		String filePath = directory.getAbsolutePath() + "\\" + fileName;
-		File file = new File(filePath);
+	public void writeXML(Timeline timeLine, File file) throws Exception {
 		JAXBContext context = JAXBContext.newInstance(Timeline.class);
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
