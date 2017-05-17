@@ -29,7 +29,7 @@ import model.Timeline;
  * @name MenuView.java
  */
 public class MenuView extends StackPane {
-
+	private Button themes;
 	private Button deleteTimeline;
 	private Button addTimeline;
 	private Button saveTimeline;
@@ -47,6 +47,10 @@ public class MenuView extends StackPane {
 		addTimeline = new Button();
 		saveTimeline = new Button();
 		openTimeline = new Button();
+		
+		themes = new Button("Themes");
+		themes.setPrefSize(100, 30);
+
 
 		InnerShadow is = new InnerShadow();
 
@@ -85,7 +89,7 @@ public class MenuView extends StackPane {
 		menu.setMinHeight(60);
 		timelineButtons.setSpacing(5);
 		timelineButtons.getChildren().addAll(filler1, loadedTimelines, addTimeline, deleteTimeline, saveTimeline,
-				openTimeline);
+				openTimeline,themes);
 		timelineButtons.setAlignment(Pos.CENTER);
 		menu.setLeft(timelineButtons);
 
@@ -185,6 +189,10 @@ public class MenuView extends StackPane {
 			loadedTimelines.setText("Timelines");
 		}
 		
+	}
+	
+	public Button getThemesButton(){
+		return themes;
 	}
 
 	/**

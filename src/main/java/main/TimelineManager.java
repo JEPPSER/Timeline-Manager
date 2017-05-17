@@ -5,9 +5,11 @@ import de.jensd.fx.fontawesome.AwesomeStyle;
 import javafx.application.Application;
 import javafx.application.Platform;
 import javafx.scene.Scene;
+import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import model.TimelineContainer;
 import view.MainView;
+import view.MenuView;
 
 /**
  * Main class that sets up the TimelineManager to run.
@@ -17,7 +19,7 @@ import view.MainView;
  * @name TimelineManager.java
  */
 public class TimelineManager extends Application {
-
+	Scene scene;
 	private static MainView ui;
 	
 	/**
@@ -25,13 +27,11 @@ public class TimelineManager extends Application {
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-
-		ui = new MainView();
+		ui = new MainView(primaryStage);
 		TimelineContainer timelineContainer = new TimelineContainer();
 		MainController mainController = new MainController(ui, timelineContainer);
 		setUserAgentStylesheet(STYLESHEET_CASPIAN);
-		Scene scene = new Scene(ui);
-		scene.getStylesheets().add(AwesomeStyle.BLUE.getStylePath());
+		scene = new Scene(ui);
 		primaryStage.setScene(scene);
 		primaryStage.show();
 		Platform.setImplicitExit(false);
@@ -50,5 +50,9 @@ public class TimelineManager extends Application {
 	public static void main(String[] args) {
 		
 		launch(args);	
+	}
+
+	public Scene getScene() {
+		return scene;
 	}
 }

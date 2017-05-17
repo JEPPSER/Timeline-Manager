@@ -61,6 +61,7 @@ public class TimelineView extends StackPane {
 	private String timePerspective = "Month";
 	private Button delete;
 	private Button edit;
+	private Color textColor = Color.BLACK;
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -215,6 +216,33 @@ public class TimelineView extends StackPane {
 		this.listener = listener;
 		addEventButton.setOnAction(e -> listener.onAddEventClicked((Stage) getScene().getWindow()));
 	}
+	
+	/**
+	 * Returns time perspective;
+	 * 
+	 * @return time perspective
+	 */
+	public String getTimePerspective(){
+		return timePerspective;
+	}
+	
+	/**
+	 * Sets text color.
+	 * 
+	 * @param textColor
+	 */
+	public void setTextColor(Color textColor){
+		this.textColor = textColor;
+	}
+	
+	/**
+	 * Returns text color.
+	 * 
+	 * @return text color
+	 */
+	public Color getTextColor(){
+		return textColor;
+	}
 
 	/**
 	 * Method that draws the columns in the TimelineView.
@@ -269,6 +297,7 @@ public class TimelineView extends StackPane {
 
 					date = new Text();
 					date.setFont(Font.font("Arial", 18));
+					date.setFill(textColor);
 					date.setText(day);
 
 					BorderPane txtContainer = new BorderPane();
@@ -284,6 +313,7 @@ public class TimelineView extends StackPane {
 					}
 
 					Text weekDay = new Text(weekDayStr);
+					weekDay.setFill(textColor);
 					txtContainer.setTop(weekDay);
 					BorderPane.setAlignment(weekDay, Pos.TOP_CENTER);
 
@@ -294,6 +324,7 @@ public class TimelineView extends StackPane {
 					Text month = new Text(String.valueOf(currentTimeline.getStartDate().plusDays(i).getMonth()) + " "
 							+ currentTimeline.getStartDate().plusDays(i).getYear());
 					month.setFont(new Font(20));
+					month.setFill(textColor);
 					months.getChildren().add(month);
 					month.setLayoutX(i * (width + 1));
 					isFirst = false;
