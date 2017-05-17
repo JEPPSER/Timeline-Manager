@@ -1,11 +1,14 @@
 package view;
 
+import java.util.List;
+
 import de.jensd.fx.fontawesome.*;
 import interfaces.MenuListener;
 import javafx.geometry.Pos;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.MenuButton;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.InnerShadow;
@@ -16,6 +19,7 @@ import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
 import javafx.stage.Stage;
+import model.Timeline;
 
 /**
  * Class for drawing the graphics for the menu.
@@ -31,6 +35,7 @@ public class MenuView extends StackPane {
 	private Button saveTimeline;
 	private Button openTimeline;
 	private MenuButton loadedTimelines;
+	private MenuListener listener;
 	private final ToggleGroup group = new ToggleGroup();
 
 	/**
@@ -150,12 +155,36 @@ public class MenuView extends StackPane {
 	}
 
 	/**
-	 * Method for getting the MenuButton containing the loaded timelines.
+	 * Method for updating the dropdown menu of loaded timelines
 	 * 
-	 * @return Loaded timelines MenuButton
+	 * @param timelines - the list of currently loaded timelines
+	 * @param active - the currently active timeline
 	 */
-	public MenuButton getLoadedTimelines() {
-		return loadedTimelines;
+	public void updateTimelineDropdown(List<Timeline> timelines, Timeline active) {
+		loadedTimelines.getItems().clear();
+		
+		for (Timeline t : timelines) {
+			MenuItem item = new MenuItem();
+			item.setUserData(t);
+			
+			if (t.getHasUnsavedChanges()) {
+				item.setText("* " + t.getName());
+			} else {
+				item.setText(t.getName());
+			}
+			
+			item.setOnAction(e -> listener.onNewTimelineSelected(t));
+			loadedTimelines.getItems().add(item);
+			
+			if (t == active) {
+				loadedTimelines.setText(item.getText());
+			}
+		}
+		
+		if (active == null) {
+			loadedTimelines.setText("Timelines");
+		}
+		
 	}
 
 	/**
@@ -165,6 +194,8 @@ public class MenuView extends StackPane {
 	 */
 	public void registerListener(MenuListener listener) {
 
+		this.listener = listener;
+		
 		Stage stage = (Stage) getScene().getWindow();
 
 		addTimeline.setOnAction(e -> {

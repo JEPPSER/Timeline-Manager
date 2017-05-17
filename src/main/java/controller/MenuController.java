@@ -15,7 +15,6 @@ import interfaces.MenuListener;
 import io.FileHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuItem;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
@@ -67,6 +66,7 @@ public class MenuController implements MenuListener {
 
 		try {
 			openedTimeline = fileHandler.readXML(file);
+			openedTimeline.setHasUnsavedChanges(false);
 		} catch (Exception ex) {
 			// TODO: Show error message in Alert window
 			System.err.println("Could not open timeline. Error: " + ex.getMessage());
@@ -74,15 +74,6 @@ public class MenuController implements MenuListener {
 
 		if (openedTimeline != null) {
 			timelineContainer.addTimeline(openedTimeline);
-			final Timeline selectedTimeline = openedTimeline;
-			MenuItem item = new MenuItem();
-			item.setText(openedTimeline.getName());
-			menuView.getLoadedTimelines().setText(openedTimeline.getName());
-			menuView.getLoadedTimelines().getItems().add(item);
-			item.setOnAction(e -> {
-				menuView.getLoadedTimelines().setText(item.getText());
-				timelineContainer.setActiveTimeline(selectedTimeline);
-			});
 		}
 	}
 
@@ -111,16 +102,7 @@ public class MenuController implements MenuListener {
 					f.printStackTrace();
 				}
 
-				// Finding the right menu item and removing it.
-				for (int i = 0; i < menuView.getLoadedTimelines().getItems().size(); i++) {
-					if (menuView.getLoadedTimelines().getItems().get(i).getText().equals(timeline.getName())) {
-						menuView.getLoadedTimelines().getItems().remove(i);
-					}
-				}
-
-				menuView.getLoadedTimelines().setText("Timelines");
-				timelineContainer.getTimelines().remove(timelineContainer.getActiveTimeline());
-				timelineContainer.setActiveTimeline(null);
+				timelineContainer.deleteTimeline();
 				alert.close();
 			} else if (alert.getResult() == ButtonType.NO) {
 				alert.close();
@@ -163,6 +145,8 @@ public class MenuController implements MenuListener {
 
 			try {
 				fileHandler.writeXML(active, file);
+				active.setHasUnsavedChanges(false);
+				menuView.updateTimelineDropdown(timelineContainer.getTimelines(), timelineContainer.getActiveTimeline());
 			} catch (Exception ex) {
 				// TODO: Show error message in Alert window
 				System.err.println("Could not save timeline. Error: " + ex.getMessage());
@@ -171,9 +155,8 @@ public class MenuController implements MenuListener {
 	}
 
 	@Override
-	public void onNEWTimeLineSelected(String timeLineName) {
-		// TODO Auto-generated method stub
-
+	public void onNewTimelineSelected(Timeline timeline) {
+		timelineContainer.setActiveTimeline(timeline);
 	}
 
 	public TimelineContainer getTimelineContainer() {
