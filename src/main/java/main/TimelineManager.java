@@ -34,7 +34,10 @@ public class TimelineManager extends Application {
 		scene.getStylesheets().add(AwesomeStyle.BLUE.getStylePath());
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		primaryStage.setOnHidden(e -> Platform.exit());
+		Platform.setImplicitExit(false);
+		primaryStage.setOnCloseRequest(e -> {
+			mainController.onExit(e);
+		});
 
 		mainController.setupListeners();
 	}

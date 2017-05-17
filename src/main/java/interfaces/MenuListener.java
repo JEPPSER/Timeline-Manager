@@ -1,6 +1,7 @@
 package interfaces;
 
 import javafx.stage.Stage;
+import model.Timeline;
 import view.MenuView;
 
 /**
@@ -49,5 +50,5 @@ public interface MenuListener {
 	 * This method is used by menu controller when the user select a specific
 	 * loaded TimeLine from the loaded TiimeLine list
 	 */
-	public void onNEWTimeLineSelected(String timeLineName);
+	public void onNewTimelineSelected(Timeline timeline);
 }

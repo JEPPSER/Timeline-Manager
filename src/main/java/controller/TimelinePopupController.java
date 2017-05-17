@@ -6,7 +6,6 @@ import interfaces.TimelinePopupListener;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
-import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import model.Timeline;
 import view.MenuView;
@@ -20,8 +19,6 @@ import view.MenuView;
  * @name TimelinePopupController.java
  */
 public class TimelinePopupController implements TimelinePopupListener {
-	
-	MenuItem item;
 	
 	@Override
 	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate, Stage stage, MenuController controller, MenuView menu) {
@@ -49,18 +46,9 @@ public class TimelinePopupController implements TimelinePopupListener {
 			timeline.setEndDate(endDate);
 			timeline.setStartDate(startDate);
 			timeline.setName(title);
+			timeline.setHasUnsavedChanges(true);
 			controller.getTimelineContainer().addTimeline(timeline);
-			item = new MenuItem();
-			item.setText(title);
-			menu.getLoadedTimelines().getItems().add(item);
-			menu.getLoadedTimelines().setText(title);
-			controller.getTimelineContainer().setActiveTimeline(timeline);
 			stage.close();
-			
-			item.setOnAction(e -> {
-				controller.getTimelineContainer().setActiveTimeline(timeline);
-				menu.getLoadedTimelines().setText(title);
-			});
 		}
 	}
 }

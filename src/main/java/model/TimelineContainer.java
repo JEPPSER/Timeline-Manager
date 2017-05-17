@@ -48,6 +48,7 @@ public class TimelineContainer {
 	public void addEvent(String title, String description, LocalDateTime start, LocalDateTime end, EventType type, Color color) {
 		if (activeTimeline != null) {
 			activeTimeline.add(title, description, start, end, type, color);
+			activeTimeline.setHasUnsavedChanges(true);
 			listener.onModelChanged(timelines, activeTimeline);
 		}
 	}
@@ -60,6 +61,7 @@ public class TimelineContainer {
 		
 		if (eventToEdit != null) {
 			activeTimeline.update(eventToEdit, title, description, start, end, type, color);
+			activeTimeline.setHasUnsavedChanges(true);
 			listener.onModelChanged(timelines, activeTimeline);
 		}
 	}
@@ -72,6 +74,7 @@ public class TimelineContainer {
 		
 		if (deleteEvent != null) {
 			activeTimeline.delete(deleteEvent);
+			activeTimeline.setHasUnsavedChanges(true);
 			listener.onModelChanged(timelines, activeTimeline);
 		}
 	}

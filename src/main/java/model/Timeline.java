@@ -9,6 +9,7 @@ import javax.xml.bind.annotation.XmlAccessType;
 import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 import javax.xml.bind.annotation.XmlRootElement;
+import javax.xml.bind.annotation.XmlTransient;
 import javax.xml.bind.annotation.adapters.XmlJavaTypeAdapter;
 
 import javafx.scene.paint.Color;
@@ -38,6 +39,8 @@ public class Timeline {
 	@XmlElement(name = "Event")
 	private ArrayList<Event> eventList;
 	private String path = "";
+	@XmlTransient
+	private boolean hasUnsavedChanges;
 
 	/**
 	 * Empty constructor.
@@ -186,5 +189,13 @@ public class Timeline {
 		});
 		return this.eventList.isEmpty() ? 1
 				: this.eventList.get(this.eventList.size() - 1).getId() + 1;
+	}
+	
+	public boolean getHasUnsavedChanges() {
+		return hasUnsavedChanges;
+	}
+	
+	public void setHasUnsavedChanges(boolean unsavedChanges) {
+		hasUnsavedChanges = unsavedChanges;
 	}
 }
