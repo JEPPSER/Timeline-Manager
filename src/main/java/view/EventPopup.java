@@ -75,6 +75,7 @@ public class EventPopup {
 	public EventPopup(Window owner) {
 		stage = new Stage();
 		mode = Mode.Add;
+		colorPicker = new ColorPicker();
 
 		initDateAndTimeBox();
 
@@ -306,7 +307,6 @@ public class EventPopup {
 			VBox endTimeBox = new VBox();
 			VBox colorPickerBox = new VBox();
 			Label colorPickerLabel = new Label("Pick a Color");
-			colorPicker = new ColorPicker();
 			colorPicker.setValue(Color.TEAL);
 			colorPickerBox.getChildren().addAll(colorPickerLabel, colorPicker);
 			startDateText.setText("Start Date");
