@@ -181,6 +181,10 @@ public class MenuView extends StackPane {
 			}
 		}
 		
+		if (active == null) {
+			loadedTimelines.setText("Timelines");
+		}
+		
 	}
 
 	/**

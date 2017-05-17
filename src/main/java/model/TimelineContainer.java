@@ -79,6 +79,23 @@ public class TimelineContainer {
 		}
 	}
 	
+	/**
+	 * Removes the currently active timeline
+	 */
+	public void deleteTimeline() {
+		if (activeTimeline != null) {
+			timelines.remove(activeTimeline);
+			
+			if (timelines.size() > 0) {
+				activeTimeline = timelines.get(timelines.size() - 1);
+			} else {
+				activeTimeline = null;
+			}
+			
+			listener.onModelChanged(timelines, activeTimeline);
+		}
+	}
+	
 	
 	/**
 	 * Fetches the currently active timeline. The active timeline is the timeline the user has selected in the 

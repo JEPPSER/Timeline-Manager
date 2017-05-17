@@ -102,8 +102,7 @@ public class MenuController implements MenuListener {
 					f.printStackTrace();
 				}
 
-				timelineContainer.getTimelines().remove(timelineContainer.getActiveTimeline());
-				timelineContainer.setActiveTimeline(null);
+				timelineContainer.deleteTimeline();
 				alert.close();
 			} else if (alert.getResult() == ButtonType.NO) {
 				alert.close();

@@ -84,7 +84,11 @@ public class MainController implements ModelChangedListener {
 			if (result == ButtonType.YES) {
 				
 				for (Timeline t : unsavedTimelines) {
-					mainView.getTimelineView().setTimeline(t, "");
+					
+					if (t != timelineContainer.getActiveTimeline()) {
+						timelineContainer.setActiveTimeline(t);
+					}
+					
 					menuController.onSaveButtonClicked((Stage)mainView.getScene().getWindow());
 				}
 				
