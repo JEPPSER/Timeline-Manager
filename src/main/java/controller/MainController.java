@@ -105,6 +105,8 @@ public class MainController implements ModelChangedListener {
 			} else {
 				e.consume();
 			}
+		} else {
+			Platform.exit();
 		}
 	}
 }
