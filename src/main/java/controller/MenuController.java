@@ -61,23 +61,31 @@ public class MenuController implements MenuListener {
 	public void onOpenButtonClicked(Stage stage) {
 		File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
 		FileChooser chooser = new FileChooser();
+		chooser.getExtensionFilters().addAll(
+				new ExtensionFilter("XML Files", "*.xml"),
+				new ExtensionFilter("All Files", "*.*"));
 		chooser.setInitialDirectory(initialDirectory);
 		File file = chooser.showOpenDialog(stage);
-		if (file != null)
-			System.out.println("Attempting to open timeline at location: " + file.getPath());
-		Timeline openedTimeline = null;
+		
+		if (fileAlreadyOpened(file)) {
+			new Alert(AlertType.INFORMATION, "The timeline you attempted to open is already opened.", ButtonType.OK).show();
+		} else {
+			if (file != null)
+				System.out.println("Attempting to open timeline at location: " + file.getPath());
+			Timeline openedTimeline = null;
 
-		try {
-			openedTimeline = fileHandler.readXML(file);
-			openedTimeline.setHasUnsavedChanges(false);
-		} catch (Exception ex) {
-			// TODO: Show error message in Alert window
-			System.err.println("Could not open timeline. Error: " + ex.getMessage());
-		}
+			try {
+				openedTimeline = fileHandler.readXML(file);
+				openedTimeline.setHasUnsavedChanges(false);
+			} catch (Exception ex) {
+				// TODO: Show error message in Alert window
+				System.err.println("Could not open timeline. Error: " + ex.getMessage());
+			}
 
-		if (openedTimeline != null) {
-			timelineContainer.addTimeline(openedTimeline);
-			timelineFiles.put(openedTimeline, file);
+			if (openedTimeline != null) {
+				timelineContainer.addTimeline(openedTimeline);
+				timelineFiles.put(openedTimeline, file);
+			}
 		}
 	}
 
@@ -166,5 +174,15 @@ public class MenuController implements MenuListener {
 
 	public TimelineContainer getTimelineContainer() {
 		return timelineContainer;
+	}
+	
+	private boolean fileAlreadyOpened(File file) {
+		for (File f : timelineFiles.values()) {
+			if (file.toPath().equals(f.toPath())) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
