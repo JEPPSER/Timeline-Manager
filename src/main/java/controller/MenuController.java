@@ -4,8 +4,8 @@ import java.io.File;
 import java.io.IOException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
+import java.util.HashMap;
 
-import de.jensd.fx.fontawesome.AwesomeStyle;
 /**
 *@author Vikrant Mainali and Tomas Mendes
 * @version 0.00.00
@@ -17,8 +17,8 @@ import io.FileHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
-import javafx.stage.DirectoryChooser;
 import javafx.stage.FileChooser;
+import javafx.stage.FileChooser.ExtensionFilter;
 import javafx.stage.Stage;
 import model.Timeline;
 import model.TimelineContainer;
@@ -30,8 +30,9 @@ public class MenuController implements MenuListener {
 	private FileHandler fileHandler;
 	private TimelineContainer timelineContainer;
 	private TimelinePopupController timelinePopupController;
-	private DirectoryChooser chooser;
-
+	private FileChooser chooser;
+	private HashMap<Timeline, File> timelineFiles;
+	
 	/**
 	 * Constructor. Initializes file handler and stores references to timeline
 	 * container and menu view.
@@ -45,6 +46,7 @@ public class MenuController implements MenuListener {
 		timelineContainer = tc;
 		fileHandler = new FileHandler();
 		menuView = mv;
+		timelineFiles = new HashMap<>();
 	}
 
 	@Override
@@ -59,22 +61,31 @@ public class MenuController implements MenuListener {
 	public void onOpenButtonClicked(Stage stage) {
 		File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
 		FileChooser chooser = new FileChooser();
+		chooser.getExtensionFilters().addAll(
+				new ExtensionFilter("XML Files", "*.xml"),
+				new ExtensionFilter("All Files", "*.*"));
 		chooser.setInitialDirectory(initialDirectory);
 		File file = chooser.showOpenDialog(stage);
-		if (file != null)
-			System.out.println("Attempting to open timeline at location: " + file.getPath());
-		Timeline openedTimeline = null;
+		
+		if (fileAlreadyOpened(file)) {
+			new Alert(AlertType.INFORMATION, "The timeline you attempted to open is already opened.", ButtonType.OK).show();
+		} else {
+			if (file != null)
+				System.out.println("Attempting to open timeline at location: " + file.getPath());
+			Timeline openedTimeline = null;
 
-		try {
-			openedTimeline = fileHandler.readXML(file);
-			openedTimeline.setHasUnsavedChanges(false);
-		} catch (Exception ex) {
-			// TODO: Show error message in Alert window
-			System.err.println("Could not open timeline. Error: " + ex.getMessage());
-		}
+			try {
+				openedTimeline = fileHandler.readXML(file);
+				openedTimeline.setHasUnsavedChanges(false);
+			} catch (Exception ex) {
+				// TODO: Show error message in Alert window
+				System.err.println("Could not open timeline. Error: " + ex.getMessage());
+			}
 
-		if (openedTimeline != null) {
-			timelineContainer.addTimeline(openedTimeline);
+			if (openedTimeline != null) {
+				timelineContainer.addTimeline(openedTimeline);
+				timelineFiles.put(openedTimeline, file);
+			}
 		}
 	}
 
@@ -94,15 +105,16 @@ public class MenuController implements MenuListener {
 			Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this timeline?", ButtonType.YES,
 					ButtonType.NO);
 			alert.showAndWait();
+			
 			if (alert.getResult() == ButtonType.YES) {
-				String path = timeline.getPath();
 				try {
-					if (!path.equals(""))
-						Files.delete(Paths.get(path));
+					File fileToDelete = (File)timelineFiles.get(timeline);
+					Files.delete(Paths.get(fileToDelete.getPath()));
 				} catch (IOException f) {
 					f.printStackTrace();
 				}
 
+				timelineFiles.remove(timeline);
 				timelineContainer.deleteTimeline();
 				alert.close();
 			} else if (alert.getResult() == ButtonType.NO) {
@@ -124,30 +136,30 @@ public class MenuController implements MenuListener {
 				alert.close();
 			}
 		} else {
-			File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
+			File file = (File) timelineFiles.get(active);
+			
+			if (file == null) {
+				File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
 
-			// Create initial directory if it does not exist
-			if (!initialDirectory.exists()) {
-				initialDirectory.mkdirs();
-			}
+				// Create initial directory if it does not exist
+				if (!initialDirectory.exists()) {
+					initialDirectory.mkdirs();
+				}
 
-			chooser = new DirectoryChooser();
-			chooser.setInitialDirectory(initialDirectory);
-			File file = chooser.showDialog(stage);
-
-			String fileName = active.getName().toLowerCase() + ".xml";
-			String path = "";
-
-			if (file != null) {
-				path = file.getAbsolutePath() + "/" + fileName;
-				active.setPath(path);
-				System.out.println("Saving timeline to location: " + file.getPath());
-			}
-
+				chooser = new FileChooser();
+				chooser.setInitialDirectory(initialDirectory);
+				chooser.getExtensionFilters().addAll(
+						new ExtensionFilter("XML Files", "*.xml"),
+						new ExtensionFilter("All Files", "*.*"));
+				chooser.setInitialFileName(active.getName().toLowerCase() + ".xml");
+				file = chooser.showSaveDialog(stage);
+				timelineFiles.put(active, file);
+			} 
+			
 			try {
 				fileHandler.writeXML(active, file);
 				active.setHasUnsavedChanges(false);
-				menuView.updateTimelineDropdown(timelineContainer.getTimelines(), timelineContainer.getActiveTimeline());
+				menuView.updateTimelineDropdown(timelineContainer.getTimelines(), active);
 			} catch (Exception ex) {
 				// TODO: Show error message in Alert window
 				System.err.println("Could not save timeline. Error: " + ex.getMessage());
@@ -162,5 +174,15 @@ public class MenuController implements MenuListener {
 
 	public TimelineContainer getTimelineContainer() {
 		return timelineContainer;
+	}
+	
+	private boolean fileAlreadyOpened(File file) {
+		for (File f : timelineFiles.values()) {
+			if (file.toPath().equals(f.toPath())) {
+				return true;
+			}
+		}
+		
+		return false;
 	}
 }
