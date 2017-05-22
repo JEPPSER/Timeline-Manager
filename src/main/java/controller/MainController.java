@@ -7,7 +7,6 @@ import interfaces.ModelChangedListener;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
-import javafx.stage.Stage;
 import javafx.stage.WindowEvent;
 import javafx.scene.control.Alert.AlertType;
 import model.Timeline;
@@ -41,7 +40,7 @@ public class MainController implements ModelChangedListener {
 	public MainController(MainView mainView, TimelineContainer timelineContainer) {
 		this.mainView = mainView;
 		this.timelineContainer = timelineContainer;
-		menuController = new MenuController(timelineContainer, mainView.getMenuView());
+		menuController = new MenuController(timelineContainer, mainView.getMenuView(), mainView.getTimelineView());
 		timelineViewController = new TimelineViewController(timelineContainer);
 	}
 	
@@ -89,7 +88,7 @@ public class MainController implements ModelChangedListener {
 						timelineContainer.setActiveTimeline(t);
 					}
 					
-					menuController.onSaveButtonClicked((Stage)mainView.getScene().getWindow());
+					menuController.onSaveButtonClicked();
 				}
 				
 				if (timelineContainer.getTimelines().stream().filter(t -> t.getHasUnsavedChanges()).count() > 0) {

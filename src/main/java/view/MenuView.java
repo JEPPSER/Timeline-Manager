@@ -4,11 +4,15 @@ import java.util.List;
 
 import de.jensd.fx.fontawesome.*;
 import interfaces.MenuListener;
+import javafx.beans.value.ChangeListener;
+import javafx.beans.value.ObservableValue;
 import javafx.geometry.Pos;
+import javafx.scene.Node;
 import javafx.scene.control.Button;
 import javafx.scene.control.ContentDisplay;
 import javafx.scene.control.MenuButton;
 import javafx.scene.control.MenuItem;
+import javafx.scene.control.Toggle;
 import javafx.scene.control.ToggleButton;
 import javafx.scene.control.ToggleGroup;
 import javafx.scene.effect.InnerShadow;
@@ -18,7 +22,6 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Rectangle;
-import javafx.stage.Stage;
 import model.Timeline;
 
 /**
@@ -50,7 +53,6 @@ public class MenuView extends StackPane {
 		
 		themes = new Button("Themes");
 		themes.setPrefSize(100, 30);
-
 
 		InnerShadow is = new InnerShadow();
 
@@ -112,51 +114,6 @@ public class MenuView extends StackPane {
 		super.setMaxHeight(60);
 		super.getChildren().addAll(bg, menu);
 	}
-	
-	/**
-	 * Method for getting the ToggleGroup with all ToggleButtons.
-	 * 
-	 * @return ToggleGroup
-	 */
-	public ToggleGroup getToggleGroup(){
-		return group;
-	}
-
-	/**
-	 * Method for getting the addTimeline Button
-	 * 
-	 * @return addTimeline Button
-	 */
-	public Button getAddTimelineButton() {
-		return addTimeline;
-	}
-
-	/**
-	 * Method for getting the openTimeline Button
-	 * 
-	 * @return openTimeline Button
-	 */
-	public Button getOpenTimelineButton() {
-		return openTimeline;
-	}
-
-	/**
-	 * Method for getting the saveTimeline Button
-	 * 
-	 * @return saveTimeline Button
-	 */
-	public Button getSaveTimelineButton() {
-		return saveTimeline;
-	}
-
-	/**
-	 * Method for getting the deleteTimeline Button
-	 * 
-	 * @return deleteTimeline Button
-	 */
-	public Button getDeleteTimelineButton() {
-		return deleteTimeline;
-	}
 
 	/**
 	 * Method for updating the dropdown menu of loaded timelines
@@ -190,10 +147,6 @@ public class MenuView extends StackPane {
 		}
 		
 	}
-	
-	public Button getThemesButton(){
-		return themes;
-	}
 
 	/**
 	 * Method for registering the listener for the MenuView
@@ -203,11 +156,9 @@ public class MenuView extends StackPane {
 	public void registerListener(MenuListener listener) {
 
 		this.listener = listener;
-		
-		Stage stage = (Stage) getScene().getWindow();
 
 		addTimeline.setOnAction(e -> {
-			listener.onAddButtonClicked(this);
+			listener.onAddButtonClicked();
 		});
 
 		deleteTimeline.setOnAction(e -> {
@@ -215,11 +166,26 @@ public class MenuView extends StackPane {
 		});
 
 		saveTimeline.setOnAction(e -> {
-			listener.onSaveButtonClicked(stage);
+			listener.onSaveButtonClicked();
 		});
 
 		openTimeline.setOnAction(e -> {
-			listener.onOpenButtonClicked(stage);
+			listener.onOpenButtonClicked();
+		});
+		
+		group.selectedToggleProperty().addListener(new ChangeListener<Toggle>() {
+			
+			@Override
+			public void changed(ObservableValue<? extends Toggle> ov, Toggle toggle, Toggle new_toggle) {
+				((Node) toggle).setDisable(false);
+				((Node) new_toggle).setDisable(true);
+				
+				listener.onChangeTimePerspectiveClicked(new_toggle.toString());
+			}
+		});
+		
+		themes.setOnAction(e -> {
+			listener.onChangeThemeButtonClicked();
 		});
 	}
 }

@@ -1,8 +1,6 @@
 package interfaces;
 
-import javafx.stage.Stage;
 import model.Timeline;
-import view.MenuView;
 
 /**
  * Interface used to listen to changes in the TimeLine Menu.
@@ -26,13 +24,13 @@ public interface MenuListener {
 	 * This method is used by menu controller when the user press AddTimeLine
 	 * button.
 	 */
-	public void onAddButtonClicked(MenuView menu);
+	public void onAddButtonClicked();
 
 	/**
 	 * This method is used by menu controller when the user press OpenTimeLine
 	 * button to open a specific TimeLine
 	 */
-	public void onOpenButtonClicked(Stage stage);
+	public void onOpenButtonClicked();
 
 	/**
 	 * This method is used by menu controller when the user press DeleteTimeLine
@@ -44,11 +42,23 @@ public interface MenuListener {
 	 * This method is used by menu controller when the user press SaveTimeLine
 	 * button to save a TimeLine
 	 */
-	public void onSaveButtonClicked(Stage stage);
+	public void onSaveButtonClicked();
 
 	/**
 	 * This method is used by menu controller when the user select a specific
-	 * loaded TimeLine from the loaded TiimeLine list
+	 * loaded TimeLine from the loaded TimeLine list
 	 */
 	public void onNewTimelineSelected(Timeline timeline);
+	
+	/**
+	 * Called when the user clicks on any of the time perspective buttons.
+	 * 
+	 * @param newPerspective - the newly selected perspective, can be "Week", "Month" or "Year"
+	 */
+	public void onChangeTimePerspectiveClicked(String newPerspective);
+	
+	/**
+	 * Called when the user clicks the theme button.
+	 */
+	public void onChangeThemeButtonClicked();
 }
