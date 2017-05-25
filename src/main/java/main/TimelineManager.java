@@ -1,15 +1,11 @@
 package main;
 
 import controller.MainController;
-import de.jensd.fx.fontawesome.AwesomeStyle;
 import javafx.application.Application;
-import javafx.application.Platform;
 import javafx.scene.Scene;
-import javafx.scene.control.MenuItem;
 import javafx.stage.Stage;
 import model.TimelineContainer;
 import view.MainView;
-import view.MenuView;
 
 /**
  * Main class that sets up the TimelineManager to run.
@@ -34,10 +30,7 @@ public class TimelineManager extends Application {
 		scene = new Scene(ui);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		Platform.setImplicitExit(false);
-		primaryStage.setOnCloseRequest(e -> {
-			mainController.onExit(e);
-		});
+		primaryStage.setOnHidden(e -> System.exit(0));
 
 		mainController.setupListeners();
 	}
