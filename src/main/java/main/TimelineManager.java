@@ -2,6 +2,7 @@ package main;
 
 import controller.MainController;
 import javafx.application.Application;
+import javafx.application.Platform;
 import javafx.scene.Scene;
 import javafx.stage.Stage;
 import model.TimelineContainer;
@@ -15,22 +16,20 @@ import view.MainView;
  * @name TimelineManager.java
  */
 public class TimelineManager extends Application {
-	Scene scene;
-	private static MainView ui;
-	
 	/**
 	 * Start method that set up the ui, TimelineContainer and Controllers.
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		ui = new MainView(primaryStage);
+		MainView ui = new MainView(primaryStage);
 		TimelineContainer timelineContainer = new TimelineContainer();
 		MainController mainController = new MainController(ui, timelineContainer);
+		Scene scene = new Scene(ui);
+	
 		setUserAgentStylesheet(STYLESHEET_CASPIAN);
-		scene = new Scene(ui);
+		primaryStage.setOnCloseRequest(mainController::onExit);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		primaryStage.setOnHidden(e -> System.exit(0));
 
 		mainController.setupListeners();
 	}
@@ -44,8 +43,14 @@ public class TimelineManager extends Application {
 		
 		launch(args);	
 	}
-
-	public Scene getScene() {
-		return scene;
+	
+	public static void exit() {
+		String osName = System.getProperty("os.name").toLowerCase();
+		
+		if (osName.contains("mac")) {
+			System.exit(0);
+		} else {
+			Platform.exit();
+		}
 	}
 }

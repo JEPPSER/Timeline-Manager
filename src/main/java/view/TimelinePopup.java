@@ -11,6 +11,7 @@ import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 /**
@@ -69,6 +70,8 @@ public class TimelinePopup {
 		root.getChildren().addAll(hbox);
 
 		stage = new Stage();
+		stage.initOwner(menu.getScene().getWindow());
+		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Add Timeline");
 		stage.setScene(new Scene(root, 225, 230));
 		stage.setResizable(false);

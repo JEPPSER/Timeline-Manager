@@ -14,7 +14,6 @@ import java.util.HashMap;
 
 import interfaces.MenuListener;
 import io.FileHandler;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.FileChooser;
@@ -68,7 +67,7 @@ public class MenuController implements MenuListener {
 		File file = chooser.showOpenDialog(stage);
 		
 		if (fileAlreadyOpened(file)) {
-			new Alert(AlertType.INFORMATION, "The timeline you attempted to open is already opened.", ButtonType.OK).show();
+			MainController.showAlert(AlertType.INFORMATION, "The timeline you attempted to open is already opened.", ButtonType.OK);
 		} else {
 			if (file != null)
 				System.out.println("Attempting to open timeline at location: " + file.getPath());
@@ -91,50 +90,33 @@ public class MenuController implements MenuListener {
 
 	@Override
 	public void onDeleteButtonClicked() {
-		System.out.println("Are you sure you want to delete this timeline");
 		Timeline timeline = timelineContainer.getActiveTimeline();
+		
 		if (timeline == null) {
-			Alert alert = new Alert(AlertType.INFORMATION, "There is no timeline to delete ", ButtonType.OK);
-			alert.setHeaderText(null);
-			alert.showAndWait();
-			if (alert.getResult() == ButtonType.OK) {
-				alert.close();
-			}
+			MainController.showAlert(AlertType.INFORMATION, "There is no timeline to delete ", ButtonType.OK);
 		} else {
-
-			Alert alert = new Alert(AlertType.WARNING, "Are you sure you want to delete this timeline?", ButtonType.YES,
-					ButtonType.NO);
-			alert.showAndWait();
+			ButtonType result = MainController.showAlert(AlertType.WARNING, "Are you sure you want to delete this timeline?", ButtonType.YES, ButtonType.NO);
 			
-			if (alert.getResult() == ButtonType.YES) {
+			if (result == ButtonType.YES) {
 				try {
 					File fileToDelete = (File)timelineFiles.get(timeline);
 					Files.delete(Paths.get(fileToDelete.getPath()));
 				} catch (IOException f) {
 					f.printStackTrace();
 				}
-
+	
 				timelineFiles.remove(timeline);
 				timelineContainer.deleteTimeline();
-				alert.close();
-			} else if (alert.getResult() == ButtonType.NO) {
-				alert.close();
 			}
 		}
 	}
 
 	@Override
 	public void onSaveButtonClicked(Stage stage) {
-
 		Timeline active = timelineContainer.getActiveTimeline();
 
 		if (active == null) {
-			Alert alert = new Alert(AlertType.INFORMATION, "There is no timeline to save ", ButtonType.OK);
-			alert.setHeaderText(null);
-			alert.showAndWait();
-			if (alert.getResult() == ButtonType.OK) {
-				alert.close();
-			}
+			MainController.showAlert(AlertType.INFORMATION, "There is no timeline to save ", ButtonType.OK);
 		} else {
 			File file = (File) timelineFiles.get(active);
 			

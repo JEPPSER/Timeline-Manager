@@ -7,8 +7,11 @@ import interfaces.ModelChangedListener;
 import javafx.application.Platform;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
+import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 import javafx.stage.WindowEvent;
+import main.TimelineManager;
 import javafx.scene.control.Alert.AlertType;
 import model.Timeline;
 import model.TimelineContainer;
@@ -26,6 +29,7 @@ import view.MainView;
  */
 public class MainController implements ModelChangedListener {
 
+	private static Window window;
 	private MainView mainView;
 	private TimelineContainer timelineContainer;
 	private MenuController menuController;
@@ -53,6 +57,7 @@ public class MainController implements ModelChangedListener {
 		timelineContainer.registerListener(this);
 		mainView.getMenuView().registerListener(menuController);
 		mainView.getTimelineView().registerListener(timelineViewController);
+		window = mainView.getScene().getWindow();
 	}
 
 	@Override
@@ -74,12 +79,8 @@ public class MainController implements ModelChangedListener {
 		List<Timeline> unsavedTimelines = timelineContainer.getTimelines().stream().filter(t -> t.getHasUnsavedChanges()).collect(Collectors.toList());
 		
 		if (unsavedTimelines.size() > 0) {
-			Alert alert = new Alert(AlertType.CONFIRMATION, "There are unsaved timelines. Do you want to save them before closing? ",
+			ButtonType result = MainController.showAlert(AlertType.CONFIRMATION, "There are unsaved timelines. Do you want to save them before closing? ",
 					ButtonType.YES, ButtonType.NO, ButtonType.CANCEL);
-			alert.setHeaderText(null);
-			alert.showAndWait();
-			
-			ButtonType result = alert.getResult();
 			
 			if (result == ButtonType.YES) {
 				
@@ -93,20 +94,37 @@ public class MainController implements ModelChangedListener {
 				}
 				
 				if (timelineContainer.getTimelines().stream().filter(t -> t.getHasUnsavedChanges()).count() > 0) {
-					Alert alert2 = new Alert(AlertType.ERROR, "One or more timelines could not be saved. Try again before exiting.",
-							ButtonType.OK);
-					alert2.showAndWait();
+					MainController.showAlert(AlertType.ERROR, "One or more timelines could not be saved. Try again before exiting.", ButtonType.OK);
 					e.consume();
 				} else {
-					Platform.exit();
+					TimelineManager.exit();
 				}
 			} else if (result == ButtonType.NO) {
-				Platform.exit();
+				TimelineManager.exit();
 			} else {
 				e.consume();
 			}
 		} else {
-			Platform.exit();
+			TimelineManager.exit();
 		}
+	}
+	
+	/**
+	 * 
+	 * @param type
+	 * @param message
+	 * @param buttons
+	 * @return
+	 */
+	static ButtonType showAlert(AlertType type, String message, ButtonType... buttons) {
+		Alert alert = new Alert(type, message, buttons);
+		
+		alert.initOwner(window);
+		alert.initModality(Modality.APPLICATION_MODAL);
+		alert.showAndWait();
+		ButtonType result = alert.getResult();
+		alert.close();
+		
+		return result;
 	}
 }

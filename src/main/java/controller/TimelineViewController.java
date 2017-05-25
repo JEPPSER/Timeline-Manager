@@ -1,7 +1,6 @@
 package controller;
 
 import interfaces.TimelineViewListener;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
 import javafx.stage.Stage;
@@ -51,13 +50,10 @@ public class TimelineViewController implements TimelineViewListener
 
 	@Override
 	public void onDeleteEventClicked(int eventId) {
-		Alert alert = new Alert(AlertType.WARNING, String.format("Are you sure you want to delete event with ID %d?", eventId), ButtonType.YES, ButtonType.NO);
-		alert.showAndWait();
+		ButtonType result = MainController.showAlert(AlertType.WARNING, String.format("Are you sure you want to delete event with ID %d?", eventId), ButtonType.YES, ButtonType.NO);
 		
-		if(alert.getResult() == ButtonType.YES){
+		if(result == ButtonType.YES){
 			timelineContainer.deleteEvent(eventId);
 		}
-		
-		alert.close();
 	}
 }

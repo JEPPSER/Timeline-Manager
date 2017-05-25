@@ -3,7 +3,6 @@ package controller;
 import java.time.LocalDateTime;
 
 import interfaces.EventPopupListener;
-import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Toggle;
 import javafx.scene.paint.Color;
@@ -95,8 +94,7 @@ public class EventPopupController implements EventPopupListener {
 				message = message.replace(index, index + 1, "");
 			}
 			
-			Alert alert = new Alert(AlertType.ERROR, message.toString(), ButtonType.OK);
-			alert.showAndWait();
+			MainController.showAlert(AlertType.ERROR, message.toString(), ButtonType.OK);
 			return false;
 		}
 	}
