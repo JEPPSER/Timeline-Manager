@@ -25,7 +25,7 @@ public class FileHandler {
 	public FileHandler() {
 		config = new Properties();
 	}
-
+	
 	/**
 	 * Read the contents of TimeLine XML file.
 	 */

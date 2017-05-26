@@ -151,16 +151,15 @@ public class TimelineView extends StackPane {
 
 			// Convert list of events in timeline to a list of EventShapes.
 			for (int i = 0; i < events.size(); i++) {
-				EventType type = events.get(i).getType();
 				int length;
 				int start = (int) (ChronoUnit.DAYS.between(timeline.getStartDate(), events.get(i).getStartDate()));
 				if (events.get(i).getType() == EventType.DURATION) {
 					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate()))
 							+ 1;
-					shape = new EventShape(events.get(i), type, start * trueWidth, length * trueWidth, events.get(i).getColor());
+					shape = new EventShape(events.get(i), start * trueWidth, length * trueWidth, events.get(i).getColor());
 				} else {
 					length = 1;
-					shape = new EventShape(events.get(i), type, start * trueWidth + trueWidth / 2, length * trueWidth, events.get(i).getColor());
+					shape = new EventShape(events.get(i), start * trueWidth + trueWidth / 2, length * trueWidth, events.get(i).getColor());
 					start++;
 				}
 

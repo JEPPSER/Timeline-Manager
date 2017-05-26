@@ -6,6 +6,8 @@ import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.HashMap;
 
+import de.jensd.fx.fontawesome.AwesomeStyle;
+
 /**
 *@author Vikrant Mainali and Tomas Mendes
 * @version 0.00.00
@@ -16,16 +18,18 @@ import interfaces.MenuListener;
 import io.FileHandler;
 import javafx.scene.control.ButtonType;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
 import javafx.stage.FileChooser.ExtensionFilter;
-import javafx.stage.Stage;
 import model.Timeline;
 import model.TimelineContainer;
 import view.MenuView;
 import view.TimelinePopup;
+import view.TimelineView;
 
 public class MenuController implements MenuListener {
 	private MenuView menuView;
+	private TimelineView timelineView;
 	private FileHandler fileHandler;
 	private TimelineContainer timelineContainer;
 	private TimelinePopupController timelinePopupController;
@@ -41,30 +45,31 @@ public class MenuController implements MenuListener {
 	 * @param mv
 	 *            - reference to menu view
 	 */
-	public MenuController(TimelineContainer tc, MenuView mv) {
+	public MenuController(TimelineContainer tc, MenuView mv, TimelineView tv) {
 		timelineContainer = tc;
 		fileHandler = new FileHandler();
 		menuView = mv;
+		timelineView = tv;
 		timelineFiles = new HashMap<>();
 	}
 
 	@Override
-	public void onAddButtonClicked(MenuView menu) {
+	public void onAddButtonClicked() {
 		System.out.println("Name timeline: \nSet duration for timeline");
-		TimelinePopup popup = new TimelinePopup(this, menu);
-		timelinePopupController = new TimelinePopupController();
+		TimelinePopup popup = new TimelinePopup(menuView.getScene().getWindow());
+		timelinePopupController = new TimelinePopupController(timelineContainer);
 		popup.registerListener(timelinePopupController);
 	}
 
 	@Override
-	public void onOpenButtonClicked(Stage stage) {
+	public void onOpenButtonClicked() {
 		File initialDirectory = new File(System.getProperty("user.home") + "/Documents/Timeline Manager/Timelines");
 		FileChooser chooser = new FileChooser();
 		chooser.getExtensionFilters().addAll(
 				new ExtensionFilter("XML Files", "*.xml"),
 				new ExtensionFilter("All Files", "*.*"));
 		chooser.setInitialDirectory(initialDirectory);
-		File file = chooser.showOpenDialog(stage);
+		File file = chooser.showOpenDialog(menuView.getScene().getWindow());
 		
 		if (fileAlreadyOpened(file)) {
 			MainController.showAlert(AlertType.INFORMATION, "The timeline you attempted to open is already opened.", ButtonType.OK);
@@ -112,7 +117,8 @@ public class MenuController implements MenuListener {
 	}
 
 	@Override
-	public void onSaveButtonClicked(Stage stage) {
+	public void onSaveButtonClicked() {
+
 		Timeline active = timelineContainer.getActiveTimeline();
 
 		if (active == null) {
@@ -134,7 +140,7 @@ public class MenuController implements MenuListener {
 						new ExtensionFilter("XML Files", "*.xml"),
 						new ExtensionFilter("All Files", "*.*"));
 				chooser.setInitialFileName(active.getName().toLowerCase() + ".xml");
-				file = chooser.showSaveDialog(stage);
+				file = chooser.showSaveDialog(menuView.getScene().getWindow());
 				timelineFiles.put(active, file);
 			} 
 			
@@ -153,9 +159,29 @@ public class MenuController implements MenuListener {
 	public void onNewTimelineSelected(Timeline timeline) {
 		timelineContainer.setActiveTimeline(timeline);
 	}
+	
+	@Override
+	public void onChangeTimePerspectiveClicked(String newPerspective) {
+		if (newPerspective.contains("Week")) {
+			timelineView.setTimeline(timelineContainer.getActiveTimeline(), "Week");
+		} else if (newPerspective.contains("Month")) {
+			timelineView.setTimeline(timelineContainer.getActiveTimeline(), "Month");
+		} else if (newPerspective.contains("Year")) {
+			timelineView.setTimeline(timelineContainer.getActiveTimeline(), "Year");
+		}
+	}
 
-	public TimelineContainer getTimelineContainer() {
-		return timelineContainer;
+	@Override
+	public void onChangeThemeButtonClicked() {
+		if (!menuView.getScene().getStylesheets().isEmpty()) {
+			menuView.getScene().getStylesheets().clear();
+			timelineView.setTextColor(Color.BLACK);
+		} else {
+			menuView.getScene().getStylesheets().add(AwesomeStyle.DARK.getStylePath());
+			timelineView.setTextColor(Color.WHITE);
+		}
+		
+		timelineView.setTimeline(timelineContainer.getActiveTimeline(), timelineView.getTimePerspective());
 	}
 	
 	private boolean fileAlreadyOpened(File file) {

@@ -10,7 +10,6 @@ import io.FileHandler;
 import javafx.scene.control.Alert;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Modality;
-import javafx.stage.Stage;
 import javafx.stage.Window;
 import javafx.stage.WindowEvent;
 import main.TimelineManager;
@@ -52,7 +51,7 @@ public class MainController implements ModelChangedListener {
 		this.mainView = mainView;
 		this.timelineContainer = timelineContainer;
 		this.fileHandler = new FileHandler();
-		menuController = new MenuController(timelineContainer, mainView.getMenuView());
+		menuController = new MenuController(timelineContainer, mainView.getMenuView(), mainView.getTimelineView());
 		timelineViewController = new TimelineViewController(timelineContainer);
 	}
 	
@@ -98,7 +97,7 @@ public class MainController implements ModelChangedListener {
 						timelineContainer.setActiveTimeline(t);
 					}
 					
-					menuController.onSaveButtonClicked((Stage)mainView.getScene().getWindow());
+					menuController.onSaveButtonClicked();
 				}
 				
 				if (timelineContainer.getTimelines().stream().filter(t -> t.getHasUnsavedChanges()).count() > 0) {

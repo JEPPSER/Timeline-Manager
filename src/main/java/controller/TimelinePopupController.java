@@ -7,7 +7,7 @@ import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.ButtonType;
 import javafx.stage.Stage;
 import model.Timeline;
-import view.MenuView;
+import model.TimelineContainer;
 
 /**
  * Controller that handles all actions made by the user in the TimelinePopup.
@@ -19,8 +19,14 @@ import view.MenuView;
  */
 public class TimelinePopupController implements TimelinePopupListener {
 	
+	private TimelineContainer timelineContainer;
+	
+	public TimelinePopupController(TimelineContainer tc) {
+		timelineContainer = tc;
+	}
+	
 	@Override
-	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate, Stage stage, MenuController controller, MenuView menu) {
+	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate, Stage stage) {
 
 		if (title.equals("")) {
 			MainController.showAlert(AlertType.ERROR, "Title must not be empty", ButtonType.OK);
@@ -34,7 +40,7 @@ public class TimelinePopupController implements TimelinePopupListener {
 			timeline.setStartDate(startDate);
 			timeline.setName(title);
 			timeline.setHasUnsavedChanges(true);
-			controller.getTimelineContainer().addTimeline(timeline);
+			timelineContainer.addTimeline(timeline);
 			stage.close();
 		}
 	}

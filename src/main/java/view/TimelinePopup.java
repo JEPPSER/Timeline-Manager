@@ -1,6 +1,5 @@
 package view;
 
-import controller.MenuController;
 import interfaces.TimelinePopupListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -13,6 +12,7 @@ import javafx.scene.layout.VBox;
 import javafx.scene.text.Text;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.stage.Window;
 
 /**
  * A popup window that pops up when the addTimeline button is pressed. This is
@@ -30,17 +30,11 @@ public class TimelinePopup {
 	private Button saveButton;
 	private Button cancelButton;
 	private Stage stage;
-	private MenuController controller;
-	private MenuView menu;
 
 	/**
 	 * Constructor that sets all the graphical components of the popup.
 	 */
-	public TimelinePopup(MenuController controller, MenuView menu) {
-
-		this.controller = controller;
-		this.menu = menu;
-		
+	public TimelinePopup(Window owner) {
 		startPicker = new DatePicker();
 		endPicker = new DatePicker();
 
@@ -70,7 +64,7 @@ public class TimelinePopup {
 		root.getChildren().addAll(hbox);
 
 		stage = new Stage();
-		stage.initOwner(menu.getScene().getWindow());
+		stage.initOwner(owner);
 		stage.initModality(Modality.APPLICATION_MODAL);
 		stage.setTitle("Add Timeline");
 		stage.setScene(new Scene(root, 225, 230));
@@ -89,11 +83,7 @@ public class TimelinePopup {
 	 */
 	public void registerListener(TimelinePopupListener listener) {
 		saveButton.setOnAction(e -> {
-			listener.onSaveButtonClicked(titleField.getText(),
-					startPicker.getValue(),
-						endPicker.getValue(),
-							stage, controller,
-								menu);
+			listener.onSaveButtonClicked(titleField.getText(), startPicker.getValue(), endPicker.getValue(), stage);
 		});
 	}
 }
