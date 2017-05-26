@@ -71,7 +71,7 @@ public class MenuController implements MenuListener {
 		chooser.setInitialDirectory(initialDirectory);
 		File file = chooser.showOpenDialog(menuView.getScene().getWindow());
 		
-		if (fileAlreadyOpened(file)) {
+		if (file != null && fileAlreadyOpened(file)) {
 			MainController.showAlert(AlertType.INFORMATION, "The timeline you attempted to open is already opened.", ButtonType.OK);
 		} else {
 			if (file != null)
