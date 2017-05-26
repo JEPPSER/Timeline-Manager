@@ -1,6 +1,5 @@
 package view;
 
-import controller.MenuController;
 import interfaces.TimelinePopupListener;
 import javafx.scene.Group;
 import javafx.scene.Scene;
@@ -29,17 +28,11 @@ public class TimelinePopup {
 	private Button saveButton;
 	private Button cancelButton;
 	private Stage stage;
-	private MenuController controller;
-	private MenuView menu;
 
 	/**
 	 * Constructor that sets all the graphical components of the popup.
 	 */
-	public TimelinePopup(MenuController controller, MenuView menu) {
-
-		this.controller = controller;
-		this.menu = menu;
-		
+	public TimelinePopup() {
 		startPicker = new DatePicker();
 		endPicker = new DatePicker();
 
@@ -86,11 +79,7 @@ public class TimelinePopup {
 	 */
 	public void registerListener(TimelinePopupListener listener) {
 		saveButton.setOnAction(e -> {
-			listener.onSaveButtonClicked(titleField.getText(),
-					startPicker.getValue(),
-						endPicker.getValue(),
-							stage, controller,
-								menu);
+			listener.onSaveButtonClicked(titleField.getText(), startPicker.getValue(), endPicker.getValue(), stage);
 		});
 	}
 }

@@ -16,8 +16,6 @@ import model.Timeline;
 
 public class FileHandler {
 
-	// private File file = new File("XML.xml"); //path of XML file.
-
 	/**
 	 * Read the contents of TimeLine XML file.
 	 */

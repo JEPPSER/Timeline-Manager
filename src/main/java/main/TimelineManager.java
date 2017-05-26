@@ -14,23 +14,22 @@ import view.MainView;
  * @version 0.00.00
  * @name TimelineManager.java
  */
-public class TimelineManager extends Application {
-	Scene scene;
-	private static MainView ui;
+public class TimelineManager extends Application {	
 	
 	/**
 	 * Start method that set up the ui, TimelineContainer and Controllers.
 	 */
 	@Override
 	public void start(Stage primaryStage) {
-		ui = new MainView(primaryStage);
+		MainView ui = new MainView();
 		TimelineContainer timelineContainer = new TimelineContainer();
 		MainController mainController = new MainController(ui, timelineContainer);
+		
 		setUserAgentStylesheet(STYLESHEET_CASPIAN);
-		scene = new Scene(ui);
+		Scene scene = new Scene(ui);
 		primaryStage.setScene(scene);
 		primaryStage.show();
-		primaryStage.setOnHidden(e -> System.exit(0));
+		primaryStage.setOnCloseRequest(mainController::onExit);
 
 		mainController.setupListeners();
 	}
@@ -41,11 +40,6 @@ public class TimelineManager extends Application {
 	 * @param args - application command line arguments
 	 */
 	public static void main(String[] args) {
-		
 		launch(args);	
-	}
-
-	public Scene getScene() {
-		return scene;
 	}
 }

@@ -2,9 +2,7 @@ package interfaces;
 
 import java.time.LocalDate;
 
-import controller.MenuController;
 import javafx.stage.Stage;
-import view.MenuView;
 
 /**
  * Listener for the TimelinePopup. This listener will handle all actions
@@ -23,9 +21,5 @@ public interface TimelinePopupListener {
 	 * @param startDate
 	 * @param endDate
 	 */
-	public void onSaveButtonClicked(String title, LocalDate startDate,
-			LocalDate endDate, 
-				Stage stage,
-					MenuController controller,
-						MenuView menu);
+	public void onSaveButtonClicked(String title, LocalDate startDate, LocalDate endDate, Stage stage);
 }

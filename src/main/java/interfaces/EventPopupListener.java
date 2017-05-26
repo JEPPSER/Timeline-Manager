@@ -2,8 +2,6 @@ package interfaces;
 
 import java.time.LocalDateTime;
 
-import com.sun.istack.internal.Nullable;
-
 import javafx.scene.control.Toggle;
 import javafx.scene.paint.Color;
 
@@ -27,7 +25,7 @@ public interface EventPopupListener {
 	 * @param endDate - The end date and time the user selected. Is null if the event is non-duration.
 	 */
 	public void onAddButtonClicked(Toggle eventTypeToggle, String eventTitle, String eventDescription,
-			LocalDateTime startDate, @Nullable LocalDateTime endDate, Color color);
+								   LocalDateTime startDate, LocalDateTime endDate, Color color);
 	
 	/**
 	 * Method that handles when the user clicks the Edit button in the edit event popup.
@@ -40,5 +38,5 @@ public interface EventPopupListener {
 	 * @param endDate - The end date and time the user selected. Is null if the event is non-duration.
 	 */
 	public void onEditButtonClicked(int eventId, Toggle eventTypeToggle, String eventTitle, String eventDescription,
-			LocalDateTime startDate, @Nullable LocalDateTime endDate, Color color);
+								    LocalDateTime startDate, LocalDateTime endDate, Color color);
 }
