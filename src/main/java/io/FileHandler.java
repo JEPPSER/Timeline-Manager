@@ -3,6 +3,7 @@ package io;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
+import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 import javax.xml.bind.JAXBContext;
@@ -20,10 +21,17 @@ import model.Timeline;
 
 public class FileHandler {
 
-	private Properties config;
+	private static final String CONFIG_PATH = System.getProperty("user.home") + "/Documents/Timeline Manager/config.properties";
+	private File configFile;
+	private Properties configProperties;
 	
 	public FileHandler() {
-		config = new Properties();
+		configFile = new File(CONFIG_PATH);
+		configProperties = new Properties();
+		
+		if (!configFile.getParentFile().exists()) {
+			configFile.getParentFile().mkdirs();
+		}
 	}
 	
 	/**
@@ -45,20 +53,28 @@ public class FileHandler {
 		m.marshal(timeLine, file);
 	}
 	
-	public void writeProperty(String key, String value, File file) throws Exception {
-		FileOutputStream out = new FileOutputStream(file);
-		config.setProperty(key, value);
-		config.store(out, null);
-		out.close();
+	/**
+	 * Write a property to the configuration file.
+	 * 
+	 * @param key 
+	 * @param value
+	 * @param file
+	 * 
+	 * @throws Exception
+	 */
+	public void writeProperty(String key, String value) throws IOException {
+		try (FileOutputStream out = new FileOutputStream(configFile)) {
+			configProperties.setProperty(key, value);
+			configProperties.store(out, null);
+		}
 	}
 	
-	public String readProperty(String key, File file) throws Exception {
-		InputStream in = new FileInputStream(file);
+	public String readProperty(String key, String defaultVal) throws IOException {
 		
-		config.load(in);
-		String val = config.getProperty(key);
-		in.close();
+		try (InputStream in = new FileInputStream(configFile)) {
+			configProperties.load(in);
+		}
 		
-		return val;
+		return configProperties.getProperty(key, defaultVal);
 	}
 }

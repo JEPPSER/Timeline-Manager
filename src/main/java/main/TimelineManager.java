@@ -34,7 +34,7 @@ public class TimelineManager extends Application {
 		primaryStage.setTitle("Timeline Manager");
 		primaryStage.show();
 
-		mainController.setupListeners();
+		mainController.onStart();
 	}
 
 	/**
@@ -46,6 +46,9 @@ public class TimelineManager extends Application {
 		launch(args);	
 	}
 	
+	/**
+	 * Exits the application.
+	 */
 	public static void exit() {
 		String osName = System.getProperty("os.name").toLowerCase();
 		

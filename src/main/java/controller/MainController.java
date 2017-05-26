@@ -1,6 +1,6 @@
 package controller;
 
-import java.io.File;
+import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -30,8 +30,6 @@ import view.MainView;
  * @name MainController.java
  */
 public class MainController implements ModelChangedListener {
-
-	private static final String CONFIG_PATH = System.getProperty("user.home") + "/Documents/Timeline Manager/config.properties";
 	private static Window window;
 	
 	private MainView mainView;
@@ -55,23 +53,20 @@ public class MainController implements ModelChangedListener {
 		timelineViewController = new TimelineViewController(timelineContainer);
 	}
 	
-	/**
-	 * Sets up the communication between the controller classes and the view classes, 
-	 * as well as communication between this controller (MainController) and TimelineContainer.
-	 */
-	public void setupListeners() {
-		timelineContainer.registerListener(this);
-		mainView.getMenuView().registerListener(menuController);
-		mainView.getTimelineView().registerListener(timelineViewController);
-		window = mainView.getScene().getWindow();
-		loadConfig();
-	}
-
 	@Override
 	public void onModelChanged(List<Timeline> timelines, Timeline active) {
 		System.out.println("MainController: TimelineContainer has been updated");
 		mainView.getTimelineView().setTimeline(active, "");
 		mainView.getMenuView().updateTimelineDropdown(timelines, active);
+	}
+	
+	/**
+	 * Called when application starts
+	 */
+	public void onStart() {
+		window = mainView.getScene().getWindow();
+		setupListeners();
+		loadConfig();
 	}
 	
 	/**
@@ -120,11 +115,13 @@ public class MainController implements ModelChangedListener {
 	}
 	
 	/**
+	 * Show an alert window.
 	 * 
-	 * @param type
-	 * @param message
-	 * @param buttons
-	 * @return
+	 * @param type - alert window type. Can be one of: CONFIRMATION, ERROR, INFORMATION, NONE or WARNING
+	 * @param message - message to display
+	 * @param buttons - buttons to include in the window. Can be any combination of: APPLY, CANCEL, CLOSE, FINISH, NEXT, NO, OK, PREVIOUS and YES
+	 * 
+	 * @return the ButtonType of the button the user clicked, or 'null' if the user closes the window in another way
 	 */
 	static ButtonType showAlert(AlertType type, String message, ButtonType... buttons) {
 		Alert alert = new Alert(type, message, buttons);
@@ -138,22 +135,20 @@ public class MainController implements ModelChangedListener {
 		return result;
 	}
 	
+	private void setupListeners() {
+		timelineContainer.registerListener(this);
+		mainView.getMenuView().registerListener(menuController);
+		mainView.getTimelineView().registerListener(timelineViewController);
+	}
+	
 	private void loadConfig() {
-		File file = new File(CONFIG_PATH);
-		
-		if (!file.getParentFile().exists()) {
-			file.getParentFile().mkdirs();
-		}
-		
 		String theme = "";
 		
 		try {
-			theme = fileHandler.readProperty("theme", file);
+			theme = fileHandler.readProperty("theme", "light");
 		} catch (Exception ex) {
-			
+			System.err.println("Could not read config file. Message: " + ex.getMessage());
 		}
-		
-		mainView.getScene().getStylesheets().clear();
 		
 		if (theme.toLowerCase().equals("light")) {
 			mainView.getTimelineView().setTextColor(Color.BLACK);
@@ -164,20 +159,15 @@ public class MainController implements ModelChangedListener {
 	}
 	
 	private void saveConfig() {
-		File file = new File(CONFIG_PATH);
-		
-		if (!file.getParentFile().exists()) {
-			file.getParentFile().mkdirs();
-		}
-		
 		try {
 			if (mainView.getScene().getStylesheets().size() > 0) {
-				fileHandler.writeProperty("theme", "dark", file);
+				fileHandler.writeProperty("theme", "dark");
 			} else {
-				fileHandler.writeProperty("theme", "light", file);
+				fileHandler.writeProperty("theme", "light");
 			}
-		} catch (Exception ex) {
-			
+		} catch (IOException ex) {
+			System.err.println("Could not write config file. Message: " + ex.getMessage());
 		}
 	}
+
 }
