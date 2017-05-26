@@ -1,6 +1,10 @@
 package io;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileOutputStream;
+import java.io.InputStream;
+import java.util.Properties;
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.Marshaller;
 import javax.xml.bind.Unmarshaller;
@@ -16,7 +20,11 @@ import model.Timeline;
 
 public class FileHandler {
 
-	// private File file = new File("XML.xml"); //path of XML file.
+	private Properties config;
+	
+	public FileHandler() {
+		config = new Properties();
+	}
 
 	/**
 	 * Read the contents of TimeLine XML file.
@@ -35,5 +43,22 @@ public class FileHandler {
 		Marshaller m = context.createMarshaller();
 		m.setProperty(Marshaller.JAXB_FORMATTED_OUTPUT, Boolean.TRUE);
 		m.marshal(timeLine, file);
+	}
+	
+	public void writeProperty(String key, String value, File file) throws Exception {
+		FileOutputStream out = new FileOutputStream(file);
+		config.setProperty(key, value);
+		config.store(out, null);
+		out.close();
+	}
+	
+	public String readProperty(String key, File file) throws Exception {
+		InputStream in = new FileInputStream(file);
+		
+		config.load(in);
+		String val = config.getProperty(key);
+		in.close();
+		
+		return val;
 	}
 }

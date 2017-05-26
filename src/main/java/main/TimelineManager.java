@@ -29,6 +29,7 @@ public class TimelineManager extends Application {
 		setUserAgentStylesheet(STYLESHEET_CASPIAN);
 		primaryStage.setOnCloseRequest(mainController::onExit);
 		primaryStage.setScene(scene);
+		primaryStage.setTitle("Timeline Manager");
 		primaryStage.show();
 
 		mainController.setupListeners();
