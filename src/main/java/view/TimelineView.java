@@ -463,18 +463,7 @@ public class TimelineView extends StackPane {
 			@Override
 			public void handle(MouseEvent event)
 			{
-				System.out.println("testing hide");
-			 if(hovered.getShape().getLayoutBounds().contains(event.getX(), event.getY()))
-			 {
-				if (!eventWindow.isShowing())
-				{
-					test.show(hovered.getShape());
-				}
-			} 
-			 else
-			 {
 				test.hide();
-			 }
 			}
 		});
 	}
