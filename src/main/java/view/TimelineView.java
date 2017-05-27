@@ -440,32 +440,42 @@ public class TimelineView extends StackPane {
 		vBox.getChildren().add(title);
 		test.setContentNode(vBox);
 		
-		hovered.getShape().setOnMouseEntered(new EventHandler<MouseEvent>() {
+		hovered.getShape().setOnMouseEntered(new EventHandler<MouseEvent>()
+		{
 
 			@Override
-			public void handle(MouseEvent event) {
-				if(eventWindow.isShowing())
+			public void handle(MouseEvent event) 
+			{
+			
+			if(hovered.getShape().getLayoutBounds().contains(event.getX(), event.getY()))
+			{
+				if(!eventWindow.isShowing())
 				{
-					test.hide();
-				}
-				else
-				{
-				test.show(hovered.getShape());
+					test.show(hovered.getShape());
 				}
 				System.out.println("Testing enter");
-			}			
+			}		
+			}
 		});
 		
-		hovered.getShape().setOnMouseExited(new EventHandler<MouseEvent>() {
-
+		hovered.getShape().setOnMouseExited(new EventHandler<MouseEvent>()
+		{
 			@Override
-			public void handle(MouseEvent event) {
-				
+			public void handle(MouseEvent event)
+			{
+				System.out.println("testing hide");
+			 if(hovered.getShape().getLayoutBounds().contains(event.getX(), event.getY()))
+			 {
+				if (!eventWindow.isShowing())
+				{
+					test.show(hovered.getShape());
+				}
+			} 
+			 else
+			 {
 				test.hide();
-				
-				System.out.println("test hide");
+			 }
 			}
-			
 		});
 	}
 		
