@@ -1,7 +1,18 @@
+These are instructions for deploying the program to Windows, Mac and Linux. It is aimed at us developers to make it easier to make
+last minute changes if we need to. So, just to clarify, it is NOT meant for end users.
+
 WINDOWS:
 1. Copy jar file to this folder. It's name should be "Timeline-Manager-[version nr].jar". For example: "Timeline-Manager-1.0.0.jar"
 2. Right-click "deploy_windows.ps1" and select "Run with PowerShell"
 
 MAC:
+1. Copy jar file to this folder. It's name should be "Timeline-Manager-[version nr].jar". For example: "Timeline-Manager-1.0.0.jar"
+2. Open terminal and navigate to this folder
+3. Make deploy script executable with 'chmod +x deploy_mac.sh'
+4. Run the script with './deploy_mac.sh'
 
 LINUX:
+1. Copy jar file to this folder. It's name should be "Timeline-Manager-[version nr].jar". For example: "Timeline-Manager-1.0.0.jar"
+2. Open terminal and navigate to this folder
+3. Make deploy script executable with 'chmod +x deploy_linux.sh'
+4. Run the script with './deploy_linux.sh'
