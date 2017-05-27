@@ -157,10 +157,12 @@ public class TimelineView extends StackPane {
 				if (events.get(i).getType() == EventType.DURATION) {
 					length = (int) (ChronoUnit.DAYS.between(events.get(i).getStartDate(), events.get(i).getEndDate()))
 							+ 1;
-					shape = new EventShape(events.get(i), start * trueWidth, length * trueWidth, events.get(i).getColor());
+					shape = new EventShape(events.get(i), start * trueWidth, length * trueWidth,
+							events.get(i).getColor());
 				} else {
 					length = 1;
-					shape = new EventShape(events.get(i), start * trueWidth + trueWidth / 2, length * trueWidth, events.get(i).getColor());
+					shape = new EventShape(events.get(i), start * trueWidth + trueWidth / 2, length * trueWidth,
+							events.get(i).getColor());
 					start++;
 				}
 
@@ -185,11 +187,11 @@ public class TimelineView extends StackPane {
 					added.add(shapeList.get(i));
 
 					for (int j = 0; !found; j++) {
-						
-						if(j == rows ){
+
+						if (j == rows) {
 							resize();
 						}
-						
+
 						panes[j].getChildren().add(shapeList.get(i).getShape());
 
 						for (int k = 0; k < added.size() - 1; k++) {
@@ -216,31 +218,31 @@ public class TimelineView extends StackPane {
 		this.listener = listener;
 		addEventButton.setOnAction(e -> listener.onAddEventClicked((Stage) getScene().getWindow()));
 	}
-	
+
 	/**
 	 * Returns time perspective;
 	 * 
 	 * @return time perspective
 	 */
-	public String getTimePerspective(){
+	public String getTimePerspective() {
 		return timePerspective;
 	}
-	
+
 	/**
 	 * Sets text color.
 	 * 
 	 * @param textColor
 	 */
-	public void setTextColor(Color textColor){
+	public void setTextColor(Color textColor) {
 		this.textColor = textColor;
 	}
-	
+
 	/**
 	 * Returns text color.
 	 * 
 	 * @return text color
 	 */
-	public Color getTextColor(){
+	public Color getTextColor() {
 		return textColor;
 	}
 
@@ -357,23 +359,23 @@ public class TimelineView extends StackPane {
 			container.getChildren().addAll(months, columns);
 		}
 	}
-	
-	private void resize(){
+
+	private void resize() {
 		rows += 8;
 		Pane[] temp = new Pane[rows];
-		for(int i=0; i<rows; i++){
-			if(i < panes.length)
+		for (int i = 0; i < rows; i++) {
+			if (i < panes.length)
 				temp[i] = panes[i];
 			else
 				temp[i] = new Pane();
 		}
-		
+
 		panes = temp;
-		
-		for(int i=0; i<rows; i++){
+
+		for (int i = 0; i < rows; i++) {
 			panes[i] = temp[i];
 		}
-		
+
 		vbox.getChildren().clear();
 		vbox.getChildren().addAll(panes);
 	}
@@ -382,7 +384,7 @@ public class TimelineView extends StackPane {
 		EventShape eventshape = shape;
 
 		HBox buttonTile = new HBox();
-		
+
 		Pane filler = new Pane();
 		filler.setMinWidth(150);
 
@@ -391,7 +393,7 @@ public class TimelineView extends StackPane {
 		delete = AwesomeDude.createIconButton(AwesomeIcon.TRASH, "", "15", "15", ContentDisplay.GRAPHIC_ONLY);
 		delete.setBackground(Background.EMPTY);
 		buttonTile.setSpacing(0);
-		buttonTile.getChildren().addAll(filler,delete,edit);
+		buttonTile.getChildren().addAll(filler, delete, edit);
 		eventshape.getShape().setOnMouseClicked(new EventHandler<MouseEvent>() {
 			@Override
 			public void handle(MouseEvent event) {
@@ -403,9 +405,9 @@ public class TimelineView extends StackPane {
 				Text eventEnd = new Text("Event end date: " + eventshape.getEvent().getEndDate());
 
 				if (eventshape.getEvent().getType() == EventType.DURATION) {
-					popupVBox.getChildren().addAll(buttonTile,eventName, eventDescription, eventStart, eventEnd );
+					popupVBox.getChildren().addAll(buttonTile, eventName, eventDescription, eventStart, eventEnd);
 				} else {
-					popupVBox.getChildren().addAll(buttonTile,eventName, eventDescription, eventStart);
+					popupVBox.getChildren().addAll(buttonTile, eventName, eventDescription, eventStart);
 				}
 
 				eventWindow.setDetached(false);
@@ -430,41 +432,34 @@ public class TimelineView extends StackPane {
 			eventWindow.hide();
 		});
 	}
-	
+
 	private void setOnEventShapeHover(EventShape shape) {
-		
+
 		EventShape hovered = shape;
 		VBox vBox = new VBox();
 		Text title = new Text("Event name: " + hovered.getEvent().getEventName());
 		vBox.getChildren().add(title);
 		test.setContentNode(vBox);
-		
-		hovered.getShape().setOnMouseEntered(new EventHandler<MouseEvent>()
-		{
+
+		hovered.getShape().setOnMouseEntered(new EventHandler<MouseEvent>() {
 
 			@Override
-			public void handle(MouseEvent event) 
-			{
-			
-			if(hovered.getShape().getLayoutBounds().contains(event.getX(), event.getY()))
-			{
-				if(!eventWindow.isShowing())
-				{
-					test.show(hovered.getShape());
+			public void handle(MouseEvent event) {
+
+				if (hovered.getShape().getLayoutBounds().contains(event.getX(), event.getY())) {
+					if (!eventWindow.isShowing()) {
+						test.show(hovered.getShape());
+					}
 				}
-				System.out.println("Testing enter");
-			}		
 			}
 		});
-		
-		hovered.getShape().setOnMouseExited(new EventHandler<MouseEvent>()
-		{
+
+		hovered.getShape().setOnMouseExited(new EventHandler<MouseEvent>() {
 			@Override
-			public void handle(MouseEvent event)
-			{
+			public void handle(MouseEvent event) {
 				test.hide();
 			}
 		});
 	}
-		
+
 }
