@@ -62,6 +62,7 @@ public class TimelineView extends StackPane {
 	private Button delete;
 	private Button edit;
 	private Color textColor = Color.BLACK;
+	PopOver test = new PopOver();
 
 	/**
 	 * Constructor that sets all the initial components in the TimelineView.
@@ -167,6 +168,7 @@ public class TimelineView extends StackPane {
 
 				onMouseOver();
 				setOnEventShapeClicked(shape);
+				setOnEventShapeHover(shape);
 			}
 
 			// List that holds all added events.
@@ -411,6 +413,7 @@ public class TimelineView extends StackPane {
 				eventWindow.setArrowLocation(ArrowLocation.TOP_CENTER);
 				eventWindow.setContentNode(popupVBox);
 				eventWindow.show(eventshape.getShape());
+
 			}
 		});
 	}
@@ -428,4 +431,42 @@ public class TimelineView extends StackPane {
 			eventWindow.hide();
 		});
 	}
+	
+	private void setOnEventShapeHover(EventShape shape) {
+		
+		EventShape hovered = shape;
+		VBox vBox = new VBox();
+		Text title = new Text("Event name: " + hovered.getEvent().getEventName());
+		vBox.getChildren().add(title);
+		test.setContentNode(vBox);
+		
+		hovered.getShape().setOnMouseEntered(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				if(eventWindow.isShowing())
+				{
+					test.hide();
+				}
+				else
+				{
+				test.show(hovered.getShape());
+				}
+				System.out.println("Testing enter");
+			}			
+		});
+		
+		hovered.getShape().setOnMouseExited(new EventHandler<MouseEvent>() {
+
+			@Override
+			public void handle(MouseEvent event) {
+				
+				test.hide();
+				
+				System.out.println("test hide");
+			}
+			
+		});
+	}
+		
 }
