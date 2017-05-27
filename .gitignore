@@ -48,3 +48,10 @@ Temporary Items
 /target/
 .classpath
 /bin/
+
+/deployment_scripts/*
+!/deployment_scripts/*.sh
+!/deployment_scripts/*.ps1
+!/deployment_scripts/*.iss
+!/deployment_scripts/instructions.txt
+!/deployment_scripts/icon*.*
