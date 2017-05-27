@@ -36,7 +36,7 @@ $config_win = "packr_config_win.json"
         "icon.ico"
     ],
     "mainclass": "main.TimelineManager",
-    "minimizejre": "hard",
+    "minimizejre": "soft",
     "output": "${packer_out}"
 }
 "@ | Out-File -Encoding ascii -FilePath ".\$config_win"
@@ -74,9 +74,6 @@ If (Test-Path ".\Timeline*-Manager*.jar") {
     # Create installer
     Write-Host "Creating installer.."
     Invoke-Expression "& .\$inno\ISCC.exe /Qp .\$inno_installer_creation_script"
-
-    # Wait for resources to be released
-    Start-Sleep -s 3
 
     # Clean up
     Write-Host "Cleaning up.."

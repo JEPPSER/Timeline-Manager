@@ -21,7 +21,7 @@ cat <<EOF > ./packr_config_mac.json
     "resources": [
         "icons.icns"
     ],
-    "minimizejre": "hard",
+    "minimizejre": "soft",
     "output": "$packr_out"
 }
 EOF

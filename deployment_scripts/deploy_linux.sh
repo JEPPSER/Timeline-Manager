@@ -21,7 +21,7 @@ cat <<EOF > ./packr_config_linux.json
     "resources": [
         "icon.ico"
     ],
-    "minimizejre": "hard",
+    "minimizejre": "soft",
     "output": "$packr_out"
 }
 EOF
