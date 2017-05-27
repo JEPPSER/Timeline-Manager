@@ -1,0 +1,7 @@
+WINDOWS:
+1. Copy jar file to this folder. It's name should be "Timeline-Manager-[version nr].jar". For example: "Timeline-Manager-1.0.0.jar"
+2. Right-click "deploy_windows.ps1" and select "Run with PowerShell"
+
+MAC:
+
+LINUX:
