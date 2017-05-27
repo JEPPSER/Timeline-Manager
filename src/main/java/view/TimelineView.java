@@ -329,8 +329,7 @@ public class TimelineView extends StackPane {
 
 					if (timePerspective.equals("Year")) {
 						int yearWidth;
-
-						if (monthCount % 3 == 0)
+						if (monthCount % 4 == 0)
 							yearWidth = (width + 1) * 31;
 						else
 							yearWidth = (width + 1) * 30;
